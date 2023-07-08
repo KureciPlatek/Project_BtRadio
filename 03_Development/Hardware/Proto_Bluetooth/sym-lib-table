@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name "Bluetooth")(type "KiCad")(uri "${KIPRJMOD}/Custom_Libraries/MOUDLE-BLUETOOTH-AUDIO-RN52-I_RM_50P-26X13.5MM_/MOUDLE-BLUETOOTH-AUDIO-RN52-I_RM_50P-26X13.5MM_.kicad_sym")(options "")(descr ""))
+  (lib (name "TPA6112A2DGQ")(type "KiCad")(uri "${KIPRJMOD}/Custom_Libraries/TPA6112A2DGQ/TPA6112A2DGQ.kicad_sym")(options "")(descr ""))
+  (lib (name "Board_Bluetooth_radio_platform-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/Board_Bluetooth_radio_platform-eagle-import.kicad_sym")(options "")(descr ""))
+  (lib (name "audio_switch")(type "KiCad")(uri "${KIPRJMOD}/Custom_Libraries/audio_switch.kicad_sym")(options "")(descr ""))
+)
