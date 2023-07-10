@@ -67,7 +67,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
-|SFW_4 |*Architecture* Create RotaryEncoder interrupts | NEW |
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | NEW |
 |SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | NEW |
@@ -79,6 +78,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
+|SFW_4 |*Architecture* Create RotaryEncoder interrupts | WIP - need to configure RP2040 interrupts on GPIOs |
 
 **Resolved issues:**
 
