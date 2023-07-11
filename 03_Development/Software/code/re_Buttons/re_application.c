@@ -9,11 +9,62 @@
  * 
  */
 
-
+#include "hardware/gpio.h"
+//#include "hardware_irq.h"
 #include "re_application.h"
 
 static re_appli_handle rotary1;
 static re_appli_handle rotary2;
+
+static void irqhandlerRE1A(void)
+{
+    if (gpio_get_irq_event_mask(rotary1.gpioA) & GPIO_IRQ_EDGE_RISE)
+    {
+        re_application_StateMachine(&rotary1, RE_STATE_A_KEYED);
+    }
+}
+
+static void irqhandlerRE1B(void)
+{
+    if (gpio_get_irq_event_mask(rotary1.gpioB) & GPIO_IRQ_EDGE_RISE)
+    {
+        re_application_StateMachine(&rotary1, RE_STATE_B_KEYED);
+    }
+}
+
+static void irqhandlerRE1SW(void)
+{
+    if (gpio_get_irq_event_mask(rotary1.gpioSW) & GPIO_IRQ_EDGE_RISE)
+    {
+        rotary1.tokenPush = true;
+    }
+}
+
+
+static void irqhandlerRE2A(void)
+{
+    if (gpio_get_irq_event_mask(rotary2.gpioA) & GPIO_IRQ_EDGE_RISE)
+    {
+        re_application_StateMachine(&rotary2, RE_STATE_A_KEYED);
+    }
+}
+
+static void irqhandlerRE2B(void)
+{
+    if (gpio_get_irq_event_mask(rotary2.gpioB) & GPIO_IRQ_EDGE_RISE)
+    {
+        re_application_StateMachine(&rotary2, RE_STATE_B_KEYED);
+    }
+}
+
+static void irqhandlerRE2SW(void)
+{
+    if (gpio_get_irq_event_mask(rotary2.gpioSW) & GPIO_IRQ_EDGE_RISE)
+    {
+        rotary2.tokenPush = true;
+    }
+}
+
 
 void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
 {
@@ -21,6 +72,7 @@ void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
     {
         case RE_STATE_A_KEYED:
         {
+            printf("A keyed\n");
             if(RE_STATE_B_KEYED == event)
             {
                 handle->tokenIndirect = true;
@@ -33,6 +85,7 @@ void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
         }
         case RE_STATE_B_KEYED:
         {
+            printf("B keyed\n");
             if(RE_STATE_A_KEYED == event)
             {
                 handle->tokenDirect = true;
@@ -82,4 +135,21 @@ void initRadioRotaries(void)
     rotary2.tokenIndirect = false;     /* If indirect turn of RE found */
     rotary2.tokenDirect = false;       /* If direct turn of RE found */
     rotary2.tokenPush = false;         /* If push of RE found */
+
+    gpio_set_irq_enabled(rotary1.gpioA, GPIO_IRQ_EDGE_RISE, true); //monitor pin 1 connected to pin 0
+    gpio_set_irq_enabled(rotary1.gpioB, GPIO_IRQ_EDGE_RISE,true); //monitor pin 4 connected to pin 3
+    gpio_set_irq_enabled(rotary1.gpioSW, GPIO_IRQ_EDGE_RISE, true); //monitor pin 4 connected to pin 3
+    gpio_add_raw_irq_handler(rotary1.gpioA, irqhandlerRE1A);
+    gpio_add_raw_irq_handler(rotary1.gpioB, irqhandlerRE1B);
+    gpio_add_raw_irq_handler(rotary1.gpioSW, irqhandlerRE1SW);
+
+    gpio_set_irq_enabled(rotary2.gpioA, GPIO_IRQ_EDGE_RISE, true); //monitor pin 1 connected to pin 0
+    gpio_set_irq_enabled(rotary2.gpioB, GPIO_IRQ_EDGE_RISE,true); //monitor pin 4 connected to pin 3
+    gpio_set_irq_enabled(rotary2.gpioSW, GPIO_IRQ_EDGE_RISE, true); //monitor pin 4 connected to pin 3
+    gpio_add_raw_irq_handler(rotary2.gpioA, irqhandlerRE2A);
+    gpio_add_raw_irq_handler(rotary2.gpioB, irqhandlerRE2B);
+    gpio_add_raw_irq_handler(rotary2.gpioSW, irqhandlerRE2SW);
+
+    irq_set_enabled(get_core_num() ? IO_IRQ_BANK1 : IO_IRQ_BANK0, true);
+    printf("Core: %d\n", get_core_num());
 }

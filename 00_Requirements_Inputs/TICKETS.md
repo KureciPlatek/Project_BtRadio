@@ -78,7 +78,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
-|SFW_4 |*Architecture* Create RotaryEncoder interrupts | WIP - need to configure RP2040 interrupts on GPIOs |
+|SFW_4 |*Architecture* Create RotaryEncoder interrupts | WIP - need to test |
 
 **Resolved issues:**
 
