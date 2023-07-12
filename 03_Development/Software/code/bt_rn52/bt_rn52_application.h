@@ -18,6 +18,14 @@
 #include "hardware/irq.h"
 #include "hardware/gpio.h"
 
+#define UART_TX_PIN  8 /* UART1_Tx on GPIO 8 */
+#define UART_RX_PIN  9 /* UART1_Rx on GPIO 9 */
+#define UART_ID      uart1
+#define BAUD_RATE    115200
+#define DATA_BITS    8
+#define STOP_BITS    1
+#define PARITY       UART_PARITY_NONE
+
 /*** SET COMMANDS V1.16 ***
 S-,<text>  - Serialized Name
 S|,<hex16> - Audio Settings
@@ -76,48 +84,6 @@ T          - Caller ID Information
 -  X,<0,1>    - Transfer Call Between HF And AG
 */
 
-/*** SET COMMANDS V1.10 ***
-S-,<text>  - Serialized Name
-S|,<hex8>  - Audio Route
-S^,<dec>   - Auto Power Off timer
-S%,<hex8>  - Extended features
-SA,<dec>   - Authentication mode
-SC,<hex24> - Class of Device
-SD,<hex8>  - Discovery Mask
-SF,1       - Factory Default
-SK,<hex8>  - Connection Mask
-SN,<text>  - Name
-SP,<text>  - Pin Code
-                                                                             
-*** ACTION COMMANDS ***                                                      
-@,<0,1>    - Disable,Enable Discovery                                        
-D          - Dump Configuration                                              
-K,<hex8>   - Disconnect                                                      
-Q          - Connection Status
-R,1        - Reboot
-V          - Firmare Version
-
-*** AVRCP COMMANDS ***
-AV+        - Volume UP
-AV-        - Volume Down
-AT+        - Next Track
-AT-        - Previous Track
-AP         - Play/Pause
-
-*** CONNECTION COMMANDS ***
-A,<text>   - Initiate a voice call
-B          - Reconnect to last device
-C          - Accept incoming call
-E          - Drop/Reject active or incoming call
-
-*** GPIO COMMANDS ***
-I@         - Show GPIO input/output mask
-I@,<hex16> - Set GPIO input/output mask
-I&         - Show GPIO input/output state
-I&,<hex16> - Set GPIO output state
-*/
-
-
 #define RN52_CMD_SIZE_VOLUP   4
 #define RN52_CMD_SIZE_VOLDWN  4
 #define RN52_CMD_SIZE_NXT     4
@@ -136,45 +102,37 @@ typedef enum {
 
 typedef struct {
    RN52_CMD_ID cmdId;
-   char* msgPtr;
-   uint8_t msgSize;
+   char*       msgPtr;
+   uint8_t     msgSize;
 } rn52_mcmdMsg;
 
-#define UART_TX_PIN 8 /* UART1_Tx on GPIO 8 */
-#define UART_RX_PIN 9 /* UART1_Rx on GPIO 9 */
-
-#define UART_ID   uart1
-#define BAUD_RATE 115200
-#define DATA_BITS 8
-#define STOP_BITS 1
-#define PARITY    UART_PARITY_NONE
-
-/* Rotary encoders */
-/* Rotary encoder 1 */
-#define RE1_A_CLK 17 /* GPIO17, pin 22 */
-#define RE1_B_DT  16 /* GPIO16, pin 21 */
-#define RE1_SW_SW 18 /* GPIO18, pin 24 */
-/* Rotary encoder 2 */
-#define RE2_A_CLK 21 /* GPIO21, pin 27 */
-#define RE2_B_DT  20 /* GPIO20, pin 26 */
-#define RE2_SW_SW 19 /* GPIO19, pin 25 */
-
-typedef enum {
-   STATE_RE_WAIT_A,
-   STATE_RE_WAIT_B,
-   STATE_RE_IDLE
-} STATE_RE;
-
+/**
+ * @brief initiate RN52 bluetooth module
+ * 
+ */
 void bt_init(void);
 
-void bt_init_re(void);
-
+/**
+ * @brief send command to bluetooth module per UART
+ * 
+ * @param [in] msg uint8_t* pointer to msg
+ * @param [in] len lenght of message
+ */
 void bt_send(uint8_t * msg, uint8_t len);
 
+/**
+ * @brief Receive RX on bluetooth's module UART
+ */
 void on_uart_rx(void);
 
-void bt_processEvents(void);
-
-//void gpio_callback(uint gpio, uint32_t events);
+/**
+ * @brief RN52 Commands
+ * 
+ */
+inline void sendVolUp(void);
+inline void sendVolDown(void);
+inline void sendNextTrack(void);
+inline void sendPreviousTrack(void);
+inline void sendPlayPause(void);
 
 #endif /* _BT_RN52_APPLICATION_H_ */

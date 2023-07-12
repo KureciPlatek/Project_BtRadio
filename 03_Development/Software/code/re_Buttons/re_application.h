@@ -59,4 +59,12 @@ void re_application_StateMachine(re_appli_handle * handle, RE_STATE event);
  */
 void initRadioRotaries(void);
 
+/**
+ * @brief Return pointers to static handles
+ * 
+ * @param [out] ptrToHandle1 pointer to rotary encoder 1
+ * @param [out] ptrToHandle2 pointer to rotary encoder 2
+ */
+void getREs(re_appli_handle * ptrToHandle1, re_appli_handle * ptrToHandle2);
+
 #endif /* RE_APPLICATION_H */

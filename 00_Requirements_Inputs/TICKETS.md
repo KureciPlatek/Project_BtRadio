@@ -72,6 +72,10 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | NEW |
 |SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | NEW |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
+|SFW_10 |*Coding* synchronize naming with architecture (prefixes) bt_rn52 for bluetooth module and fm_si470x for FM module, re for rotary encoders and epaper for HMI | NEW |
+|SFW_11 |*REx* Add delay between each rotary A or B key | NEW |
+|SFW_12 |*FM mode* Manage FM as a handle too | NEW |
+|SFW_12 |*BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | NEW |
 
 **Work In Progress issues:**  
 

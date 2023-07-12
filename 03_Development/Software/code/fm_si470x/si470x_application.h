@@ -54,7 +54,7 @@ static fm_station_preset stationsPresets[MAX_PRESETS];
 void si470x_application_init(void);
 
 
-void mainSM(void);
+void fm_si470x_SM(void);
 
 
 void processSTCEvent(bool seekTune);

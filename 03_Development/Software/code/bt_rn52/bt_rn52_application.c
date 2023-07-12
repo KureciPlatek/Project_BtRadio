@@ -44,127 +44,6 @@ static rn52_mcmdMsg allRN52_cmd[RN52_CMD_MAX] = {
    {RN52_CMD_PLP,    &rn52_cmd_plp[0],    RN52_CMD_SIZE_PLP    }
 };
 
-
-static void alarm_irq(void) 
-{
-   // Clear the alarm irq
-   hw_clear_bits(&timer_hw->intr, 1u << ALARM_NUM);
-
-   // Assume alarm 0 has fired
-   printf("Alarm IRQ fired\n");
-   state_RE1 = STATE_RE_IDLE;
-}
-
-static void alarm_in_us(uint32_t delay_us) 
-{
-   hw_set_bits(&timer_hw->inte, 1u << ALARM_NUM);
-   irq_set_exclusive_handler(ALARM_IRQ, alarm_irq);
-   irq_set_enabled(ALARM_IRQ, true);
-   uint64_t target = timer_hw->timerawl + delay_us;
-   timer_hw->alarm[ALARM_NUM] = (uint32_t) target;
-}
-
-
-/**
- * @brief GPIO interrupt on RE
- * 
- * @param gpio 
- * @param events 
- */
-void gpio_rn52_callback(uint gpio, uint32_t events) 
-{
-   printf("GPIO Interrupt %d\n", gpio);
-   /* --------- ROTARY ENCODER 1 --------- */
-   switch(state_RE1)
-   {
-      case STATE_RE_IDLE:
-      {
-         if(RE1_A_CLK == gpio) {
-            state_RE1 = STATE_RE_WAIT_B;
-            alarm_in_us(150000);    // Start delay before considering B event as void.
-         }
-         if(RE1_B_DT == gpio) {
-            state_RE1 = STATE_RE_WAIT_A;
-         }
-      }
-         break;
-      case STATE_RE_WAIT_B:
-      {
-         if(RE1_B_DT == gpio) {
-            /* Clockwise on RE1 confirmed -> send vol+ to RN52 */
-            printf("Vol+\n");
-            bt_event_volup = 0x01;
-            /* Ask also for SS,<hex8>  - Speaker Level */
-            state_RE1 = STATE_RE_IDLE;
-         }
-      }
-         break;
-      case STATE_RE_WAIT_A:
-      {
-         if(RE1_A_CLK == gpio) {
-            /* Anticlockwise on RE1 confirmed -> send vol- to RN52 */
-            printf("Vol-\n");
-            bt_event_voldwn = 0x01;
-            /* Ask also for SS,<hex8>  - Speaker Level */
-            state_RE1 = STATE_RE_IDLE;
-         }
-      }
-         break;
-      default:
-         break;
-   }
-
-   /* --------- ROTARY ENCODER 2 --------- */
-   switch(state_RE2)
-   {
-      case STATE_RE_IDLE:
-      {
-         if(RE2_A_CLK == gpio) {
-            state_RE2 = STATE_RE_WAIT_B;
-         }
-         if(RE2_B_DT == gpio) {
-            state_RE2 = STATE_RE_WAIT_A;
-         }
-      }
-         break;
-      case STATE_RE_WAIT_B:
-      {
-         if(RE2_B_DT == gpio) {
-            /* Clockwise on RE2 confirmed -> send next_track to RN52 */
-            printf("Next\n");
-            bt_event_next = 0x01;
-            state_RE2 = STATE_RE_IDLE;
-         }
-      }
-         break;
-      case STATE_RE_WAIT_A:
-      {
-         if(RE2_A_CLK == gpio) {
-            /* Anticlockwise on RE2 confirmed -> send prev_track to RN52 */
-            printf("Prev\n");
-            bt_event_prev = 0x01; 
-            state_RE2 = STATE_RE_IDLE;
-         }
-      }
-         break;
-      default:
-         break;
-   }
-
-   if((RE1_SW_SW == gpio) || (RE2_SW_SW == gpio))
-   {
-      /* Toggle play/pause on RN52 */
-      printf("PlayPoz\n");
-      bt_event_plps = 0x01;
-   }
-
-
-    // Put the GPIO event(s) that just happened into event_str
-    // so we can print it
-//    gpio_event_string(event_str, events);
-    printf("GPIO %d \n", gpio);
-}
-
 void bt_init(void)
 {
    bt_event_volup = 0x00;
@@ -206,42 +85,11 @@ void bt_init(void)
 
    // Now enable the UART to send interrupts - RX only
    uart_set_irq_enables(UART_ID, true, false);
-
-   bt_init_re();
 }
 
-void bt_init_re(void)
-{
-   /* RE State machines */
-   state_RE1 = STATE_RE_IDLE;
-   state_RE2 = STATE_RE_IDLE;
-
-   gpio_set_irq_enabled_with_callback(RE1_A_CLK, GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-   gpio_set_irq_enabled_with_callback(RE1_B_DT,  GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-   gpio_set_irq_enabled_with_callback(RE1_SW_SW, GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-   gpio_set_irq_enabled_with_callback(RE2_A_CLK, GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-   gpio_set_irq_enabled_with_callback(RE2_B_DT,  GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-   gpio_set_irq_enabled_with_callback(RE2_SW_SW, GPIO_IRQ_EDGE_RISE , true, &gpio_rn52_callback);
-}
 
 void bt_send(uint8_t * msg, uint8_t len)
 {
-//   uint8_t index = 0x00;
-//   while(index < len)
-//   {
-//      if (uart_is_writable(UART_ID)) 
-//      {
-//         // Change it slightly first!
-//         printf("Write: %c\n",msg[index]);
-//         uart_putc(UART_ID, msg[index]);
-//         index++;
-//      }
-//      else
-//      {
-//         printf("uart not writable\n");
-//      }
-//   }
-//   printf("Finished send\n");
    uart_write_blocking (UART_ID, msg, len);
 }
 
@@ -257,44 +105,32 @@ void on_uart_rx(void)
       ch = uart_getc(UART_ID);
       printf("%c", ch);
 
-//      printf("Received: %c\n", ch);
-
-      // Can we send it back?
-//      if (uart_is_writable(UART_ID)) 
-//      {
-//         // Change it slightly first!
-//         ch++;
-//         uart_putc(UART_ID, ch);
-//      }
-//      chars_rxed++;
+      /* @todo print on screen */
    }
 }
 
-void bt_processEvents(void)
+inline void sendVolUp(void)
 {
-   if(0x01 == bt_event_volup) {
-      bt_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLUP].msgPtr, allRN52_cmd[RN52_CMD_VOLUP].msgSize);
-      bt_event_volup = 0x00;
-   }
+   bt_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLUP].msgPtr, allRN52_cmd[RN52_CMD_VOLUP].msgSize);
+}
 
-   if(0x01 == bt_event_voldwn) {
-      bt_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLDWN].msgPtr, allRN52_cmd[RN52_CMD_VOLDWN].msgSize);
-      bt_event_voldwn = 0x00;
-   }
-   
-   if(0x01 == bt_event_next) {
-      bt_send((uint8_t*) allRN52_cmd[RN52_CMD_NXT].msgPtr, allRN52_cmd[RN52_CMD_NXT].msgSize);
-      bt_event_next = 0x00;
-   }
-   
-   if(0x01 == bt_event_prev) {
-      bt_send((uint8_t*) allRN52_cmd[RN52_CMD_PRV].msgPtr, allRN52_cmd[RN52_CMD_PRV].msgSize);
-      bt_event_prev = 0x00;
-   }
-   
-   if(0x01 == bt_event_plps) {
-      bt_send((uint8_t*) allRN52_cmd[RN52_CMD_PLP].msgPtr, allRN52_cmd[RN52_CMD_PLP].msgSize);
-      bt_event_plps = 0x00;
-   }
+inline void sendVolDown(void)
+{
+   bt_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLDWN].msgPtr, allRN52_cmd[RN52_CMD_VOLDWN].msgSize);
+}
+
+inline void sendNextTrack(void)
+{
+   bt_send((uint8_t*) allRN52_cmd[RN52_CMD_NXT].msgPtr, allRN52_cmd[RN52_CMD_NXT].msgSize);
+}
+
+inline void sendPreviousTrack(void)
+{
+   bt_send((uint8_t*) allRN52_cmd[RN52_CMD_PRV].msgPtr, allRN52_cmd[RN52_CMD_PRV].msgSize);
+}
+
+inline void sendPlayPause(void)
+{
+   bt_send((uint8_t*) allRN52_cmd[RN52_CMD_PLP].msgPtr, allRN52_cmd[RN52_CMD_PLP].msgSize);
 }
 

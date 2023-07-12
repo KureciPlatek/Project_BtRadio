@@ -47,97 +47,95 @@ static const char *gpio_irq_str[] = {
         "EDGE_FALL",  // 0x4
         "EDGE_RISE"   // 0x8
 };
-void gpio_event_string(char *buf, uint32_t events);
-void gpio_callback(uint gpio, uint32_t events) 
-{
-    // Put the GPIO event(s) that just happened into event_str
-    // so we can print it
-//    printf("GPIO2 event: %d - event: 0x%04x\n", gpio, events);
-    gpio_event_string(event_str, events);
-    printf("GPIO %d %s\n", gpio, event_str);
-    tokenIRQ_GPIO2 = 0x01;
-}
+//void gpio_event_string(char *buf, uint32_t events);
+//void gpio_callback(uint gpio, uint32_t events) 
+//{
+//    // Put the GPIO event(s) that just happened into event_str
+//    // so we can print it
+////    printf("GPIO2 event: %d - event: 0x%04x\n", gpio, events);
+//    gpio_event_string(event_str, events);
+//    printf("GPIO %d %s\n", gpio, event_str);
+//    tokenIRQ_GPIO2 = 0x01;
+//}
+//
+//void gpio_event_string(char *buf, uint32_t events) {
+//    for (uint i = 0; i < 4; i++) {
+//        uint mask = (1 << i);
+//        if (events & mask) {
+//            // Copy this event string into the user string
+//            const char *event_str = gpio_irq_str[i];
+//            while (*event_str != '\0') {
+//                *buf++ = *event_str++;
+//            }
+//            events &= ~mask;
+//
+//            // If more events add ", "
+//            if (events) {
+//                *buf++ = ',';
+//                *buf++ = ' ';
+//            }
+//        }
+//    }
+//    *buf++ = '\0';
+//}
 
-void gpio_event_string(char *buf, uint32_t events) {
-    for (uint i = 0; i < 4; i++) {
-        uint mask = (1 << i);
-        if (events & mask) {
-            // Copy this event string into the user string
-            const char *event_str = gpio_irq_str[i];
-            while (*event_str != '\0') {
-                *buf++ = *event_str++;
-            }
-            events &= ~mask;
-
-            // If more events add ", "
-            if (events) {
-                *buf++ = ',';
-                *buf++ = ' ';
-            }
-        }
-    }
-    *buf++ = '\0';
-}
-
-void mainSM(void)
+void fm_si470x_SM(void)
 {
    manualInput();
 
-   bt_processEvents();
-
-//   switch(fmState)
-//   {
-//      case FM_STATE_INIT:
-//         /* Automatically go to power up (may be changed in future), this step should be done by si470x_application_init() */
-//         fmState = FM_STATE_PWRUP; 
-//         break;
-//      case FM_STATE_PWRUP:
-//         /* Power up and configure radio */
-//         if(fm_power_up())
-//         {
-//            /* All good, wait for human commands */
-//            fmState = FM_STATE_IDLE;
-//         }
-//         else
-//         {
-//            printf("[FM][APP] - FATAL while powering up Si470x module\n");
-//         }
-//         break;
-//      case FM_STATE_PWRDWN:
-//         fm_power_down();
-//         break;
-//      case FM_STATE_IDLE:
-//         /* Wait for Seek or tune event from human */
-//         break;
-//      case FM_STATE_SEEKING:
-//         if(0x01 == tokenIRQ_GPIO2)
-//         {
-//            processSTCEvent(true);
-//            tokenIRQ_GPIO2 = 0x00;
-//         }
+   switch(fmState)
+   {
+      case FM_STATE_INIT:
+         /* Automatically go to power up (may be changed in future), this step should be done by si470x_application_init() */
+         fmState = FM_STATE_PWRUP; 
+         break;
+      case FM_STATE_PWRUP:
+         /* Power up and configure radio */
+         if(fm_power_up())
+         {
+            /* All good, wait for human commands */
+            fmState = FM_STATE_IDLE;
+         }
+         else
+         {
+            printf("[FM][APP] - FATAL while powering up Si470x module\n");
+         }
+         break;
+      case FM_STATE_PWRDWN:
+         fm_power_down();
+         break;
+      case FM_STATE_IDLE:
+         /* Wait for Seek or tune event from human */
+         break;
+      case FM_STATE_SEEKING:
+         if(0x01 == tokenIRQ_GPIO2)
+         {
+            processSTCEvent(true);
+            tokenIRQ_GPIO2 = 0x00;
+         }
 //         printf(".");
-//         break;
-//      case FM_STATE_TUNING:
-//         if(0x01 == tokenIRQ_GPIO2)
-//         {
-//            processSTCEvent(false);
-//            tokenIRQ_GPIO2 = 0x00;
-//         }
+         break;
+      case FM_STATE_TUNING:
+         if(0x01 == tokenIRQ_GPIO2)
+         {
+            processSTCEvent(false);
+            tokenIRQ_GPIO2 = 0x00;
+         }
 //         printf("-");
-//         break;
-//      case FM_STATE_RDS:
-//         if(0x01 == tokenIRQ_GPIO2)
-//         {
-//            processRDSEvent();
-//            tokenIRQ_GPIO2 = 0x00;
-//         }
+         break;
+      case FM_STATE_RDS:
+         if(0x01 == tokenIRQ_GPIO2)
+         {
+            processRDSEvent();
+            tokenIRQ_GPIO2 = 0x00;
+         }
 //         printf(";");
-//         break;
-//      case FM_STATE_MAX:
-//      default:
-//         printf("ERROR - unknown state of FM module: 0x%02x\n", fmState);
-//         break;
-//   }
+         break;
+      case FM_STATE_MAX:
+      default:
+         printf("ERROR - unknown state of FM module: 0x%02x\n", fmState);
+         break;
+   }
 }
 
 void si470x_application_init(void)
@@ -252,69 +250,40 @@ void fmApp_toggleMute(void)
 
 
 ////////////////////////////// _____ HMI _____ ////////////////////////////// 
-
-/* Print commands on stdio */
-static void printCommands(void)
-{
-   printf("____ Si470x command list_____\n");
-   printf("u - seek up\n");
-   printf("k - ask for Bt track data\n");
-   printf("q - ask for Bt q\n");
-   printf("d - seek down\n");
-   printf("+ - increase volume\n");
-   printf("- - decrease volume\n");
-   printf("m - mute or unmute\n");
-   printf("p - print presets\n");
-   printf("X - enter the preset number you want to tune (0 to 9)\n");
-   printf("h - print this help\n");
-   printf("s - Try read regs and print them\n");
-   printf("_____________________________\n");
-}
-
-static void manualInput(void)
-{
-   int result = getchar_timeout_us(1);
-   if (result != PICO_ERROR_TIMEOUT)
-   {
-      char cmd = (char)result;
-      printf("New cmd: %c\n", cmd);
-
-      /* Seek or Tune allowed only in those states: */
+//
+///* Print commands on stdio */
+//static void printCommands(void)
+//{
+//   printf("____ Si470x command list_____\n");
+//   printf("u - seek up\n");
+//   printf("k - ask for Bt track data\n");
+//   printf("q - ask for Bt q\n");
+//   printf("d - seek down\n");
+//   printf("+ - increase volume\n");
+//   printf("- - decrease volume\n");
+//   printf("m - mute or unmute\n");
+//   printf("p - print presets\n");
+//   printf("X - enter the preset number you want to tune (0 to 9)\n");
+//   printf("h - print this help\n");
+//   printf("s - Try read regs and print them\n");
+//   printf("_____________________________\n");
+//}
+//
+//static void manualInput(void)
+//{
+//   int result = getchar_timeout_us(1);
+//   if (result != PICO_ERROR_TIMEOUT)
+//   {
+//      char cmd = (char)result;
+//      printf("New cmd: %c\n", cmd);
+//
+//      /* Seek or Tune allowed only in those states: */
 //      if((fmState == FM_STATE_IDLE) 
 //      || (fmState == FM_STATE_RDS))
 //      {
-         switch (cmd)
-         {
+//         switch (cmd)
+//         {
 /* -------------------------- BT module commands ------------------------ */            
-            case 'n':
-               {
-//AT+        - Next Track
-                  printf("Ask next track\n");
-                  char bt_rn52cmd[4] = {'A','T','+',  '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 4);
-               }
-               break;
-            case 'q':
-               {
-                  printf("Send Q\n");
-                  char bt_rn52cmd[2] = {'Q', '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 2);
-               }
-               break;
-            case 'w':
-               {
-                  printf("Ask BT commads\n");
-                  char bt_rn52cmd[2] = {'h', '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 2);
-               }
-               break;
-            case 'v':
-               {
-                  printf("Ask version\n");
-                  char bt_rn52cmd[2] = {'v', '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 2);
-               }
-               break;
 //            case 'u':
 //               if(fm_get_STCbit())
 //               {
@@ -349,49 +318,39 @@ static void manualInput(void)
 //                  fmState = FM_STATE_TUNING;
 //               }
 //               break;
-            case '+':
-               {
-//AV+        - Volume UP
-                  printf("Ask Volup\n");
-                  char bt_rn52cmd[4] = {'A','V','+',  '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 4);
-
+//            case '+':
+//               {
 //               IRQ_setVolume(true);
-               }
-               break;
-            case '-':
-               {
-//AV-        - Volume Down
-                  printf("Ask voldown\n");
-                  char bt_rn52cmd[4] = {'A','V','-',  '\r'};
-                  bt_send((uint8_t*)&bt_rn52cmd[0], 4);
-
+//               }
+//               break;
+//            case '-':
+//               {
 //               IRQ_setVolume(false);
-               }
-               break;
+//               }
+//               break;
 //            case 'm':
 //               fmApp_toggleMute();
 //               break;
 //            case 's':
 //               readRegss2();
 //               break;
-            default: 
-               printf("Command disabled - FM module tuning or seeking - keep I2C quiet\n");
-               break;
-         }
+//            default: 
+//               printf("Command disabled - FM module tuning or seeking - keep I2C quiet\n");
+//               break;
+//         }
 //      }
-
-      /* Command that may be used anytime */
-      switch (cmd)
-      {
-         case 'p':
-            fmApp_printStationPresets();
-            break;
-         case 'h':
-            printCommands();
-            break;
-         default:
-            break;
-      }
-   }
-}
+//
+//      /* Command that may be used anytime */
+//      switch (cmd)
+//      {
+//         case 'p':
+//            fmApp_printStationPresets();
+//            break;
+//         case 'h':
+//            printCommands();
+//            break;
+//         default:
+//            break;
+//      }
+//   }
+//}

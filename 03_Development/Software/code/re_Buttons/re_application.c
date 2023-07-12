@@ -7,6 +7,8 @@
  * 
  * @copyright Copyright (c) 2023
  * 
+ * @todo    add timeout for Rotary Encoders
+ * 
  */
 
 #include "hardware/gpio.h"
@@ -65,6 +67,28 @@ static void irqhandlerRE2SW(void)
     }
 }
 
+//static void alarm_irq(void) 
+//{
+//   // Clear the alarm irq
+//   hw_clear_bits(&timer_hw->intr, 1u << ALARM_NUM);
+//
+//   // Assume alarm 0 has fired
+//   printf("Alarm IRQ fired\n");
+//   state_RE1 = STATE_RE_IDLE;
+//}
+//
+//static void alarm_in_us(uint32_t delay_us) 
+//{
+//   hw_set_bits(&timer_hw->inte, 1u << ALARM_NUM);
+//   irq_set_exclusive_handler(ALARM_IRQ, alarm_irq);
+//   irq_set_enabled(ALARM_IRQ, true);
+//   uint64_t target = timer_hw->timerawl + delay_us;
+//   timer_hw->alarm[ALARM_NUM] = (uint32_t) target;
+//}
+//
+//alarm_in_us(150000);    // Start delay before considering B event as void.
+
+
 
 void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
 {
@@ -113,6 +137,12 @@ void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
         default:
             break;
     }
+}
+
+void getREs(re_appli_handle * ptrToHandle1, re_appli_handle * ptrToHandle2)
+{
+    ptrToHandle1 = &rotary1;
+    ptrToHandle2 = &rotary2;
 }
 
 
