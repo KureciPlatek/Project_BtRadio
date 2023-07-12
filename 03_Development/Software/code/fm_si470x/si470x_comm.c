@@ -22,7 +22,7 @@
 /* -------------------------------------------------------------------------- */
 /* ------------------------ READ/WRITE TO Si470x ---------------------------- */
 
-void fm_si470x_initCommHW(void)
+void fm_initCommHW(void)
 {
    printf("[FM][HW]  INIT comm HW\n");
    /* Si470X supports up to 400kHz SCLK frequency */

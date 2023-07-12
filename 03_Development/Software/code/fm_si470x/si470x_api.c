@@ -117,14 +117,14 @@ void readRegss2(void)
 
 
 ///////////////////// PUBLIC FUNCTIONS DEFINITIONS /////////////////////////////
-void fm_init(void) 
+void si470x_init(void) 
 {
    printf("[FM][API] init fm module\n");
    uint8_t index = 0x00;
    uint16_t regVal = 0x0000;
    
    /* Init hardware communication line for Si470x module */
-   fm_si470x_initCommHW();
+   fm_initCommHW();
 
    /* reset memory where _radioHandle is placed to 0 */
    memset(&_radioHandle, 0, sizeof(si470x_t));
@@ -463,7 +463,7 @@ uint8_t fm_seekTune_finished(bool seekTune)
    return RSSI_bits;
 }
 
-void fm_toggle_mute(void) 
+void si470x_toggleMute(void) 
 {
    if(_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
    {
@@ -573,7 +573,7 @@ void fm_set_monoStereo(bool mono)
    }
 }
 
-void fm_set_volume(uint8_t volume, bool volext) 
+void si470x_set_volume(uint8_t volume, bool volext) 
 {
    if(_radioHandle._state  != SI470X_STATE_POWERED_DOWN) 
    {

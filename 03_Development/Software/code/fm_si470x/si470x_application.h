@@ -51,10 +51,10 @@ static fm_station_preset stationsPresets[MAX_PRESETS];
  * @brief init Si4703 module application layer
  * 
  */
-void si470x_application_init(void);
+void fm_init(void);
 
 
-void fm_si470x_SM(void);
+void fm_stateMachine(void);
 
 
 void processSTCEvent(bool seekTune);
@@ -67,7 +67,7 @@ void processRDSEvent(void);
  * 
  * @param upDown true: more sound baby, false, darling is sleeping
  */
-void IRQ_setVolume(bool upDown);
+void fm_setVolume(bool upDown);
 
 /**
  * @brief OH YEAH I LOVE THIS FM STATION! Then save it into a specific
@@ -75,18 +75,18 @@ void IRQ_setVolume(bool upDown);
  * 
  * @param indexPresets  uint8_t, the preset index
  */
-void IRQ_saveTuneFreq(uint8_t indexPresets);
+void fm_saveTuneFreq(uint8_t indexPresets);
 
 /**
  * @brief Print saved station on stdio
  */
-void fmApp_printStationPresets(void);
+void fm_printStationPresets(void);
 
 /**
  * @brief toggle Mute, direct call, avoid call of api from outside module
  * 
  */
-void fmApp_toggleMute(void);
+void fm_toggleMute(void);
 
 
 #endif /* _SI470X_APPLICATION_H_ */

@@ -79,14 +79,14 @@ static const char *gpio_irq_str[] = {
 //    *buf++ = '\0';
 //}
 
-void fm_si470x_SM(void)
+void fm_stateMachine(void)
 {
    manualInput();
 
    switch(fmState)
    {
       case FM_STATE_INIT:
-         /* Automatically go to power up (may be changed in future), this step should be done by si470x_application_init() */
+         /* Automatically go to power up (may be changed in future), this step should be done by fm_init() */
          fmState = FM_STATE_PWRUP; 
          break;
       case FM_STATE_PWRUP:
@@ -138,13 +138,12 @@ void fm_si470x_SM(void)
    }
 }
 
-void si470x_application_init(void)
+void fm_init(void)
 {
    printf("init application\n");
 
    /* Init Si470x module */
-   fm_init();
-
+   si470x_init();
    fm_power_up();
 
    /* Declare callback of GPIO2*/
@@ -157,6 +156,55 @@ void si470x_application_init(void)
 
    fmState = FM_STATE_INIT;
 }
+
+void fm_setVolume(bool upDown)
+{
+   uint8_t fmModuleVolume = fm_get_volume();
+   if((true == upDown) && (SI4703_MAX_VOLUME > fmModuleVolume))
+   {
+      fmModuleVolume++;
+   }
+   else if((false == upDown) && (0 < fmModuleVolume))
+   {
+      fmModuleVolume--;
+   }
+   /* else, already at max or min*/
+   si470x_set_volume(fmModuleVolume, false); /* @TODO check volume Extension use */
+}
+
+void fm_saveTuneFreq(uint8_t indexPresets)
+{
+   if(MAX_PRESETS >= indexPresets)
+   {
+      uint8_t pointerToPSname[PS_GROUP_MAX_CHARS];
+      uint8_t index = 0x00;
+
+      stationsPresets[indexPresets].preset_freq = fm_get_frequency();
+
+      /* @TODO check if PS name is good */
+      rdsDecoder_getPS(&pointerToPSname[0]);
+
+      for(;index < PS_GROUP_MAX_CHARS; index++)
+      {
+         stationsPresets[indexPresets].preset_PSname[index] = *(pointerToPSname + index);
+      }
+   }
+}
+
+void fm_printStationPresets(void)
+{
+   uint8_t index = 0;
+   for(; index < MAX_PRESETS ;index++)
+   {
+      printf("Station %d: %s - FM: %f\n", (index+1), stationsPresets[index].preset_PSname, stationsPresets[index].preset_freq);
+   }
+}
+
+void fm_toggleMute(void)
+{
+   si470x_toggleMute();
+}
+
 
 void processSTCEvent(bool seekTune)
 {
@@ -198,54 +246,6 @@ void processRDSEvent(void)
    /* @TODO mechanism to keep reading new track names. 
       It changes even if we stay on same channel. If jump to
       IDLE state, no further read of RT msg will be done */
-}
-
-void IRQ_setVolume(bool upDown)
-{
-   uint8_t fmModuleVolume = fm_get_volume();
-   if((true == upDown) && (SI4703_MAX_VOLUME > fmModuleVolume))
-   {
-      fmModuleVolume++;
-   }
-   else if((false == upDown) && (0 < fmModuleVolume))
-   {
-      fmModuleVolume--;
-   }
-   /* else, already at max or min*/
-   fm_set_volume(fmModuleVolume, false); /* @TODO check volume Extension use */
-}
-
-void IRQ_saveTuneFreq(uint8_t indexPresets)
-{
-   if(MAX_PRESETS >= indexPresets)
-   {
-      uint8_t pointerToPSname[PS_GROUP_MAX_CHARS];
-      uint8_t index = 0x00;
-
-      stationsPresets[indexPresets].preset_freq = fm_get_frequency();
-
-      /* @TODO check if PS name is good */
-      rdsDecoder_getPS(&pointerToPSname[0]);
-
-      for(;index < PS_GROUP_MAX_CHARS; index++)
-      {
-         stationsPresets[indexPresets].preset_PSname[index] = *(pointerToPSname + index);
-      }
-   }
-}
-
-void fmApp_printStationPresets(void)
-{
-   uint8_t index = 0;
-   for(; index < MAX_PRESETS ;index++)
-   {
-      printf("Station %d: %s - FM: %f\n", (index+1), stationsPresets[index].preset_PSname, stationsPresets[index].preset_freq);
-   }
-}
-
-void fmApp_toggleMute(void)
-{
-   fm_toggle_mute();
 }
 
 
@@ -320,16 +320,16 @@ void fmApp_toggleMute(void)
 //               break;
 //            case '+':
 //               {
-//               IRQ_setVolume(true);
+//               fm_setVolume(true);
 //               }
 //               break;
 //            case '-':
 //               {
-//               IRQ_setVolume(false);
+//               fm_setVolume(false);
 //               }
 //               break;
 //            case 'm':
-//               fmApp_toggleMute();
+//               fm_toggleMute();
 //               break;
 //            case 's':
 //               readRegss2();
@@ -344,7 +344,7 @@ void fmApp_toggleMute(void)
 //      switch (cmd)
 //      {
 //         case 'p':
-//            fmApp_printStationPresets();
+//            fm_printStationPresets();
 //            break;
 //         case 'h':
 //            printCommands();

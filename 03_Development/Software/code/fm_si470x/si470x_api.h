@@ -131,7 +131,7 @@ float fm_get_frequency(void);
  * @brief Initialize the radio state and calls start-up sequence to power-up 
  * Si470x device.
  */
-void fm_init(void);
+void si470x_init(void);
 
 /**
  * @brief Power up the radio chip.
@@ -171,7 +171,7 @@ void fm_set_seek_sensitivity_next(void);
 /**
  * @brief toggle mute of output volume.
  */
-void fm_toggle_mute(void);
+void si470x_toggleMute(void);
 
 /**
  * @brief toggle softmure of Si470x
@@ -206,7 +206,7 @@ void fm_set_monoStereo(bool mono);
  * @param volume  uint8_t up to 15 levels
  * @param volext  bool, activate volume extension or not
  */
-void fm_set_volume(uint8_t volume, bool volext);
+void si470x_set_volume(uint8_t volume, bool volext);
 
 /**
  * @brief return STC bit status. Must be called before starting a seek or tune

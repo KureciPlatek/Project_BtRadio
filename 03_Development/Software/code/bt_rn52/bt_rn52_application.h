@@ -18,13 +18,13 @@
 #include "hardware/irq.h"
 #include "hardware/gpio.h"
 
-#define UART_TX_PIN  8 /* UART1_Tx on GPIO 8 */
-#define UART_RX_PIN  9 /* UART1_Rx on GPIO 9 */
-#define UART_ID      uart1
-#define BAUD_RATE    115200
-#define DATA_BITS    8
-#define STOP_BITS    1
-#define PARITY       UART_PARITY_NONE
+#define BT_UART_TXPIN  8 /* UART1_Tx on GPIO 8 */
+#define BT_UART_RXPIN  9 /* UART1_Rx on GPIO 9 */
+#define BT_UART_ID      uart1
+#define BT_UART_BAUDRATE    115200
+#define BT_UART_DATABITS    8
+#define BT_UART_STOPBITS    1
+#define BT_UART_PARITY       UART_BT_UART_PARITY_NONE
 
 /*** SET COMMANDS V1.16 ***
 S-,<text>  - Serialized Name
@@ -108,7 +108,6 @@ typedef struct {
 
 /**
  * @brief initiate RN52 bluetooth module
- * 
  */
 void bt_init(void);
 
@@ -118,21 +117,20 @@ void bt_init(void);
  * @param [in] msg uint8_t* pointer to msg
  * @param [in] len lenght of message
  */
-void bt_send(uint8_t * msg, uint8_t len);
+void rn52_send(uint8_t * msg, uint8_t len);
 
 /**
  * @brief Receive RX on bluetooth's module UART
  */
-void on_uart_rx(void);
+void bt_irqUartRx(void);
 
 /**
  * @brief RN52 Commands
- * 
  */
-inline void sendVolUp(void);
-inline void sendVolDown(void);
-inline void sendNextTrack(void);
-inline void sendPreviousTrack(void);
-inline void sendPlayPause(void);
+inline void bt_sendVolUp(void);
+inline void bt_sendVolDown(void);
+inline void bt_sendNextTrack(void);
+inline void bt_sendPreviousTrack(void);
+inline void bt_sendPlayPause(void);
 
 #endif /* _BT_RN52_APPLICATION_H_ */

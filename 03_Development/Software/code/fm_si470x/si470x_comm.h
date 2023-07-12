@@ -72,7 +72,7 @@ bool fm_si470x_readRegisters(uint16_t *regData, uint8_t regNbr);
  * preprocessor. Change preprocessor to adapt it to wished I2C communication. 
  * 
  */
-void fm_si470x_initCommHW(void);
+void fm_initCommHW(void);
 
 
 ////////////////////////// GPIOs MANUAL CONTROL //////////////////////////////
