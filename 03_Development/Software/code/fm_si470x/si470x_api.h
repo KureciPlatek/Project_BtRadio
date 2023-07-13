@@ -250,7 +250,7 @@ void fm_tune_frequency(float frequency);
  * @param direction 
  * @param blocking 
  */
-void fm_seek_start(uint8_t direction);
+void fm_startSeek(uint8_t direction);
 
 #ifdef __cplusplus
 }

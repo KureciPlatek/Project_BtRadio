@@ -69,13 +69,10 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | NEW |
 |SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
-|SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | NEW |
-|SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | NEW |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
-|SFW_11 |*REx* Add delay between each rotary A or B key | NEW |
-|SFW_12 |*FM mode* Manage FM as a handle too | NEW |
 |SFW_13 |*BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | NEW |
-|SFW_14 |*Main* Take care of radio project init | NEW |
+|SFW_15 |*Main* Take care of radio project init | NEW |
+|SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
 
 **Work In Progress issues:**  
 
@@ -84,6 +81,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
 |SFW_4 |*Architecture* Create RotaryEncoder interrupts | WIP - need to test |
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
+|SFW_11 |*REx* Add delay between each rotary A or B key | WIP - must be tested |
+|SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 
 **Resolved issues:**
 
@@ -91,11 +90,13 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |-|-|-|
 |SFW_1 |*e-Paper* Add test and interface to RpPico with assigned pins | DONE - use of example in /home/jeremiegallee/Pico_epaper_example/ |
 |SFW_10 |*Coding* synchronize naming with architecture (prefixes) bt_rn52 for bluetooth module and fm_si470x for FM module, re for rotary encoders and epaper for HMI | DONE - set bt_, fm_, re_ and ep_ prefixes |
+|SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | DONE - already implemented |
 
 **Rejected issues**
 
 |Issue| Description | state |
 |-|-|-|
+|SFW_12 |*FM mode* Manage FM as a handle too | REJECTED - use getters and setters instead |
 
 ***
 ## HARDWARE ISSUES

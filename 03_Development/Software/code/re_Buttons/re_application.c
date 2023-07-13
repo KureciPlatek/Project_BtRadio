@@ -11,12 +11,29 @@
  * 
  */
 
+#include "pico/stdlib.h"
 #include "hardware/gpio.h"
 //#include "hardware_irq.h"
 #include "re_application.h"
 
+#define RE_TIMEOUT_CLICKS_MS   100
+
 static re_appli_handle rotary1;
 static re_appli_handle rotary2;
+
+/* RE timeout between clicks. If fired, cancel actual rotation calculation */
+static alarm_id_t currentAlarm;
+
+
+int64_t alarm_callback(alarm_id_t id, void *user_data) 
+{
+    printf("Timer %d fired!\n", (int) id);
+
+    /* Reset both states as we don't care about accuracy. Turn both RE at the same time is rare */
+    rotary1.reState = RE_STATE_IDLE;
+    rotary2.reState = RE_STATE_IDLE;
+    return 0;
+}
 
 static void irqhandlerRE1A(void)
 {
@@ -42,7 +59,6 @@ static void irqhandlerRE1SW(void)
     }
 }
 
-
 static void irqhandlerRE2A(void)
 {
     if (gpio_get_irq_event_mask(rotary2.gpioA) & GPIO_IRQ_EDGE_RISE)
@@ -66,29 +82,6 @@ static void irqhandlerRE2SW(void)
         rotary2.tokenPush = true;
     }
 }
-
-//static void alarm_irq(void) 
-//{
-//   // Clear the alarm irq
-//   hw_clear_bits(&timer_hw->intr, 1u << ALARM_NUM);
-//
-//   // Assume alarm 0 has fired
-//   printf("Alarm IRQ fired\n");
-//   state_RE1 = STATE_RE_IDLE;
-//}
-//
-//static void alarm_in_us(uint32_t delay_us) 
-//{
-//   hw_set_bits(&timer_hw->inte, 1u << ALARM_NUM);
-//   irq_set_exclusive_handler(ALARM_IRQ, alarm_irq);
-//   irq_set_enabled(ALARM_IRQ, true);
-//   uint64_t target = timer_hw->timerawl + delay_us;
-//   timer_hw->alarm[ALARM_NUM] = (uint32_t) target;
-//}
-//
-//alarm_in_us(150000);    // Start delay before considering B event as void.
-
-
 
 void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
 {
@@ -125,11 +118,23 @@ void re_application_StateMachine(re_appli_handle * handle, RE_STATE event)
             if(RE_STATE_A_KEYED == event)
             {
                 handle->reState = RE_STATE_A_KEYED;
+
+                /* Start timer - other pin of RE should be triggered there */
+                if(false == cancel_alarm(currentAlarm)) {
+                    printf("Error 4, can't deactivate actual alarm;")
+                }
+                currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
             }
 
             if(RE_STATE_B_KEYED == event)
             {
                 handle->reState = RE_STATE_B_KEYED;
+
+                /* Start timer - other pin of RE should be triggered there */
+                if(false == cancel_alarm(currentAlarm)) {
+                    printf("Error 3, can't deactivate actual alarm;")
+                }
+                currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
             }
             break;
         }

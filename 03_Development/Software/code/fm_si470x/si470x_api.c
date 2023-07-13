@@ -368,7 +368,7 @@ void fm_tune_frequency(float frequency)
    printf("Tune on going...\n");
 }
 
-void fm_seek_start(uint8_t direction)
+void fm_startSeek(uint8_t direction)
 {
    printf("[FM][API] Seek start\n");
    uint16_t tempRegs[0x02];   /* We read registers STATUSRSSI and READCHANNEL */

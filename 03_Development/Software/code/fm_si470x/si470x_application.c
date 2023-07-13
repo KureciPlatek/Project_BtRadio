@@ -205,6 +205,11 @@ void fm_toggleMute(void)
    si470x_toggleMute();
 }
 
+void fm_setState(FM_STATE state)
+{
+   fmState = state;
+}
+
 
 void processSTCEvent(bool seekTune)
 {
@@ -288,7 +293,7 @@ void processRDSEvent(void)
 //               if(fm_get_STCbit())
 //               {
 ////                  IRQ_seekNext(ROTARY_CLOCKWISE);
-//                  fm_seek_start(0x01);
+//                  fm_startSeek(0x01);
 //                  fmState = FM_STATE_SEEKING;
 //               }
 //               break;
@@ -296,7 +301,7 @@ void processRDSEvent(void)
 //               if(fm_get_STCbit())
 //               {
 ////                  IRQ_seekNext(ROTARY_ANTICLOCKWISE);
-//                  fm_seek_start(0x00);
+//                  fm_startSeek(0x00);
 //                  fmState = FM_STATE_SEEKING;
 //                  printf("Set state to SEEK\n");
 //               }

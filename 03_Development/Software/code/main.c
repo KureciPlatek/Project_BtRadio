@@ -151,8 +151,8 @@ void radio_SM(void)
          if (fm_get_STCbit())
          {
             /* Seek up */
-            fm_seek_start(0x01);
-            fmState = FM_STATE_SEEKING;
+            fm_startSeek(0x01);
+            fm_setState(FM_STATE_SEEKING);
          }
 
          re2->tokenIndirect = false;
@@ -164,9 +164,8 @@ void radio_SM(void)
          if (fm_get_STCbit())
          {
             /* Seek down */
-            fm_seek_start(0x00);
-            fmState = FM_STATE_SEEKING;
-            printf("Set state to SEEK\n");
+            fm_startSeek(0x00);
+            fm_setState(FM_STATE_SEEKING);
          }
          re2->tokenDirect = false;
       }
@@ -202,77 +201,4 @@ void radio_init(void)
    gpio_put(LED_PIN, 1);
 
    /* Look at GPIOs which state is active */
-}
-
-#include <stdio.h>
-#include "pico/stdlib.h"
-#include "pico/multicore.h"
-
-void irqhandler1();
-void irqhandler2();
-void core1();
-
-int main()
-{
-   gpio_init(0);
-   gpio_set_dir(0, GPIO_OUT);
-   gpio_init(2);
-   gpio_set_dir(1, GPIO_IN);
-   gpio_init(2);
-   gpio_set_dir(2, GPIO_OUT);
-   gpio_init(3);
-   gpio_set_dir(3, GPIO_OUT);
-   gpio_init(4);
-   gpio_set_dir(4, GPIO_IN);
-   gpio_init(5);
-   gpio_set_dir(5, GPIO_OUT);
-
-   multicore_launch_core1(core1);
-
-   while (true)
-   {
-      gpio_xor_mask(0b1);
-      gpio_xor_mask(0b1000);
-      sleep_us(10);
-   }
-   return 0;
-}
-
-void core1()
-{
-   gpio_set_irq_enabled(1, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true); // monitor pin 1 connected to pin 0
-   gpio_set_irq_enabled(4, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true); // monitor pin 4 connected to pin 3
-   gpio_add_raw_irq_handler(1, irqhandler1);
-   gpio_add_raw_irq_handler(4, irqhandler2);
-   irq_set_enabled(IO_IRQ_BANK0, true);
-}
-
-// timed at 580ns to trigger
-void irqhandler1()
-{
-   if (gpio_get_irq_event_mask(1) & GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL)
-   {
-      gpio_acknowledge_irq(1, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL);
-      gpio_xor_mask(0b100);
-   }
-   if (gpio_get_irq_event_mask(4) & GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL)
-   {
-      gpio_acknowledge_irq(4, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL);
-      gpio_xor_mask(0b100000);
-   }
-}
-
-// duplicate as a test
-void irqhandler2()
-{
-   if (gpio_get_irq_event_mask(1) & GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL)
-   {
-      gpio_acknowledge_irq(1, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL);
-      gpio_xor_mask(0b100);
-   }
-   if (gpio_get_irq_event_mask(4) & GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL)
-   {
-      gpio_acknowledge_irq(4, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL);
-      gpio_xor_mask(0b100000);
-   }
 }

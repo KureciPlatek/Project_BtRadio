@@ -88,5 +88,12 @@ void fm_printStationPresets(void);
  */
 void fm_toggleMute(void);
 
+/**
+ * @brief set state of internal state machine
+ * 
+ * @param state 
+ */
+void fm_setState(FM_STATE state);
+
 
 #endif /* _SI470X_APPLICATION_H_ */
