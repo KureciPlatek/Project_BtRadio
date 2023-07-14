@@ -16,6 +16,9 @@
 #define ALARM_NUM 0
 #define ALARM_IRQ TIMER_IRQ_0
 
+#define MAX_RN52_INPUTBUFF_LINES       6  /* Maximum lines for input buffer (data coming from rn52 through uart) */
+#define MAX_RN52_INPUTBUFF_CHARACTERS  20 /* Maximum characters for input buffer (data coming from rn52 through uart) */
+
 /* Rotary encoder states */
 static STATE_RE state_RE1;
 static STATE_RE state_RE2;
@@ -26,6 +29,8 @@ static char rn52_cmd_voldwn[RN52_CMD_SIZE_VOLDWN] = {'A','V','-','\r'}; //  - Vo
 static char rn52_cmd_nxt[RN52_CMD_SIZE_NXT]       = {'A','T','+','\r'}; //  - Next Track
 static char rn52_cmd_prv[RN52_CMD_SIZE_PRV]       = {'A','T','-','\r'}; //  - Previous Track
 static char rn52_cmd_plp[RN52_CMD_SIZE_PLP]       = {'A','P','\r'};     //  - Play/Pause
+static char rn52_cmd_track[RN52_CMD_SIZE_TRACK]   = {'A','D','\r'};     //  - REquest track metadata
+static char rn52_cmd_q[RN52_CMD_SIZE_Q]           = {'Q','\r'};         //  - Querry info
 
 /* Bluetooth RN52 command messages (V1.16) */
 static rn52_mcmdMsg allRN52_cmd[RN52_CMD_MAX] = {
@@ -33,8 +38,28 @@ static rn52_mcmdMsg allRN52_cmd[RN52_CMD_MAX] = {
    {RN52_CMD_VOLDWN, &rn52_cmd_voldwn[0], RN52_CMD_SIZE_VOLDWN },
    {RN52_CMD_NXT,    &rn52_cmd_nxt[0],    RN52_CMD_SIZE_NXT    },
    {RN52_CMD_PRV,    &rn52_cmd_prv[0],    RN52_CMD_SIZE_PRV    },
-   {RN52_CMD_PLP,    &rn52_cmd_plp[0],    RN52_CMD_SIZE_PLP    }
+   {RN52_CMD_PLP,    &rn52_cmd_plp[0],    RN52_CMD_SIZE_PLP    },
+   {RN52_CMD_PLP,    &rn52_cmd_track[0],  RN52_CMD_SIZE_TRACK  },
+   {RN52_CMD_Q,      &rn52_cmd_q[0],      RN52_CMD_SIZE_Q      }
 };
+
+/**
+ * @brief save characters coming from rn52's uart. Save them in a buffer.
+ * As this data comes with \r characters in it, use it to save a new line
+ * Or if data line received is too long for MAX_RN52_INPUTBUFF_CHARACTERS,
+ * add a line break
+ */
+uint8_t rn52_inputBuffer[MAX_RN52_INPUTBUFF_LINES][MAX_RN52_INPUTBUFF_CHARACTERS];
+
+/**
+ * @brief Handle notification interrupt from RN52 module
+ */
+static void rn52_handleGpio2(void);
+/**
+ * @brief Receive RX on bluetooth's module UART
+ */
+static void bt_irqUartRx(void);
+
 
 void bt_init(void)
 {
@@ -71,52 +96,63 @@ void bt_init(void)
 
    // Now enable the UART to send interrupts - RX only
    uart_set_irq_enables(BT_UART_ID, true, false);
+
+   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true); //monitor pin 1 connected to pin 0
+   gpio_add_raw_irq_handler(RN52_GPIO2, rn52_handleGpio2);
 }
 
 
-void rn52_send(uint8_t * msg, uint8_t len)
+void bt_sendCommand(RN52_CMD_ID rn52cmd)
 {
-   uart_write_blocking (BT_UART_ID, msg, len);
+   if(RN52_CMD_MAX >= rn52cmd )
+   {
+      /* Not a reckognized command */
+      printf("RN52 command error\n");
+   }
+   else
+   {
+      uart_write_blocking(BT_UART_ID, (uint8_t*) allRN52_cmd[rn52cmd].msgPtr, allRN52_cmd[rn52cmd].msgSize);
+   }
 }
 
 
-// RX interrupt handler
-void bt_irqUartRx(void) 
+static void bt_irqUartRx(void) 
 {
    uint8_t ch = uart_getc(BT_UART_ID);
    printf("%c", ch);
 
    while (uart_is_readable(BT_UART_ID))
    {
-      ch = uart_getc(BT_UART_ID);
-      printf("%c", ch);
+      uint8_t indexLine = 0x00;
+      uint8_t indexChar = 0x00;
 
-      /* @todo print on screen */
+      if(MAX_RN52_INPUTBUFF_LINES > indexLine)
+      {
+         if(MAX_RN52_INPUTBUFF_CHARACTERS > indexChar)
+         {
+            rn52_inputBuffer[indexLine][indexChar] = (uint8_t)ch;
+            indexChar++;
+         }
+
+         if((MAX_RN52_INPUTBUFF_CHARACTERS == indexChar)
+         || ('\r' == ch))
+         {
+            indexLine;
+         }
+      }
+
+      ch = uart_getc(BT_UART_ID);
+
+//      printf("%c", ch);
+      /* @todo work received reply and take a decision about it */
    }
 }
 
-inline void bt_sendVolUp(void)
+static void rn52_handleGpio2(void)
 {
-   rn52_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLUP].msgPtr, allRN52_cmd[RN52_CMD_VOLUP].msgSize);
+   if (gpio_get_irq_event_mask(RN52_GPIO2) & GPIO_IRQ_EDGE_FALL)
+   {
+      /* send Q to RN52 module */
+      bt_sendCommand(RN52_CMD_Q);
+   }
 }
-
-inline void bt_sendVolDown(void)
-{
-   rn52_send((uint8_t*) allRN52_cmd[RN52_CMD_VOLDWN].msgPtr, allRN52_cmd[RN52_CMD_VOLDWN].msgSize);
-}
-
-inline void bt_sendNextTrack(void)
-{
-   rn52_send((uint8_t*) allRN52_cmd[RN52_CMD_NXT].msgPtr, allRN52_cmd[RN52_CMD_NXT].msgSize);
-}
-
-inline void bt_sendPreviousTrack(void)
-{
-   rn52_send((uint8_t*) allRN52_cmd[RN52_CMD_PRV].msgPtr, allRN52_cmd[RN52_CMD_PRV].msgSize);
-}
-
-inline void bt_sendPlayPause(void)
-{
-   rn52_send((uint8_t*) allRN52_cmd[RN52_CMD_PLP].msgPtr, allRN52_cmd[RN52_CMD_PLP].msgSize);
-}
-

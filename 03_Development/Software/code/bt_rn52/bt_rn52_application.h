@@ -18,13 +18,13 @@
 #include "hardware/irq.h"
 #include "hardware/gpio.h"
 
-#define BT_UART_TXPIN  8 /* UART1_Tx on GPIO 8 */
-#define BT_UART_RXPIN  9 /* UART1_Rx on GPIO 9 */
-#define BT_UART_ID      uart1
-#define BT_UART_BAUDRATE    115200
-#define BT_UART_DATABITS    8
-#define BT_UART_STOPBITS    1
-#define BT_UART_PARITY       UART_BT_UART_PARITY_NONE
+#define BT_UART_TXPIN      8 /* UART1_Tx on GPIO 8 */
+#define BT_UART_RXPIN      9 /* UART1_Rx on GPIO 9 */
+#define BT_UART_ID         uart1
+#define BT_UART_BAUDRATE   115200
+#define BT_UART_DATABITS   8
+#define BT_UART_STOPBITS   1
+#define BT_UART_PARITY     UART_BT_UART_PARITY_NONE
 
 /*** SET COMMANDS V1.16 ***
 S-,<text>  - Serialized Name
@@ -84,11 +84,25 @@ T          - Caller ID Information
 -  X,<0,1>    - Transfer Call Between HF And AG
 */
 
+/** 
+ * Q results:
+ * 0 iAP wireless active connection to remote device
+ * 1 SPP active connection to remote device
+ * 2 A2DP active connection to remote device
+ * 3 HFP/HSP active connection to remote device
+ * 4 Caller ID notification event from audio gateway
+ * 5 Track change event notification
+ */
+
 #define RN52_CMD_SIZE_VOLUP   4
 #define RN52_CMD_SIZE_VOLDWN  4
 #define RN52_CMD_SIZE_NXT     4
 #define RN52_CMD_SIZE_PRV     4
 #define RN52_CMD_SIZE_PLP     3
+#define RN52_CMD_SIZE_TRACK   3  /* Track metadata */
+#define RN52_CMD_SIZE_Q       2
+
+#define RN52_GPIO2   28 /* GPIO 28 for rn52's gpio2 notification pin */
 
 typedef enum {
    RN52_CMD_VOLUP = 1,
@@ -96,6 +110,8 @@ typedef enum {
    RN52_CMD_NXT,
    RN52_CMD_PRV,
    RN52_CMD_PLP,
+   RN52_CMD_TRACK,
+   RN52_CMD_Q,
    /* KEEP AT THE END */
    RN52_CMD_MAX
 } RN52_CMD_ID;
@@ -112,21 +128,10 @@ typedef struct {
 void bt_init(void);
 
 /**
- * @brief send command to bluetooth module per UART
- * 
- * @param [in] msg uint8_t* pointer to msg
- * @param [in] len lenght of message
+ * @brief send an RN52 command to bluetooth module
  */
-void rn52_send(uint8_t * msg, uint8_t len);
+void bt_sendCommand(RN52_CMD_ID rn52cmd);
 
-/**
- * @brief Receive RX on bluetooth's module UART
- */
-void bt_irqUartRx(void);
-
-/**
- * @brief RN52 Commands
- */
 inline void bt_sendVolUp(void);
 inline void bt_sendVolDown(void);
 inline void bt_sendNextTrack(void);

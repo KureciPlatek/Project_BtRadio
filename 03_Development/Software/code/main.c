@@ -85,38 +85,38 @@ void radio_SM(void)
       /* Rotary Encoder 1 - actions */
       if (true == re1->tokenIndirect)
       {
-         bt_sendVolUp();
+         bt_sendCommand(RN52_CMD_VOLUP);
          re1->tokenIndirect = false;
       }
 
       if (true == re1->tokenDirect)
       {
-         bt_sendVolDown();
+         bt_sendCommand(RN52_CMD_VOLDWN);
          re1->tokenDirect = false;
       }
 
       if (true == re1->tokenPush)
       {
-         bt_sendPlayPause();
+         bt_sendCommand(RN52_CMD_PLP);
          re1->tokenPush = false;
       }
 
       /* Rotary Encoder 2 - actions */
       if (true == re2->tokenIndirect)
       {
-         bt_sendNextTrack();
+         bt_sendCommand(RN52_CMD_NXT);
          re2->tokenIndirect = false;
       }
 
       if (true == re2->tokenDirect)
       {
-         bt_sendPreviousTrack();
+         bt_sendCommand(RN52_CMD_PRV);
          re2->tokenDirect = false;
       }
 
       if (true == re2->tokenPush)
       {
-         bt_sendPlayPause();
+         bt_sendCommand(RN52_CMD_PLP);
          re2->tokenPush = false;
       }
       break;
@@ -154,7 +154,6 @@ void radio_SM(void)
             fm_startSeek(0x01);
             fm_setState(FM_STATE_SEEKING);
          }
-
          re2->tokenIndirect = false;
       }
 

@@ -83,6 +83,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
 |SFW_11 |*REx* Add delay between each rotary A or B key | WIP - must be tested |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
+|SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | WIP - processing of received chars still to do |
 
 **Resolved issues:**
 
