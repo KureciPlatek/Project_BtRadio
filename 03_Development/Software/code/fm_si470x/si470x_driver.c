@@ -1,7 +1,7 @@
 /**
  * @file    si470x_api.c
  * @author  Kureciplatek (galleej@gmail.com)
- * @brief   API to use Si470x module from upper application layers. 
+ * @brief   Driver API to use Si470x module from upper application layers. 
  *          Use it to seek/tune FM radio stations, get RDS data and more.
  *          It needs some RP2040 SDK modules/libraries
  * @version 0.1
@@ -11,7 +11,7 @@
  * 
  */
 #include "si470x_comm.h"
-#include "si470x_api.h"
+#include "si470x_driver.h"
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
@@ -112,8 +112,8 @@ void readRegss2(void)
    }
 }
 
-
 ///////////////////// PUBLIC FUNCTIONS DEFINITIONS /////////////////////////////
+/* _______________ START AND CONFIG _______________ */
 void si470x_init(void) 
 {
    printf("[FM][API] init fm module\n");
@@ -121,7 +121,7 @@ void si470x_init(void)
    uint16_t regVal = 0x0000;
    
    /* Init hardware communication line for Si470x module */
-   fm_initCommHW();
+   si470x_comm_initHW();
 
    /* reset memory where _radioHandle is placed to 0 */
    memset(&_radioHandle, 0, sizeof(si470x_t));
@@ -151,13 +151,13 @@ void si470x_init(void)
       index++;
    };
    
-   /* Power up FM module, to power it down, call fm_deInit() or fm_power_down() */
+   /* Power up FM module, to power it down, call fm_deInit() or si470x_powerDown() */
    _radioHandle._state = SI470X_STATE_INITIALIZED;
-//   fm_power_up();
+//   si470x_powerUp();  /* No automatic power up. Wait for FM to be activated */
    printf("[FM][API] INIT - radio init finished\n");
 }
 
-bool fm_power_up(void) 
+bool si470x_powerUp(void) 
 {
    printf("[FM][API] INIT - radio power up\n");
    bool retVal = true;
@@ -181,7 +181,7 @@ bool fm_power_up(void)
 
    /* Check registers */
    /* Save only config registers. RSSI, READCHAN and RDS regs not needed*/
-   if (!fm_si470x_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
+   if (!si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
    {
       printf("[FM][API] ERROR - I2C read failure, check wirings\r\n");
       retVal = false;
@@ -198,17 +198,17 @@ bool fm_power_up(void)
       /* __ Configure Si470x hardware __ */
       _radioHandle._regs[SI470x_REG_TEST1]    |= SI470X_MASK_XOSCEN	& ( 1 << SI470X_POS_XOSCEN);   /* 1= use internal oscillator, GPIO3 config ignored */
       _radioHandle._regs[SI470x_REG_RDSD]      = 0x0000; // Si4703-C19 errata - ensure RDSD register is zero
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_RDSD);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_RDSD);
       sleep_ms(600); // wait for oscillator to stabilize
 
       /* Finish power up sequence by setting the following registers */
       _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_ENABLE	& (1 << SI470X_POS_ENABLE);   
       _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_DISABLE	& (0 << SI470X_POS_DISABLE);   
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
       sleep_ms(100); // wait for device powerup
    
       /* Check device powered up */
-      if(fm_si470x_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG))
+      if(si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG))
       {
          DEV_bits   = (readReg[SI470x_REG_CHIPID]   & SI470X_MASK_DEV)    >> SI470X_POS_DEV;
 
@@ -223,7 +223,7 @@ bool fm_power_up(void)
             _radioHandle._state = SI470X_STATE_POWERED_UP;
             /* Next sequence, configure radio */
             printf("[FM][API] INIT - Radio power up OK (0x%02x)\n", DEV_bits);
-            fm_configure_radio();
+            si470x_configureModule();
          }
          else
          {
@@ -236,7 +236,7 @@ bool fm_power_up(void)
    return retVal;
 }
 
-void fm_configure_radio(void)
+void si470x_configureModule(void)
 {
    printf("[FM][API] INIT - radio configure\n");
 
@@ -250,7 +250,7 @@ void fm_configure_radio(void)
    }
 
    /* Error while doing the following stuff, TEST1 reg is overwritten */
-   if(fm_si470x_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG))
+   if(si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG))
    {
       test1TempReg = readReg[SI470x_REG_TEST1];
 //      printf("Saved TEST1: 0x%04x\n", test1TempReg);
@@ -285,10 +285,10 @@ void fm_configure_radio(void)
    _radioHandle._regs[SI470x_REG_TEST1] = test1TempReg;
    
    /* Write up to config3 */
-   fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+   si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
 
    /* Check all registers correctly written */
-   if (!fm_si470x_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
+   if (!si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
    {
       printf("[FM][API] ERROR - I2C read failure, check wirings\r\n");
    }
@@ -311,7 +311,7 @@ void fm_configure_radio(void)
    }
 }
 
-void fm_power_down(void) 
+void si470x_powerDown(void) 
 {
    if(SI470X_STATE_POWERED_UP == _radioHandle._state)
    {
@@ -319,18 +319,19 @@ void fm_power_down(void)
       
       /* For Si4703: Recommended to disable RDS before powering down. See AN230 rev 0.9 */
       _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_RDS      & (0 << SI470X_POS_RDS);
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG1);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG1);
    
       _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_DMUTE   & (0 << SI470X_POS_DMUTE);
       _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_DISABLE & (1 << SI470X_POS_DISABLE);
    
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
       _radioHandle._state = SI470X_STATE_POWERED_DOWN;
       printf("[FM][API] Si470x powered down\n");
    }
 }
 
-void fm_tune_frequency(float frequency)
+/* _______________ ACTIONS _______________ */
+void si470x_tuneFrequency(float frequency)
 {
    printf("[FM][API] Tune freq %f - start\n", frequency);
    uint16_t tempReg;   /* We read STATUSRSSI only */
@@ -339,7 +340,7 @@ void fm_tune_frequency(float frequency)
    if(SI470X_STATE_POWERED_UP <= _radioHandle._state)
    {
       /* Check STC cleared before new seek */
-      fm_si470x_readRegisters(&tempReg, SI470x_REG_STATUSRSSI);
+      si470x_comm_readRegisters(&tempReg, SI470x_REG_STATUSRSSI);
       bitSTC = (tempReg & SI470X_MASK_STC) >> SI470X_POS_STC;
 
       /* No tune if same freq or if STC not yet cleared */
@@ -351,7 +352,7 @@ void fm_tune_frequency(float frequency)
          /* Write computed channel to registers and start tuning */
          _radioHandle._regs[SI470x_REG_CHANNEL] |= SI470X_MASK_CHAN & (channel << SI470X_POS_CHAN);
          _radioHandle._regs[SI470x_REG_CHANNEL] |= SI470X_MASK_TUNE & (1 << SI470X_POS_TUNE);
-         fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_CHANNEL);
+         si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_CHANNEL);
       }
       else
       {
@@ -365,7 +366,7 @@ void fm_tune_frequency(float frequency)
    printf("Tune on going...\n");
 }
 
-void fm_startSeek(uint8_t direction)
+void si470x_startSeek(uint8_t direction)
 {
    printf("[FM][API] Seek start\n");
    uint16_t tempRegs[0x02];   /* We read registers STATUSRSSI and READCHANNEL */
@@ -374,8 +375,9 @@ void fm_startSeek(uint8_t direction)
    /* Fool proof */
    if((0x00 == direction) || (0x01 == direction)) 
    {
+      /* @todo STC bit already checked before? */
       /* Check STC cleared before new seek */
-      fm_si470x_readRegisters(&tempRegs[0], SI470x_REG_READCHAN);
+      si470x_comm_readRegisters(&tempRegs[0], SI470x_REG_READCHAN);
       bitSTC = (tempRegs[0] & SI470X_MASK_STC) >> SI470X_POS_STC;
 
       if(0x00 == bitSTC)
@@ -387,7 +389,7 @@ void fm_startSeek(uint8_t direction)
          _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_SEEK   & (1 << SI470X_POS_SEEK);
          /* Write registers and start seek */
          printf(" --- Start seek\n");
-         if(fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
+         if(si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
          {
             printf("Send seek cmd ok\n");
          }
@@ -397,10 +399,9 @@ void fm_startSeek(uint8_t direction)
          printf("[FM][API] - STC bit not yet cleared\n");
       }
    }
-   printf("z");
 }
 
-uint8_t fm_seekTune_finished(bool seekTune)
+uint8_t si470x_seekTune_finished(bool seekTune)
 {
    printf("[FM][API] Seek tune finished\n");
    uint16_t tempRegs[SI470x_REG_READCHAN+1];   
@@ -411,7 +412,7 @@ uint8_t fm_seekTune_finished(bool seekTune)
    uint16_t channel  = 0x0000;
 
    /* Seek Tune finished, save CHANNEL and return RSSI */
-   if(fm_si470x_readRegisters(&tempRegs[0], SI470x_REG_READCHAN))
+   if(si470x_comm_readRegisters(&tempRegs[0], SI470x_REG_READCHAN))
    {
 //      ST_bit    = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_ST)   >> SI470X_POS_ST;
       RSSI_bits = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_RSSI) >> SI470X_POS_RSSI;
@@ -423,7 +424,7 @@ uint8_t fm_seekTune_finished(bool seekTune)
          SFBL_bit  = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_SFBL) >> SI470X_POS_SFBL;
          /* End SEEK */
          _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_SEEK   & (0 << SI470X_POS_SEEK);
-         if(!fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
+         if(!si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
          {
             printf("Error while clearing bit SEEK\n");
          }
@@ -447,7 +448,7 @@ uint8_t fm_seekTune_finished(bool seekTune)
 
          /* End TUNE */
          _radioHandle._regs[SI470x_REG_CHANNEL] |= SI470X_MASK_TUNE   & (0 << SI470X_POS_TUNE);
-         if(!fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_CHANNEL))
+         if(!si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_CHANNEL))
          {
             printf("Error while clearing bit TUNE\n");
          }
@@ -476,11 +477,11 @@ void si470x_toggleMute(void)
       }
 
       printf("[FM][API] Mute unmute\n");
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
    }
 }
 
-void fm_toggle_softmute(void) 
+void si470x_toggleSoftmute(void) 
 {
    if(_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
    {
@@ -495,11 +496,35 @@ void fm_toggle_softmute(void)
          _radioHandle._softmute = true;
       }
 
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
    }
 }
 
-void fm_set_seek_sensitivity(FM_SEEK_SENSITIVITY seek_sensitivity) 
+/* _______________ SETTERS _______________ */
+void si470x_setSoftmuteRate(FM_SOFTMUTE_RATE softmute_rate) 
+{
+   if( (_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
+    && (_radioHandle._config.softmute_rate != softmute_rate))
+   {
+      _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTER & (softmute_rate << SI470X_POS_SMUTER);
+      _radioHandle._config.softmute_rate = softmute_rate;
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+   }
+}
+
+void si470x_setSoftmuteAttenuation(FM_SOFTMUTE_ATTEN softmute_attenuation) 
+{
+   if( (_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
+    && (_radioHandle._config.softmute_attenuation != softmute_attenuation))
+   {
+      _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTEA & (softmute_attenuation << SI470X_POS_SMUTEA);
+      _radioHandle._config.softmute_attenuation = softmute_attenuation;
+
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+   }
+}
+
+void si470x_setSeekSensitivity(FM_SEEK_SENSITIVITY seek_sensitivity) 
 {
    if ((_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
     && (_radioHandle._config.seek_sensitivity != seek_sensitivity))
@@ -509,13 +534,13 @@ void fm_set_seek_sensitivity(FM_SEEK_SENSITIVITY seek_sensitivity)
       _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SKCNT  & (seekSensPresets[seek_sensitivity].skcnt  << SI470X_POS_SKCNT);
       _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SKSNR  & (seekSensPresets[seek_sensitivity].sksnr  << SI470X_POS_SKSNR);      
       /* Write down to FM module */
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
       /* Update shadow registers */
       _radioHandle._config.seek_sensitivity = seek_sensitivity;
    }
 }
 
-void fm_set_seek_sensitivity_next(void)
+void si470x_setSeekSensitivityNext(void)
 {
    FM_SEEK_SENSITIVITY seek_sensitivity;
 
@@ -529,36 +554,13 @@ void fm_set_seek_sensitivity_next(void)
       _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SKSNR  & (seekSensPresets[seek_sensitivity].sksnr << SI470X_POS_SKSNR);      
 
       /* Write down to FM module */
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
       /* Update shadow registers */
       _radioHandle._config.seek_sensitivity = seek_sensitivity;
    }
 }
 
-void fm_set_softmute_rate(FM_SOFTMUTE_RATE softmute_rate) 
-{
-   if( (_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
-    && (_radioHandle._config.softmute_rate != softmute_rate))
-   {
-      _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTER & (softmute_rate << SI470X_POS_SMUTER);
-      _radioHandle._config.softmute_rate = softmute_rate;
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
-   }
-}
-
-void fm_set_softmute_attenuation(FM_SOFTMUTE_ATTEN softmute_attenuation) 
-{
-   if( (_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
-    && (_radioHandle._config.softmute_attenuation != softmute_attenuation))
-   {
-      _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTEA & (softmute_attenuation << SI470X_POS_SMUTEA);
-      _radioHandle._config.softmute_attenuation = softmute_attenuation;
-
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
-   }
-}
-
-void fm_set_monoStereo(bool mono) 
+void si470x_setMonoStereo(bool mono) 
 {
    if( (_radioHandle._state != SI470X_STATE_POWERED_DOWN) 
     && (_radioHandle._mono != mono))
@@ -566,11 +568,11 @@ void fm_set_monoStereo(bool mono)
       _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_MONO & (mono << SI470X_POS_MONO);
       _radioHandle._mono = mono;
 
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
    }
 }
 
-void si470x_set_volume(uint8_t volume, bool volext) 
+void si470x_setVolume(uint8_t volume, bool volext) 
 {
    if(_radioHandle._state  != SI470X_STATE_POWERED_DOWN) 
    {
@@ -583,16 +585,17 @@ void si470x_set_volume(uint8_t volume, bool volext)
       _radioHandle._volext = volext;
  
       printf("set volume to %d\n", volume);
-      fm_si470x_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
+      si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
    }
    printf("PROUT\n");
 }
 
-void fm_getBlocks(rds_groupBlocks* ptrToBlocks)
+/* _______________ GETTERS _______________ */
+void si470x_getBlocks(rds_groupBlocks* ptrToBlocks)
 {
    uint16_t upperRegs[0x06]; /* Only upper registers 0Ah to 0Fh */
 
-   if(fm_si470x_readRegisters(&upperRegs[0], SI470x_REG_RDSD))
+   if(si470x_comm_readRegisters(&upperRegs[0], SI470x_REG_RDSD))
    {
       /* Check if RDS ready*/
       if(0x01 == (upperRegs[0] & SI470X_MASK_RDSR) >> SI470X_POS_RDSR)
@@ -610,15 +613,14 @@ void fm_getBlocks(rds_groupBlocks* ptrToBlocks)
    }
 }
 
-
-bool fm_get_STCbit(void)
+bool si470x_getSTCbit(void)
 {
    uint16_t tempRegs[SI470x_REG_STATUSRSSI+1];   
    bool retVal = false;
    uint8_t STC_bit = 0x00;
 
-   /* Seek Tune finished, save CHANNEL and return RSSI */
-   if(fm_si470x_readRegisters(&tempRegs[0], SI470x_REG_STATUSRSSI))
+   /* Check if Seek Tune finished */
+   if(si470x_comm_readRegisters(&tempRegs[0], SI470x_REG_STATUSRSSI))
    {
       STC_bit = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_STC) >> SI470X_POS_STC;
       if(0x00 == STC_bit)
@@ -633,37 +635,35 @@ bool fm_get_STCbit(void)
    return retVal;
 }
 
-
-/* ___ GETTERS ___ */
-uint8_t fm_get_volume(void) 
+uint8_t si470x_getVolume(void) 
 { return _radioHandle._volume; }
 
-bool fm_get_volext(void) 
+bool si470x_getVolext(void) 
 { return _radioHandle._volext; }
 
-bool fm_get_mono(void) 
+bool si470x_getMono(void) 
 { return _radioHandle._mono; }
 
-FM_SOFTMUTE_ATTEN fm_get_softmute_attenuation(void) 
+FM_SOFTMUTE_ATTEN si470x_getSoftmuteAttenuation(void) 
 { return _radioHandle._config.softmute_attenuation; }
 
-FM_SOFTMUTE_RATE fm_get_softmute_rate(void)
+FM_SOFTMUTE_RATE si470x_getSoftmuteRate(void)
 { return _radioHandle._config.softmute_rate; }
 
-bool fm_get_softmute(void)
+bool si470x_getSoftmute(void)
 { return _radioHandle._softmute; }
 
-bool fm_get_mute(void)
+bool si470x_getMute(void)
 { return _radioHandle._mute; }
 
-bool fm_is_powered_up(void)
+bool si470x_isPoweredUp(void)
 { return (_radioHandle._state == SI470X_STATE_POWERED_UP) ? true : false; }
 
-fm_config_t fm_get_config(void)
+fm_config_t si470x_getConfig(void)
 { return _radioHandle._config; }
 
-FM_SEEK_SENSITIVITY fm_get_seek_sensitivity(void)
+FM_SEEK_SENSITIVITY si470x_getSeekSensitivity(void)
 { return _radioHandle._config.seek_sensitivity; }
 
-float fm_get_frequency(void)
+float si470x_getFrequency(void)
 { return _radioHandle._freq; }

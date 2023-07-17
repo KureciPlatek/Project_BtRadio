@@ -164,25 +164,13 @@ void radio_SM(void)
       /* Rotary Encoder 2 - actions */
       if (true == re2->tokenIndirect)
       {
-         /* If we are not currently seeking */
-         if (fm_get_STCbit())
-         {
-            /* Seek up */
-            fm_startSeek(0x01);
-            fm_setState(FM_STATE_SEEKING);
-         }
+         fm_startSeekChannel(0x01);
          re2->tokenIndirect = false;
       }
 
       if (true == re2->tokenDirect)
       {
-         /* If we are not currently seeking */
-         if (fm_get_STCbit())
-         {
-            /* Seek down */
-            fm_startSeek(0x00);
-            fm_setState(FM_STATE_SEEKING);
-         }
+         fm_startSeekChannel(0x00);
          re2->tokenDirect = false;
       }
 

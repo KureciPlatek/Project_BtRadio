@@ -22,7 +22,7 @@
 /* -------------------------------------------------------------------------- */
 /* ------------------------ READ/WRITE TO Si470x ---------------------------- */
 
-void fm_initCommHW(void)
+void si470x_comm_initHW(void)
 {
    printf("[FM][HW]  INIT comm HW\n");
    /* Si470X supports up to 400kHz SCLK frequency */
@@ -54,7 +54,7 @@ void fm_initCommHW(void)
 #endif
 }
 
-bool fm_si470x_readRegisters(uint16_t *regData, uint8_t regNbr) 
+bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr) 
 {
 //   printf("Readregs called\n");
    bool retVal = false;
@@ -137,7 +137,7 @@ bool fm_si470x_readRegisters(uint16_t *regData, uint8_t regNbr)
    return retVal;
 }
 
-bool fm_si470x_writeRegisters(uint16_t *regData, uint8_t upperReg)
+bool si470x_comm_writeRegisters(uint16_t *regData, uint8_t upperReg)
 {
    bool retVal = false;
 //   printf("Write regs called for reg: %d\n", upperReg);

@@ -71,7 +71,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
-|SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | NEW |
 |SFW_19 |*e-Paper* Add clean API for rest of the application | NEW |
 
 **Work In Progress issues:**  
@@ -94,6 +93,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_1 |*e-Paper* Add test and interface to RpPico with assigned pins | DONE - use of example in /home/jeremiegallee/Pico_epaper_example/ |
 |SFW_10 |*Coding* synchronize naming with architecture (prefixes) bt_rn52 for bluetooth module and fm_si470x for FM module, re for rotary encoders and epaper for HMI | DONE - set bt_, fm_, re_ and ep_ prefixes |
 |SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | DONE - already implemented |
+|SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | DONE - renamed functions prototypes and file names |
 
 **Rejected issues**
 

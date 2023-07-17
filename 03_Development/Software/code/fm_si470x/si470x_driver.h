@@ -1,7 +1,8 @@
 /**
- * @file    si470x_api.h
+ * @file    si470x_driver.h
  * @author  Kureciplatek (galleej@gmail.com)
- * @brief   Application Programming Interface for Si4702 / Si4703 FM radio chips.
+ * @brief   si470x driver
+ * It is an Application Programming Interface for Si4702 / Si4703 FM radio chips.
  * This file gathers all access and control of Si470x's internal registers. It
  * defines/declares a set of functions to be used, to retrieve data from Si470x
  * Register access to Si470x is a little bit strange as it is a "read until" 
@@ -20,13 +21,13 @@
  * @copyright Copyright (c) 2023
  * 
  */
-#ifndef _SI470X_API_H_
-#define _SI470X_API_H_
+#ifndef _SI470X_DRIVER_H_
+#define _SI470X_DRIVER_H_
 
 #include <stdbool.h>
 #include <stdint.h>
 #include "hardware/i2c.h"
-#include "si470x_regs.h"
+#include "si470x__driver_regs.h"
 #include "rdsDecoder.h"
 
 #ifdef __cplusplus
@@ -113,17 +114,17 @@ static const fm_freqRange_t bandRegions[FM_BAND_MAX];
 static const float spacingRegions[FM_CHANNEL_SPACING_MAX];
 
 /* ___ GETTERS ___ */
-uint8_t fm_get_volume(void);
-bool fm_get_volext(void);
-bool fm_get_mono(void);
-FM_SOFTMUTE_ATTEN fm_get_softmute_attenuation(void);
-FM_SOFTMUTE_RATE fm_get_softmute_rate(void);
-bool fm_get_softmute(void);
-bool fm_get_mute(void);
-bool fm_is_powered_up(void);
-fm_config_t fm_get_config(void);
-FM_SEEK_SENSITIVITY fm_get_seek_sensitivity(void);
-float fm_get_frequency(void);
+uint8_t si470x_getVolume(void);
+bool si470x_getVolext(void);
+bool si470x_getMono(void);
+FM_SOFTMUTE_ATTEN si470x_getSoftmuteAttenuation(void);
+FM_SOFTMUTE_RATE si470x_getSoftmuteRate(void);
+bool si470x_getSoftmute(void);
+bool si470x_getMute(void);
+bool si470x_isPoweredUp(void);
+fm_config_t si470x_getConfig(void);
+FM_SEEK_SENSITIVITY si470x_getSeekSensitivity(void);
+float si470x_getFrequency(void);
 
 /* ______________ Start Si4703 FM module  ______________ */
 
@@ -139,20 +140,20 @@ void si470x_init(void);
  * @return true   if pwer up success
  * @return false  if not
  */
-bool fm_power_up(void);
+bool si470x_powerUp(void);
 
 /**
  * @brief Configure FM radio physical values and others
  * elements like region presets and so on.
  * Values are written on Si470x registers.
  */
-void fm_configure_radio(void);
+void si470x_configureModule(void);
 
 /**
  * @brief Power down the radio chip.
  * Puts the chip in a low power state while maintaining register configuration.
  */
-void fm_power_down(void);
+void si470x_powerDown(void);
 
 /* ______________ Trivial setters  ______________ */
 
@@ -161,12 +162,12 @@ void fm_power_down(void);
  *
  * @param seek_sensitivity    FM_SEEK_SENSITIVITY, the sensitivity preset to activate
  */
-void fm_set_seek_sensitivity(FM_SEEK_SENSITIVITY seek_sensitivity);
+void si470x_setSeekSensitivity(FM_SEEK_SENSITIVITY seek_sensitivity);
 
 /**
  * @brief set next sensitivity preset, amongst all possible sensitivity presets in FM_SEEK_SENSITIVITY 
  */
-void fm_set_seek_sensitivity_next(void);
+void si470x_setSeekSensitivityNext(void);
 
 /**
  * @brief toggle mute of output volume.
@@ -177,28 +178,28 @@ void si470x_toggleMute(void);
  * @brief toggle softmure of Si470x
  * Softmute is a feature in case of bad signal
  */
-void fm_toggle_softmute(void);
+void si470x_toggleSoftmute(void);
 
 /**
  * @brief Set a specific softmure level
  *
  * @param softmute_rate FM_SOFTMUTE_RATE, a preset of softmute known by Si470x
  */
-void fm_set_softmute_rate(FM_SOFTMUTE_RATE softmute_rate);
+void si470x_setSoftmuteRate(FM_SOFTMUTE_RATE softmute_rate);
 
 /**
  * @brief Set a specific softmure attenuation
  * 
  * @param softmute_attenuation 
  */
-void fm_set_softmute_attenuation(FM_SOFTMUTE_ATTEN softmute_attenuation);
+void si470x_setSoftmuteAttenuation(FM_SOFTMUTE_ATTEN softmute_attenuation);
 
 /**
  * @brief Set mono or stereo FM decoding. Les SNR with stereo
  * 
  * @param mono bool, true is mono, false stereo
  */
-void fm_set_monoStereo(bool mono);
+void si470x_setMonoStereo(bool mono);
 
 /**
  * @brief Set volume of Si470x you may also activate volume extension
@@ -206,7 +207,7 @@ void fm_set_monoStereo(bool mono);
  * @param volume  uint8_t up to 15 levels
  * @param volext  bool, activate volume extension or not
  */
-void si470x_set_volume(uint8_t volume, bool volext);
+void si470x_setVolume(uint8_t volume, bool volext);
 
 /**
  * @brief return STC bit status. Must be called before starting a seek or tune
@@ -214,7 +215,7 @@ void si470x_set_volume(uint8_t volume, bool volext);
  * @return true   STC bit was cleared, allowed to start a new seek or tune
  * @return false  STC bit still not cleared, SEEK or TUNE should not be started
  */
-bool fm_get_STCbit(void);
+bool si470x_getSTCbit(void);
 
 /* _______________ GPIO2 callback after long task finished  _______________ */
 
@@ -225,14 +226,14 @@ bool fm_get_STCbit(void);
  * 
  * @return uint8_t 
  */
-uint8_t fm_seekTune_finished(bool seekTune);
+uint8_t si470x_seekTune_finished(bool seekTune);
 
 /**
  * @brief Get actual RDS blocks
  * 
  * @param ptrToBlocks 
  */
-void fm_getBlocks(rds_groupBlocks* ptrToBlocks);
+void si470x_getBlocks(rds_groupBlocks* ptrToBlocks);
 
 /* ______________ Long tasks, may be blocking or asynchronous  ______________ */
 /**
@@ -242,7 +243,7 @@ void fm_getBlocks(rds_groupBlocks* ptrToBlocks);
  * @param frequency  float, frequency to set in MHz
  * @param blocking   true: polling, false: with GPIO2 interrupt
  */
-void fm_tune_frequency(float frequency);
+void si470x_tuneFrequency(float frequency);
 
 /**
  * @brief Start a seek, up or down
@@ -250,7 +251,7 @@ void fm_tune_frequency(float frequency);
  * @param direction 
  * @param blocking 
  */
-void fm_startSeek(uint8_t direction);
+void si470x_startSeek(uint8_t direction);
 
 #ifdef __cplusplus
 }
@@ -263,4 +264,4 @@ void fm_startSeek(uint8_t direction);
  */
 void readRegss2(void);
 
-#endif // _SI470X_API_H_
+#endif // _SI470X_DRIVER_H_

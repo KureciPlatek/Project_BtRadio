@@ -16,13 +16,15 @@
 
 #include <stdio.h>
 #include "si470x_application.h"
-#include "si470x_api.h"
 #include "si470x_comm.h"
 #include "rdsDecoder.h"
 #include "bt_rn52_application.h"
 
+/* @todo add doxygen comments for those functions */
 static void printCommands(void);
 static void manualInput(void);
+static void processSTCEvent(bool seekTune);
+static void processRDSEvent(void);
 
 static fm_station_preset stationsPresets[] =
 {{88.8f,  "BernObrl\0"},  /* Radio Bern oberland, OOOOOOOOHHH YEAAAHHH */
@@ -53,7 +55,7 @@ void fm_stateMachine(void)
          break;
       case FM_STATE_PWRUP:
          /* Power up and configure radio */
-         if(fm_power_up())
+         if(si470x_powerUp())
          {
             /* All good, wait for human commands */
             fmState = FM_STATE_IDLE;
@@ -64,7 +66,7 @@ void fm_stateMachine(void)
          }
          break;
       case FM_STATE_PWRDWN:
-         fm_power_down();
+         si470x_powerDown();
          break;
       case FM_STATE_IDLE:
          /* Wait for Seek or tune event from human */
@@ -105,7 +107,7 @@ void fm_init(void)
 
    /* Init Si470x module */
    si470x_init();
-   fm_power_up();
+   si470x_powerUp();
 
    /* Declare callback of GPIO2*/
    gpio_init(SI470X_COMM_PIN_GPIO2);
@@ -120,7 +122,7 @@ void fm_init(void)
 
 void fm_setVolume(bool upDown)
 {
-   uint8_t fmModuleVolume = fm_get_volume();
+   uint8_t fmModuleVolume = si470x_getVolume();
    if((true == upDown) && (SI4703_MAX_VOLUME > fmModuleVolume))
    {
       fmModuleVolume++;
@@ -130,7 +132,7 @@ void fm_setVolume(bool upDown)
       fmModuleVolume--;
    }
    /* else, already at max or min*/
-   si470x_set_volume(fmModuleVolume, false); /* @TODO check volume Extension use */
+   si470x_setVolume(fmModuleVolume, false); /* @TODO check volume Extension use */
 }
 
 void fm_saveTuneFreq(uint8_t indexPresets)
@@ -140,7 +142,7 @@ void fm_saveTuneFreq(uint8_t indexPresets)
       uint8_t pointerToPSname[PS_GROUP_MAX_CHARS];
       uint8_t index = 0x00;
 
-      stationsPresets[indexPresets].preset_freq = fm_get_frequency();
+      stationsPresets[indexPresets].preset_freq = si470x_getFrequency();
 
       /* @TODO check if PS name is good */
       rdsDecoder_getPS(&pointerToPSname[0]);
@@ -166,20 +168,28 @@ void fm_toggleMute(void)
    si470x_toggleMute();
 }
 
-void fm_setState(FM_STATE state)
+bool fm_startSeekChannel(uint8_t upDown)
 {
-   fmState = state;
+   bool retVal = false;
+
+   if (si470x_getSTCbit())
+   {
+      si470x_startSeek(upDown);
+      fmState = FM_STATE_SEEKING;
+      retVal = true;
+   }
+
+   return retVal;
 }
 
-
-void processSTCEvent(bool seekTune)
+static void processSTCEvent(bool seekTune)
 {
    uint8_t data_RSSI;
-   data_RSSI = fm_seekTune_finished(seekTune);
+   data_RSSI = si470x_seekTune_finished(seekTune);
 
    if(0 < data_RSSI)
    {
-      printf("SeekTune finished, RSSI: %d, Freq: %f", data_RSSI, fm_get_frequency());
+      printf("SeekTune finished, RSSI: %d, Freq: %f", data_RSSI, si470x_getFrequency());
       fmState = FM_STATE_RDS; /* Finished with SeekTune, go to RDS decoding */
    }
    else
@@ -191,7 +201,7 @@ void processSTCEvent(bool seekTune)
    }
 }
 
-void processRDSEvent(void)
+static void processRDSEvent(void)
 {
    uint8_t rtMsg[RT_GROUP_MAX_CHARS];
    uint8_t sizeOfRTmsg = 0x00;
@@ -199,7 +209,7 @@ void processRDSEvent(void)
    uint8_t index = 0;
 
    /* GPIO2 interrupt = we have RDS data */
-   fm_getBlocks(&tempGroup);
+   si470x_getBlocks(&tempGroup);
    sizeOfRTmsg = rdsDecoder_processNewGroup(&rtMsg[0], &tempGroup);
    if(0 < sizeOfRTmsg)
    {

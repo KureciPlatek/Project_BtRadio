@@ -13,7 +13,7 @@
 #define _SI470X_APPLICATION_H_
 
 #include <stdint.h>
-#include "si470x_api.h"
+#include "si470x_driver.h"
 #include "rdsDecoder.h"
 
 #define MAX_PRESETS 10
@@ -49,18 +49,13 @@ static fm_station_preset stationsPresets[MAX_PRESETS];
 
 /**
  * @brief init Si4703 module application layer
- * 
  */
 void fm_init(void);
 
-
+/**
+ * @brief main state machine of FM demodulator module
+ */
 void fm_stateMachine(void);
-
-
-void processSTCEvent(bool seekTune);
-
-
-void processRDSEvent(void);
 
 /**
  * @brief Set volume of Si4704 FM module
@@ -84,16 +79,18 @@ void fm_printStationPresets(void);
 
 /**
  * @brief toggle Mute, direct call, avoid call of api from outside module
- * 
  */
 void fm_toggleMute(void);
 
 /**
- * @brief set state of internal state machine
+ * @brief  Start seeking a channel. It firstly check if STC bit was
+ *         cleared. Which meands that previous seek or tune was
+ *         complete. And it will initate a new seek tune sequence.
  * 
- * @param state 
+ * @param  [in] upDown 0x01 to search up, 0x00 to search down 
+ * @return true if start seeking worked
+ * @return false if not
  */
-void fm_setState(FM_STATE state);
-
+bool fm_startSeekChannel(uint8_t upDown);
 
 #endif /* _SI470X_APPLICATION_H_ */

@@ -1,5 +1,5 @@
 /**
- * @file    si470x_regs.h
+ * @file    si470x_driver_regs.h
  * @author  Kureciplatek (galleej@gmail.com)
  * @brief   Gathers all Si470x registers description, identifiers and masks.
  *          It also implements enumerates which translates register encoded values into
@@ -11,8 +11,8 @@
  * 
  */
 
-#ifndef _SI470X_REGS_H_
-#define _SI470X_REGS_H_
+#ifndef _SI470X_DRIVER_REGS_H_
+#define _SI470X_DRIVER_REGS_H_
 
 #include "pico/stdlib.h"
 
@@ -362,4 +362,4 @@ typedef enum {
 /* Seek FM Impulse Detection Threshold (SKCNT). */
 // Not encoded - Too complex to manipulate. Managed by function fm_set_seek_sensitivity_bits()
 
-#endif // _SI470X_REGS_H_
+#endif // _SI470X_DRIVER_REGS_H_

@@ -45,7 +45,7 @@ typedef enum {
  * @return true     i2c_write_blocking success
  * @return false    i2c_write_blocking failure
  */
-bool fm_si470x_writeRegisters(uint16_t *regData, uint8_t upperReg);
+bool si470x_comm_writeRegisters(uint16_t *regData, uint8_t upperReg);
 
 /**
  * @brief Read registers of Si4703. Read is special as it start with address 0x0A
@@ -65,14 +65,14 @@ bool fm_si470x_writeRegisters(uint16_t *regData, uint8_t upperReg);
  * @return true         if read successed (from i2c_read_blocking() call)
  * @return false        if read failed (from i2c_read_blocking() call)
  */
-bool fm_si470x_readRegisters(uint16_t *regData, uint8_t regNbr);
+bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr);
 
 /**
  * @brief Init I2C communication for Si470x module with parameters defined in
  * preprocessor. Change preprocessor to adapt it to wished I2C communication. 
  * 
  */
-void fm_initCommHW(void);
+void si470x_comm_initHW(void);
 
 
 ////////////////////////// GPIOs MANUAL CONTROL //////////////////////////////
