@@ -18,16 +18,21 @@
 #include "re_application.h"
 
 #include "hardware/i2c.h"
-#include "EPD_Test.h" //Examples
+#include "EPD_Test.h" //Examples @todo remove
+
+#define GPIO_FM_MODE 27 /* GPIO connected to upper exclusives buttons. It sets the active mode */
+#define GPIO_BT_MODE 26 /* GPIO connected to upper exclusives buttons. It sets the active mode */
+/* GPIO to activate or deactivate hardware module, depending on modes
+ * If high, BT deactivated, FM activated
+ * If low,  FM deactivated, BT activated 
+ * It will also change analog audio switch to the correct position 
+ */
+#define GPIO_MODE_HW 22
+#define LED_PIN      25 /* LED on Pico Board. It takes no further GPIO on board */
+
 
 /* _______________________________________________________ */
 /*                   APPLICATION SOFTWARE                  */
-
-#ifdef ACTIVATE_DEBUG_OUTPUT
-static void manualInput(void);
-static void printCommands(void);
-#endif
-
 typedef enum
 {
    RADIO_STATE_BT = 0,
@@ -41,6 +46,12 @@ typedef enum
  * @brief Initialize Radio hardware, core and interfaces
  */
 static void radio_init(void);
+
+/**
+ * @brief Get state of radio by reading which button on upper side
+ * is currently active 
+ */
+static void radio_getMode(void);
 
 /**
  * @brief Main radio state machine
@@ -57,14 +68,16 @@ int main(void)
 {
    stdio_init_all();
 
-   DEV_Delay_ms(500);
+   /* Wait for HW to stabilize - may be measured if can be shorter */
+   DEV_Delay_ms(50);
 
-   /* Init FM module */
-   printf("################## Start Prog ##################\n");
+   /* Initialize radio and its modules as wished */
    radio_init();
 
+   printf("################## Start Prog ##################\n");
    while (true)
    {
+      /* Infinite loop */
       radio_SM();
       sleep_ms(10);
    }
@@ -77,8 +90,12 @@ void radio_SM(void)
    /* Check Rotary Encoders*/
    re_appli_handle *re1;
    re_appli_handle *re2;
-   getREs(re1, re2);
+   re_getHandles(re1, re2);
 
+   /* Poll activated mode (gpio) */
+   radio_getMode();
+
+   /* Execute radio main state machine to process the last inputs */
    switch (radioState)
    {
    case RADIO_STATE_BT:
@@ -184,20 +201,56 @@ void radio_init(void)
 {
    radioState = RADIO_STATE_IDLE;
 
+   /* Rotary Encoders init */
+   re_initModule();
+
    /* FM module init */
    //   fm_init();
 
    /* Bluetooth module init */
    bt_init();
 
-   EPD_5in83_V2_test();
+   /* e-Paper module init */
+   // EPD_5in83_V2_test();
    // EPD_5in83b_V2_test();
 
-   /* Set LED ON */
+   /* Set Pico Board LED ON */
    const uint LED_PIN = 25;
    gpio_init(LED_PIN);
    gpio_set_dir(LED_PIN, GPIO_OUT);
    gpio_put(LED_PIN, 1);
 
-   /* Look at GPIOs which state is active */
+   /* Radio get mode configuration (2 pins which are not module specific) */
+   gpio_init(GPIO_BT_MODE);
+   gpio_init(GPIO_FM_MODE);
+   gpio_set_dir(GPIO_BT_MODE, GPIO_IN);
+   gpio_set_dir(GPIO_FM_MODE, GPIO_IN);
+
+   /* Radio output mode hardware activation. 
+    It will activate or deactivate FM or BT hardware modules */
+   gpio_init(GPIO_MODE_HW);
+   gpio_set_dir(GPIO_MODE_HW, GPIO_OUT);
+   gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
+}
+
+static void radio_getMode(void)
+{
+   if(true == gpio_get(GPIO_BT_MODE))
+   {
+      ep_write(PLACE_ACTIVEMODE, "Bluetooth activated");
+      radioState = RADIO_STATE_BT;
+      gpio_put(GPIO_MODE_HW, 1);
+   }
+   /* Deactivated until si470x works */
+//   else if(true == gpio_get(GPIO_FM_MODE))
+//   {
+//      radioState = RADIO_STATE_FM;
+//      gpio_put(GPIO_MODE_HW, 0);
+//   }
+   else
+   {
+      radioState = RADIO_STATE_IDLE;
+      ep_write(PLACE_ACTIVEMODE, "No mode selected (FM or Bluetooth)");
+      gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
+   }
 }

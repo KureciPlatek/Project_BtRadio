@@ -145,13 +145,13 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
    }
 }
 
-void getREs(re_appli_handle *ptrToHandle1, re_appli_handle *ptrToHandle2)
+void re_getHandles(re_appli_handle *ptrToHandle1, re_appli_handle *ptrToHandle2)
 {
    ptrToHandle1 = &rotary1;
    ptrToHandle2 = &rotary2;
 }
 
-void initRadioRotaries(void)
+void re_initModule(void)
 {
    /* Init rotary 1 */
    rotary1.gpioA = RE1_GPIOA;
