@@ -104,6 +104,9 @@ T          - Caller ID Information
 
 #define RN52_GPIO2   28 /* GPIO 28 for rn52's gpio2 notification pin */
 
+#define RN52_QREPLY_TRACK_POS 5
+#define RN52_QREPLY_CONNMASK  0x0F
+
 typedef enum {
    RN52_CMD_VOLUP = 1,
    RN52_CMD_VOLDWN,

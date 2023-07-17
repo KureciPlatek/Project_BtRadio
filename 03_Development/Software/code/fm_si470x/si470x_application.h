@@ -1,9 +1,9 @@
 /**
- * @file si470x_application.h
- * @author your name (you@domain.com)
- * @brief 
+ * @file    si470x_application.h
+ * @author  Kureciplatek (galleej@gmail.com)
+ * @brief   High level file of modules. Contains API for applicative firmwares
  * @version 0.1
- * @date 2023-02-23
+ * @date    2023-02-23
  * 
  * @copyright Copyright (c) 2023
  * 

@@ -70,9 +70,10 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | NEW |
 |SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
-|SFW_13 |*BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | NEW |
-|SFW_15 |*Main* Take care of radio project init | NEW |
+|SFW_15 |*Main* Take care of radio project init and selection of mode with GPIOs | NEW |
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
+|SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | NEW |
+|SFW_19 |*e-Paper* Add clean API for rest of the application | NEW |
 
 **Work In Progress issues:**  
 
@@ -84,6 +85,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_11 |*REx* Add delay between each rotary A or B key | WIP - must be tested |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | WIP - processing of received chars still to do |
+|SFW_13 |*BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | WIP - ready to test |
 
 **Resolved issues:**
 

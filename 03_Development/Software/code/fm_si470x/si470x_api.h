@@ -1,7 +1,7 @@
 /**
- * @file si470x_api.h
- * @author Kureciplatek (galleej@gmail.com)
- * @brief Application Programming Interface for Si4702 / Si4703 FM radio chips.
+ * @file    si470x_api.h
+ * @author  Kureciplatek (galleej@gmail.com)
+ * @brief   Application Programming Interface for Si4702 / Si4703 FM radio chips.
  * This file gathers all access and control of Si470x's internal registers. It
  * defines/declares a set of functions to be used, to retrieve data from Si470x
  * Register access to Si470x is a little bit strange as it is a "read until" 
@@ -15,7 +15,7 @@
  * - AN230 - Si4700/01/02/03 Programming Guide (Rev. 0.9 6/09)
  * 
  * @version 0.1
- * @date 2023-02-17
+ * @date    2023-02-17
  * 
  * @copyright Copyright (c) 2023
  * 

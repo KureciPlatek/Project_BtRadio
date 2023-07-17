@@ -1,11 +1,11 @@
 /**
- * @file si470x_api.c
+ * @file    si470x_api.c
  * @author  Kureciplatek (galleej@gmail.com)
  * @brief   API to use Si470x module from upper application layers. 
  *          Use it to seek/tune FM radio stations, get RDS data and more.
  *          It needs some RP2040 SDK modules/libraries
  * @version 0.1
- * @date 2023-02-17
+ * @date    2023-02-17
  * 
  * @copyright Copyright (c) 2023
  * 
@@ -61,9 +61,6 @@
 
 #define TUNE_POLL_INTERVAL_MS 20U
 #define SEEK_POLL_INTERVAL_MS 200U // relatively large, to reduce electrical interference from I2C
-
-/* activate use of GPIO2 for Seek/Tune Complete (STC) */
-//#define USE_GPIO2_IRQ_STC
 
 /* ___ Region configurations and sensitivity presets description ____ */
 /* SEEKTH, SKSNR, SKCNT */

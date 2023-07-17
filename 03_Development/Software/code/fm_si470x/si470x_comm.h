@@ -1,6 +1,6 @@
 /**
- * @file si470x_comm.h
- * @author Kureciplatek (galleej@gmail.com)
+ * @file    si470x_comm.h
+ * @author  Kureciplatek (galleej@gmail.com)
  * @brief   Gathers all hardware interface stuff of Si470x module. Basically a 
  *          HAL. Change this file to configure your desired pin layout and how
  *          to use I2C interface.

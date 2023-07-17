@@ -5,7 +5,7 @@
  *          It also implements enumerates which translates register encoded values into
  *          human readable values/states.
  * @version 0.1
- * @date 2023-02-17
+ * @date    2023-02-17
  * 
  * @copyright Copyright (c) 2023
  * 

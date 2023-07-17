@@ -19,9 +19,12 @@
 #define MAX_RN52_INPUTBUFF_LINES       6  /* Maximum lines for input buffer (data coming from rn52 through uart) */
 #define MAX_RN52_INPUTBUFF_CHARACTERS  20 /* Maximum characters for input buffer (data coming from rn52 through uart) */
 
-/* Rotary encoder states */
-static STATE_RE state_RE1;
-static STATE_RE state_RE2;
+
+
+/* Expected replies from RN52 */
+static uint8_t qSent;
+static uint8_t trackMetadataSent;
+static uint8_t token_Receivedrn52Msg;
 
 /* Bluetooth RN52 command messages (V1.16) */
 static char rn52_cmd_volup[RN52_CMD_SIZE_VOLUP]   = {'A','V','+','\r'}; //  - Volume Up
@@ -63,6 +66,10 @@ static void bt_irqUartRx(void);
 
 void bt_init(void)
 {
+   qSent = 0x00;
+   trackMetadataSent = 0x00;
+   token_Receivedrn52Msg = 0x00;
+   
    // Set up our UART with a basic baud rate.
    uart_init(BT_UART_ID, BT_UART_BAUDRATE);
 
@@ -115,6 +122,42 @@ void bt_sendCommand(RN52_CMD_ID rn52cmd)
    }
 }
 
+void bt_processInputsvoid()
+{
+   uint8_t qValue = 0x00;
+   uint8_t index = 0x00;
+
+   if(0x01 == token_Receivedrn52Msg)
+   {
+      token_Receivedrn52Msg = 0x00;
+      if(0x01 == qSent)
+      {  
+         /* Process of first byte: */
+         qValue = rn52_inputBuffer[0][0];
+         if(0x01 >= (qValue >> RN52_QREPLY_TRACK_POS))  /* Track metadata change? */
+         {
+            bt_sendCommand(RN52_CMD_TRACK);  /* Ask for it */
+         }
+
+         qValue = rn52_inputBuffer[1][0];
+         if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
+         {
+            ep_write(EP_PLACE_CONNECTION, 0, "Bluetooth connected");
+         }
+         qSent = 0x00;
+      }
+
+      /* Print track metadata */
+      if(0x01 == trackMetadataSent)
+      {
+         for(index = 0x00; index < MAX_RN52_INPUTBUFF_LINES; index++)
+         {
+            ep_write(EP_PLACE_TRACK, index, &rn52_inputBuffer[index][0]);
+         }
+      }
+   }
+}
+
 
 static void bt_irqUartRx(void) 
 {
@@ -146,6 +189,8 @@ static void bt_irqUartRx(void)
 //      printf("%c", ch);
       /* @todo work received reply and take a decision about it */
    }
+
+   token_Receivedrn52Msg = 0x01;
 }
 
 static void rn52_handleGpio2(void)

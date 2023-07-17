@@ -38,46 +38,8 @@ static fm_station_preset stationsPresets[] =
 };
 
 FM_STATE fmState;
+/* Notify IRQ to process the interrupt */
 uint8_t tokenIRQ_GPIO2 = 0x00;
-
-static char event_str[128];
-static const char *gpio_irq_str[] = {
-        "LEVEL_LOW",  // 0x1
-        "LEVEL_HIGH", // 0x2
-        "EDGE_FALL",  // 0x4
-        "EDGE_RISE"   // 0x8
-};
-//void gpio_event_string(char *buf, uint32_t events);
-//void gpio_callback(uint gpio, uint32_t events) 
-//{
-//    // Put the GPIO event(s) that just happened into event_str
-//    // so we can print it
-////    printf("GPIO2 event: %d - event: 0x%04x\n", gpio, events);
-//    gpio_event_string(event_str, events);
-//    printf("GPIO %d %s\n", gpio, event_str);
-//    tokenIRQ_GPIO2 = 0x01;
-//}
-//
-//void gpio_event_string(char *buf, uint32_t events) {
-//    for (uint i = 0; i < 4; i++) {
-//        uint mask = (1 << i);
-//        if (events & mask) {
-//            // Copy this event string into the user string
-//            const char *event_str = gpio_irq_str[i];
-//            while (*event_str != '\0') {
-//                *buf++ = *event_str++;
-//            }
-//            events &= ~mask;
-//
-//            // If more events add ", "
-//            if (events) {
-//                *buf++ = ',';
-//                *buf++ = ' ';
-//            }
-//        }
-//    }
-//    *buf++ = '\0';
-//}
 
 void fm_stateMachine(void)
 {
@@ -106,6 +68,8 @@ void fm_stateMachine(void)
          break;
       case FM_STATE_IDLE:
          /* Wait for Seek or tune event from human */
+         ep_write(EP_PLACE_CONNECTION, 0, "Radio - FM demodulator");
+
          break;
       case FM_STATE_SEEKING:
          if(0x01 == tokenIRQ_GPIO2)
@@ -113,7 +77,6 @@ void fm_stateMachine(void)
             processSTCEvent(true);
             tokenIRQ_GPIO2 = 0x00;
          }
-//         printf(".");
          break;
       case FM_STATE_TUNING:
          if(0x01 == tokenIRQ_GPIO2)
@@ -121,7 +84,6 @@ void fm_stateMachine(void)
             processSTCEvent(false);
             tokenIRQ_GPIO2 = 0x00;
          }
-//         printf("-");
          break;
       case FM_STATE_RDS:
          if(0x01 == tokenIRQ_GPIO2)
@@ -129,7 +91,6 @@ void fm_stateMachine(void)
             processRDSEvent();
             tokenIRQ_GPIO2 = 0x00;
          }
-//         printf(";");
          break;
       case FM_STATE_MAX:
       default:
@@ -252,110 +213,3 @@ void processRDSEvent(void)
       It changes even if we stay on same channel. If jump to
       IDLE state, no further read of RT msg will be done */
 }
-
-
-////////////////////////////// _____ HMI _____ ////////////////////////////// 
-//
-///* Print commands on stdio */
-//static void printCommands(void)
-//{
-//   printf("____ Si470x command list_____\n");
-//   printf("u - seek up\n");
-//   printf("k - ask for Bt track data\n");
-//   printf("q - ask for Bt q\n");
-//   printf("d - seek down\n");
-//   printf("+ - increase volume\n");
-//   printf("- - decrease volume\n");
-//   printf("m - mute or unmute\n");
-//   printf("p - print presets\n");
-//   printf("X - enter the preset number you want to tune (0 to 9)\n");
-//   printf("h - print this help\n");
-//   printf("s - Try read regs and print them\n");
-//   printf("_____________________________\n");
-//}
-//
-//static void manualInput(void)
-//{
-//   int result = getchar_timeout_us(1);
-//   if (result != PICO_ERROR_TIMEOUT)
-//   {
-//      char cmd = (char)result;
-//      printf("New cmd: %c\n", cmd);
-//
-//      /* Seek or Tune allowed only in those states: */
-//      if((fmState == FM_STATE_IDLE) 
-//      || (fmState == FM_STATE_RDS))
-//      {
-//         switch (cmd)
-//         {
-/* -------------------------- BT module commands ------------------------ */            
-//            case 'u':
-//               if(fm_get_STCbit())
-//               {
-////                  IRQ_seekNext(ROTARY_CLOCKWISE);
-//                  fm_startSeek(0x01);
-//                  fmState = FM_STATE_SEEKING;
-//               }
-//               break;
-//            case 'd':
-//               if(fm_get_STCbit())
-//               {
-////                  IRQ_seekNext(ROTARY_ANTICLOCKWISE);
-//                  fm_startSeek(0x00);
-//                  fmState = FM_STATE_SEEKING;
-//                  printf("Set state to SEEK\n");
-//               }
-//               break;
-//            case '1':
-//               if(fm_get_STCbit())
-//               {
-//                  fmState = FM_STATE_TUNING;
-//                  float frequency = stationsPresets[0].preset_freq;
-//                  fm_tune_frequency(frequency);
-//               }
-//               break;
-//            case '2':
-//               if(fm_get_STCbit())
-//               {
-//                  fmState = FM_STATE_TUNING;
-//                  float frequency = stationsPresets[1].preset_freq;
-//                  fm_tune_frequency(frequency);
-//                  fmState = FM_STATE_TUNING;
-//               }
-//               break;
-//            case '+':
-//               {
-//               fm_setVolume(true);
-//               }
-//               break;
-//            case '-':
-//               {
-//               fm_setVolume(false);
-//               }
-//               break;
-//            case 'm':
-//               fm_toggleMute();
-//               break;
-//            case 's':
-//               readRegss2();
-//               break;
-//            default: 
-//               printf("Command disabled - FM module tuning or seeking - keep I2C quiet\n");
-//               break;
-//         }
-//      }
-//
-//      /* Command that may be used anytime */
-//      switch (cmd)
-//      {
-//         case 'p':
-//            fm_printStationPresets();
-//            break;
-//         case 'h':
-//            printCommands();
-//            break;
-//         default:
-//            break;
-//      }
-//   }
-//}
