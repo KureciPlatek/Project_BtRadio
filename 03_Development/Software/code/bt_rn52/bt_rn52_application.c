@@ -142,6 +142,10 @@ void bt_processInputs(void)
          {
             ep_write(EP_PLACE_CONNECTION, 0, "Bluetooth connected");
          }
+         else
+         {
+            ep_write(EP_PLACE_CONNECTION, 0, "Bluetooth ready to pair");
+         }
          qSent = 0x00;
       }
 

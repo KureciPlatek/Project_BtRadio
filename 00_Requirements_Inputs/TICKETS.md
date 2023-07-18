@@ -30,7 +30,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
 |SYS_11| *System* Integrate all (obviously) |NEW|
-|SYS_12| *System* Create UML architecture diagrams |NEW|
+|SYS_12| *Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code |NEW|
+
 
 **Work In Progress issues:**  
 
@@ -68,8 +69,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
-|SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
-|SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
 |SFW_19 |*e-Paper* Add clean API for rest of the application | NEW |
 
@@ -95,6 +94,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | DONE - already implemented |
 |SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | DONE - renamed functions prototypes and file names |
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | DONE - Main state machine processes new inputs and execute corresponding actions |
+|SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | DONE - keep it simple and just check if connection bit of rn52 status registers is still set |
+
 
 **Rejected issues**
 
