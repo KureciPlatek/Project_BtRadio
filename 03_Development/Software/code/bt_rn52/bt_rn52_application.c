@@ -20,7 +20,6 @@
 #define MAX_RN52_INPUTBUFF_CHARACTERS  20 /* Maximum characters for input buffer (data coming from rn52 through uart) */
 
 
-
 /* Expected replies from RN52 */
 static uint8_t qSent;
 static uint8_t trackMetadataSent;
@@ -108,7 +107,6 @@ void bt_init(void)
    gpio_add_raw_irq_handler(RN52_GPIO2, rn52_handleGpio2);
 }
 
-
 void bt_sendCommand(RN52_CMD_ID rn52cmd)
 {
    if(RN52_CMD_MAX >= rn52cmd )
@@ -122,7 +120,7 @@ void bt_sendCommand(RN52_CMD_ID rn52cmd)
    }
 }
 
-void bt_processInputsvoid()
+void bt_processInputs(void)
 {
    uint8_t qValue = 0x00;
    uint8_t index = 0x00;
@@ -158,6 +156,7 @@ void bt_processInputsvoid()
    }
 }
 
+//////////////////// Bluetooth and rn52 specific functions (statics) ////////////////////
 
 static void bt_irqUartRx(void) 
 {

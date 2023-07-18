@@ -132,13 +132,16 @@ void bt_init(void);
 
 /**
  * @brief send an RN52 command to bluetooth module
+ * 
+ * @param rn52cmd [in] command defined in enum RN52_CMD_ID
  */
 void bt_sendCommand(RN52_CMD_ID rn52cmd);
 
-inline void bt_sendVolUp(void);
-inline void bt_sendVolDown(void);
-inline void bt_sendNextTrack(void);
-inline void bt_sendPreviousTrack(void);
-inline void bt_sendPlayPause(void);
+/**
+ * @brief process bluetooth last inputs.
+ * It is like the main function of this module which hast to be called
+ * periodically.
+ */
+void bt_processInputs(void);
 
 #endif /* _BT_RN52_APPLICATION_H_ */

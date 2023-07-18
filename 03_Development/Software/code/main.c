@@ -99,6 +99,9 @@ void radio_SM(void)
    switch (radioState)
    {
    case RADIO_STATE_BT:
+      /* Process input */
+      bt_processInputs();
+
       /* Rotary Encoder 1 - actions */
       if (true == re1->tokenIndirect)
       {

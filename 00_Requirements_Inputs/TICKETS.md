@@ -30,6 +30,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
 |SYS_11| *System* Integrate all (obviously) |NEW|
+|SYS_12| *System* Create UML architecture diagrams |NEW|
 
 **Work In Progress issues:**  
 
@@ -67,7 +68,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
-|SFW_5 |*Architecture* Create main state machine and its sub state machines | NEW |
 |SFW_6 |*Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code | NEW |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | NEW |
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
@@ -83,8 +83,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_11 |*REx* Add delay between each rotary A or B key | WIP - must be tested |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | WIP - processing of received chars still to do |
-|SFW_13 |*BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | WIP - ready to test |
-|SFW_15 |*Main* Take care of radio project init and selection of mode with GPIOs | WIP - ready for test |
+|SFW_13 | *BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | WIP - ready to test |
+|SFW_15 | *Main* Take care of radio project init and selection of mode with GPIOs | WIP - ready for test |
 
 **Resolved issues:**
 
@@ -94,6 +94,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_10 |*Coding* synchronize naming with architecture (prefixes) bt_rn52 for bluetooth module and fm_si470x for FM module, re for rotary encoders and epaper for HMI | DONE - set bt_, fm_, re_ and ep_ prefixes |
 |SFW_8 |*BT mode* Create high level API to communicate with RN52 module through UART and AT commands | DONE - already implemented |
 |SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | DONE - renamed functions prototypes and file names |
+|SFW_5 |*Architecture* Create main state machine and its sub state machines | DONE - Main state machine processes new inputs and execute corresponding actions |
 
 **Rejected issues**
 
