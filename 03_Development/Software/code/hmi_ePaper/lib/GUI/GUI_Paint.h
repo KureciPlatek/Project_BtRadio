@@ -1,14 +1,14 @@
 /******************************************************************************
-* | File      	:   GUI_Paint.h
+* | File         :   GUI_Paint.h
 * | Author      :   Waveshare electronics
-* | Function    :	Achieve drawing: draw points, lines, boxes, circles and
+* | Function    :   Achieve drawing: draw points, lines, boxes, circles and
 *                   their size, solid dotted line, solid rectangle hollow
 *                   rectangle, solid circle hollow circle.
 * | Info        :
 *   Achieve display characters: Display a single character, string, number
 *   Achieve time display: adaptive size display time minutes and seconds
 *----------------
-* |	This version:   V3.1
+* |   This version:   V3.1
 * | Date        :   2019-10-10
 * | Info        :
 * -----------------------------------------------------------------------------
@@ -130,14 +130,14 @@ typedef enum {
  * The size of the point
 **/
 typedef enum {
-    DOT_PIXEL_1X1  = 1,		// 1 x 1
-    DOT_PIXEL_2X2  , 		// 2 X 2
-    DOT_PIXEL_3X3  ,		// 3 X 3
-    DOT_PIXEL_4X4  ,		// 4 X 4
-    DOT_PIXEL_5X5  , 		// 5 X 5
-    DOT_PIXEL_6X6  , 		// 6 X 6
-    DOT_PIXEL_7X7  , 		// 7 X 7
-    DOT_PIXEL_8X8  , 		// 8 X 8
+    DOT_PIXEL_1X1  = 1,      // 1 x 1
+    DOT_PIXEL_2X2  ,       // 2 X 2
+    DOT_PIXEL_3X3  ,      // 3 X 3
+    DOT_PIXEL_4X4  ,      // 4 X 4
+    DOT_PIXEL_5X5  ,       // 5 X 5
+    DOT_PIXEL_6X6  ,       // 6 X 6
+    DOT_PIXEL_7X7  ,       // 7 X 7
+    DOT_PIXEL_8X8  ,       // 8 X 8
 } DOT_PIXEL;
 #define DOT_PIXEL_DFT  DOT_PIXEL_1X1  //Default dot pilex
 
@@ -145,8 +145,8 @@ typedef enum {
  * Point size fill style
 **/
 typedef enum {
-    DOT_FILL_AROUND  = 1,		// dot pixel 1 x 1
-    DOT_FILL_RIGHTUP  , 		// dot pixel 2 X 2
+    DOT_FILL_AROUND  = 1,      // dot pixel 1 x 1
+    DOT_FILL_RIGHTUP  ,       // dot pixel 2 X 2
 } DOT_STYLE;
 #define DOT_STYLE_DFT  DOT_FILL_AROUND  //Default dot pilex
 

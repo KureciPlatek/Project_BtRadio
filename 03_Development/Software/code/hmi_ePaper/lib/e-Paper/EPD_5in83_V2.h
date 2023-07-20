@@ -1,10 +1,10 @@
 /*****************************************************************************
-* | File      	:   EPD_5in83_V2.h
+* | File         :   EPD_5in83_V2.h
 * | Author      :   Waveshare team
 * | Function    :   5.83inch e-paper V2
 * | Info        :
 *----------------
-* |	This version:   V1.0
+* |   This version:   V1.0
 * | Date        :   2020-11-23
 * | Info        :
 #

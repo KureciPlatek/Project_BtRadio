@@ -1,10 +1,10 @@
 /*****************************************************************************
-* | File      	:	EPD_5in83b_V2.h
+* | File         :   EPD_5in83b_V2.h
 * | Author      :   Waveshare team
 * | Function    :   Electronic paper driver
 * | Info        :
 *----------------
-* |	This version:   V1.0
+* |   This version:   V1.0
 * | Date        :   2020-07-04
 * | Info        :   
 ******************************************************************************

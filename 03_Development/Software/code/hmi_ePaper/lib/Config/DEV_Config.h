@@ -1,12 +1,12 @@
 /*****************************************************************************
-* | File      	:   DEV_Config.h
+* | File         :   DEV_Config.h
 * | Author      :   Waveshare team
 * | Function    :   Hardware underlying interface
 * | Info        :
 *                Used to shield the underlying layers of each master
 *                and enhance portability
 *----------------
-* |	This version:   V2.0
+* |   This version:   V2.0
 * | Date        :   2018-10-30
 * | Info        :
 * 1.add:

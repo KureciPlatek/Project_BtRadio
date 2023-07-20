@@ -1,9 +1,9 @@
 /*****************************************************************************
-* | File      	:   ImageData.c
+* | File         :   ImageData.c
 * | Author      :   Waveshare team
-* | Function    :	
+* | Function    :   
 *----------------
-* |	This version:   V1.1
+* |   This version:   V1.1
 * | Date        :   2019-06-12
 * | Info        :
 *

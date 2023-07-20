@@ -140,11 +140,11 @@ void bt_processInputs(void)
          qValue = rn52_inputBuffer[1][0];
          if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
          {
-            ep_write(EP_PLACE_CONNECTION, 0, "Bluetooth connected");
+            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth connected");
          }
          else
          {
-            ep_write(EP_PLACE_CONNECTION, 0, "Bluetooth ready to pair");
+            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth ready to pair");
          }
          qSent = 0x00;
       }
@@ -154,7 +154,7 @@ void bt_processInputs(void)
       {
          for(index = 0x00; index < MAX_RN52_INPUTBUFF_LINES; index++)
          {
-            ep_write(EP_PLACE_TRACK, index, &rn52_inputBuffer[index][0]);
+            ep_write(EPAPER_PLACE_BT_TRACK, index, &rn52_inputBuffer[index][0]);
          }
       }
    }

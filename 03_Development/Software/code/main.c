@@ -9,16 +9,18 @@
  *
  */
 
-#include "fm_si470x/si470x_application.h"
-#include "bt_rn52/bt_rn52_application.h"
+/* C standard library */
 #include <pico/stdlib.h>
 #include <stdio.h>
 
 /* Project includes */
+#include "fm_si470x/si470x_application.h"
+#include "bt_rn52/bt_rn52_application.h"
+#include "ep_application.h"
 #include "re_application.h"
 
-#include "hardware/i2c.h"
-#include "EPD_Test.h" //Examples @todo remove
+/* HW includes */
+#include "hardware/gpio.h"
 
 #define GPIO_FM_MODE 27 /* GPIO connected to upper exclusives buttons. It sets the active mode */
 #define GPIO_BT_MODE 26 /* GPIO connected to upper exclusives buttons. It sets the active mode */
@@ -196,14 +198,13 @@ void radio_init(void)
    re_initModule();
 
    /* FM module init */
-   //   fm_init();
+   fm_init();
 
    /* Bluetooth module init */
    bt_init();
 
    /* e-Paper module init */
-   // EPD_5in83_V2_test();
-   // EPD_5in83b_V2_test();
+   ep_init();
 
    /* Set Pico Board LED ON */
    const uint LED_PIN = 25;
@@ -228,20 +229,19 @@ static void radio_getMode(void)
 {
    if(true == gpio_get(GPIO_BT_MODE))
    {
-      ep_write(PLACE_ACTIVEMODE, "Bluetooth activated");
+      ep_write(PAPER_PLACE_ACTIVEMODE, "Bluetooth activated");
       radioState = RADIO_STATE_BT;
       gpio_put(GPIO_MODE_HW, 1);
    }
-   /* Deactivated until si470x works */
-//   else if(true == gpio_get(GPIO_FM_MODE))
-//   {
-//      radioState = RADIO_STATE_FM;
-//      gpio_put(GPIO_MODE_HW, 0);
-//   }
+   else if(true == gpio_get(GPIO_FM_MODE))
+   {
+      radioState = RADIO_STATE_FM;
+      gpio_put(GPIO_MODE_HW, 0);
+   }
    else
    {
       radioState = RADIO_STATE_IDLE;
-      ep_write(PLACE_ACTIVEMODE, "No mode selected (FM or Bluetooth)");
+      ep_write(PAPER_PLACE_ACTIVEMODE, "No mode selected (FM or Bluetooth)");
       gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
    }
 }

@@ -1,10 +1,10 @@
 /*****************************************************************************
-* | File      	:   DEV_Config.c
+* | File         :   DEV_Config.c
 * | Author      :   Waveshare team
 * | Function    :   Hardware underlying interface
 * | Info        :
 *----------------
-* |	This version:   V3.0
+* |   This version:   V3.0
 * | Date        :   2019-07-31
 * | Info        :   
 #
@@ -46,12 +46,12 @@ int EPD_MOSI_PIN;
 **/
 void DEV_Digital_Write(UWORD Pin, UBYTE Value)
 {
-	gpio_put(Pin, Value);
+   gpio_put(Pin, Value);
 }
 
 UBYTE DEV_Digital_Read(UWORD Pin)
 {
-	return gpio_get(Pin);
+   return gpio_get(Pin);
 }
 
 /**
@@ -73,11 +73,11 @@ void DEV_SPI_Write_nByte(uint8_t *pData, uint32_t Len)
 void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 {
     gpio_init(Pin);
-	if(Mode == 0 || Mode == GPIO_IN) {
-		gpio_set_dir(Pin, GPIO_IN);
-	} else {
-		gpio_set_dir(Pin, GPIO_OUT);
-	}
+   if(Mode == 0 || Mode == GPIO_IN) {
+      gpio_set_dir(Pin, GPIO_IN);
+   } else {
+      gpio_set_dir(Pin, GPIO_OUT);
+   }
 }
 
 /**
@@ -85,29 +85,29 @@ void DEV_GPIO_Mode(UWORD Pin, UWORD Mode)
 **/
 void DEV_Delay_ms(UDOUBLE xms)
 {
-	sleep_ms(xms);
+   sleep_ms(xms);
 }
 
 void DEV_GPIO_Init(void)
 {
 
-	EPD_RST_PIN     = 12;
-	EPD_DC_PIN      = 8;
-	EPD_BUSY_PIN    = 13;
-	
-	EPD_CS_PIN      = 9;
-	EPD_CLK_PIN		= 10;
-	EPD_MOSI_PIN	= 11;
+   EPD_RST_PIN    = 12;
+   EPD_DC_PIN     = 8;
+   EPD_BUSY_PIN   = 13;
+   
+   EPD_CS_PIN      = 9;
+   EPD_CLK_PIN      = 10;
+   EPD_MOSI_PIN   = 11;
 
-	DEV_GPIO_Mode(EPD_RST_PIN, 1);
-	DEV_GPIO_Mode(EPD_DC_PIN, 1);
-	DEV_GPIO_Mode(EPD_CS_PIN, 1);
-	DEV_GPIO_Mode(EPD_BUSY_PIN, 0);
+   DEV_GPIO_Mode(EPD_RST_PIN, 1);
+   DEV_GPIO_Mode(EPD_DC_PIN, 1);
+   DEV_GPIO_Mode(EPD_CS_PIN, 1);
+   DEV_GPIO_Mode(EPD_BUSY_PIN, 0);
 
-	DEV_Digital_Write(EPD_CS_PIN, 1);
+   DEV_Digital_Write(EPD_CS_PIN, 1);
 }
 /******************************************************************************
-function:	Module Initialize, the library and initialize the pins, SPI protocol
+function:   Module Initialize, the library and initialize the pins, SPI protocol
 parameter:
 Info:
 ******************************************************************************/
@@ -115,19 +115,19 @@ UBYTE DEV_Module_Init(void)
 {
     stdio_init_all();
 
-	// GPIO Config
-	DEV_GPIO_Init();
-	
+   // GPIO Config
+   DEV_GPIO_Init();
+   
     spi_init(SPI_PORT, 4000 * 1000);
     gpio_set_function(EPD_CLK_PIN, GPIO_FUNC_SPI);
     gpio_set_function(EPD_MOSI_PIN, GPIO_FUNC_SPI);
-	
+   
     printf("DEV_Module_Init OK \r\n");
-	return 0;
+   return 0;
 }
 
 /******************************************************************************
-function:	Module exits, closes SPI and BCM2835 library
+function:   Module exits, closes SPI and BCM2835 library
 parameter:
 Info:
 ******************************************************************************/
