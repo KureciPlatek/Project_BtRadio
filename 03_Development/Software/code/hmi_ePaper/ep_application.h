@@ -45,11 +45,12 @@ bool ep_init(void);
  * @brief   Write string at a specified place on screen
  * 
  * @param   EPAPER_PLACE [in] enumerate, will write lines at this defined place
+ * @param   line         [in] Starting line in screen section 
  * @param   char*        [in] pointer to string of char to print on epaper
  * @return  true  if write text success
  * @return  false if not
  */
-bool ep_write(EPAPER_PLACE place, char * ptrToString);
+bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString);
 
 /**
  * @brief   Clear and deactivate screen

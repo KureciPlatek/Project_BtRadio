@@ -50,7 +50,7 @@ bool ep_init(void)
    return retVal;
 }
 
-bool ep_write(EPAPER_PLACE place, char * ptrToString)
+bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
 {
    Paint_SelectImage(ep_imageBUffer);
    Paint_Clear(WHITE);
@@ -59,6 +59,8 @@ bool ep_write(EPAPER_PLACE place, char * ptrToString)
    
    printf("Goto Sleep...\r\n");
    EPD_5in83_V2_Sleep();
+
+   return true;
 }
 
 bool ep_deactivate(void)
@@ -69,4 +71,6 @@ bool ep_deactivate(void)
    // close 5V
    printf("close 5V, Module enters 0 power consumption ...\r\n");
    DEV_Module_Exit();
+
+   return true;
 }

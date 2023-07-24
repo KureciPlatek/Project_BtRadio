@@ -14,8 +14,8 @@
 #include <stdio.h>
 
 /* Project includes */
-#include "fm_si470x/si470x_application.h"
-#include "bt_rn52/bt_rn52_application.h"
+#include "si470x_application.h"
+#include "bt_rn52_application.h"
 #include "ep_application.h"
 #include "re_application.h"
 
@@ -62,6 +62,9 @@ static void radio_getMode(void);
 void radio_SM(void);
 
 RADIO_STATE radioState;
+re_appli_handle re1;
+re_appli_handle re2;
+
 
 /**
  * @brief main function
@@ -90,9 +93,7 @@ int main(void)
 void radio_SM(void)
 {
    /* Check Rotary Encoders*/
-   re_appli_handle *re1;
-   re_appli_handle *re2;
-   re_getHandles(re1, re2);
+   re_getHandles(&re1, &re2);
 
    /* Poll activated mode (gpio) */
    radio_getMode();
@@ -105,41 +106,41 @@ void radio_SM(void)
       bt_processInputs();
 
       /* Rotary Encoder 1 - actions */
-      if (true == re1->tokenIndirect)
+      if (true == re1.tokenIndirect)
       {
          bt_sendCommand(RN52_CMD_VOLUP);
-         re1->tokenIndirect = false;
+         re1.tokenIndirect = false;
       }
 
-      if (true == re1->tokenDirect)
+      if (true == re1.tokenDirect)
       {
          bt_sendCommand(RN52_CMD_VOLDWN);
-         re1->tokenDirect = false;
+         re1.tokenDirect = false;
       }
 
-      if (true == re1->tokenPush)
+      if (true == re1.tokenPush)
       {
          bt_sendCommand(RN52_CMD_PLP);
-         re1->tokenPush = false;
+         re1.tokenPush = false;
       }
 
       /* Rotary Encoder 2 - actions */
-      if (true == re2->tokenIndirect)
+      if (true == re2.tokenIndirect)
       {
          bt_sendCommand(RN52_CMD_NXT);
-         re2->tokenIndirect = false;
+         re2.tokenIndirect = false;
       }
 
-      if (true == re2->tokenDirect)
+      if (true == re2.tokenDirect)
       {
          bt_sendCommand(RN52_CMD_PRV);
-         re2->tokenDirect = false;
+         re2.tokenDirect = false;
       }
 
-      if (true == re2->tokenPush)
+      if (true == re2.tokenPush)
       {
          bt_sendCommand(RN52_CMD_PLP);
-         re2->tokenPush = false;
+         re2.tokenPush = false;
       }
       break;
 
@@ -148,38 +149,38 @@ void radio_SM(void)
       fm_stateMachine();
 
       /* Rotary Encoder 1 - actions */
-      if (true == re1->tokenIndirect)
+      if (true == re1.tokenIndirect)
       {
          fm_setVolume(true);
-         re1->tokenIndirect = false;
+         re1.tokenIndirect = false;
       }
 
-      if (true == re1->tokenDirect)
+      if (true == re1.tokenDirect)
       {
          fm_setVolume(false);
-         re1->tokenDirect = false;
+         re1.tokenDirect = false;
       }
 
-      if (true == re1->tokenPush)
+      if (true == re1.tokenPush)
       {
          fm_toggleMute();
-         re1->tokenPush = false;
+         re1.tokenPush = false;
       }
 
       /* Rotary Encoder 2 - actions */
-      if (true == re2->tokenIndirect)
+      if (true == re2.tokenIndirect)
       {
          fm_startSeekChannel(0x01);
-         re2->tokenIndirect = false;
+         re2.tokenIndirect = false;
       }
 
-      if (true == re2->tokenDirect)
+      if (true == re2.tokenDirect)
       {
          fm_startSeekChannel(0x00);
-         re2->tokenDirect = false;
+         re2.tokenDirect = false;
       }
 
-      if (true == re2->tokenPush)
+      if (true == re2.tokenPush)
       {
          /* @todo Implement big state machine of frequency/station selecting */
       }
@@ -207,7 +208,6 @@ void radio_init(void)
    ep_init();
 
    /* Set Pico Board LED ON */
-   const uint LED_PIN = 25;
    gpio_init(LED_PIN);
    gpio_set_dir(LED_PIN, GPIO_OUT);
    gpio_put(LED_PIN, 1);
@@ -229,7 +229,7 @@ static void radio_getMode(void)
 {
    if(true == gpio_get(GPIO_BT_MODE))
    {
-      ep_write(PAPER_PLACE_ACTIVEMODE, "Bluetooth activated");
+      ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated");
       radioState = RADIO_STATE_BT;
       gpio_put(GPIO_MODE_HW, 1);
    }
@@ -241,7 +241,7 @@ static void radio_getMode(void)
    else
    {
       radioState = RADIO_STATE_IDLE;
-      ep_write(PAPER_PLACE_ACTIVEMODE, "No mode selected (FM or Bluetooth)");
+      ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "No mode selected (FM or Bluetooth)");
       gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
    }
 }

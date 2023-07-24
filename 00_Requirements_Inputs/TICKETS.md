@@ -70,6 +70,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |-|-|-|
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
+|SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | NEW |
 
 **Work In Progress issues:**  
 
@@ -84,6 +85,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_13 | *BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | WIP - ready to test |
 |SFW_15 | *Main* Take care of radio project init and selection of mode with GPIOs | WIP - ready for test |
 |SFW_19 |*e-Paper* Add clean API for rest of the application | WIP - ready for test |
+|SFW_20 |*All* Make project compile. Maybe restart full project CMakes as they are strange | WIP - ready for test. Surely interrupt have to be deeply checked |
 
 **Resolved issues:**
 

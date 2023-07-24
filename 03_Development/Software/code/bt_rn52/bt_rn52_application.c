@@ -9,9 +9,14 @@
  * 
  */
 
-#include "bt_rn52_application.h"
 #include "hardware/timer.h"
 #include "hardware/irq.h"
+#include "hardware/gpio.h"
+#include "pico/stdlib.h"
+#include "pico/multicore.h"
+
+#include "bt_rn52_application.h"
+#include "ep_application.h"
 
 #define ALARM_NUM 0
 #define ALARM_IRQ TIMER_IRQ_0
@@ -56,7 +61,8 @@ uint8_t rn52_inputBuffer[MAX_RN52_INPUTBUFF_LINES][MAX_RN52_INPUTBUFF_CHARACTERS
 /**
  * @brief Handle notification interrupt from RN52 module
  */
-static void rn52_handleGpio2(void);
+static void rn52_handleGpio2(uint gpio, uint32_t events);
+
 /**
  * @brief Receive RX on bluetooth's module UART
  */
@@ -103,8 +109,10 @@ void bt_init(void)
    // Now enable the UART to send interrupts - RX only
    uart_set_irq_enables(BT_UART_ID, true, false);
 
-   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true); //monitor pin 1 connected to pin 0
-   gpio_add_raw_irq_handler(RN52_GPIO2, rn52_handleGpio2);
+   // GPIO_IRQ_EDGE_RISE
+   gpio_set_irq_enabled_with_callback(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true, &rn52_handleGpio2);
+//   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true); //monitor pin 1 connected to pin 0
+//   gpio_add_raw_irq_handler(RN52_GPIO2, rn52_handleGpio2);
 }
 
 void bt_sendCommand(RN52_CMD_ID rn52cmd)
@@ -154,7 +162,7 @@ void bt_processInputs(void)
       {
          for(index = 0x00; index < MAX_RN52_INPUTBUFF_LINES; index++)
          {
-            ep_write(EPAPER_PLACE_BT_TRACK, index, &rn52_inputBuffer[index][0]);
+            ep_write(EPAPER_PLACE_BT_TRACK, index, (char *)&rn52_inputBuffer[index][0]);
          }
       }
    }
@@ -183,7 +191,7 @@ static void bt_irqUartRx(void)
          if((MAX_RN52_INPUTBUFF_CHARACTERS == indexChar)
          || ('\r' == ch))
          {
-            indexLine;
+            indexLine++;
          }
       }
 
@@ -196,9 +204,10 @@ static void bt_irqUartRx(void)
    token_Receivedrn52Msg = 0x01;
 }
 
-static void rn52_handleGpio2(void)
+static void rn52_handleGpio2(uint gpio, uint32_t events)
 {
-   if (gpio_get_irq_event_mask(RN52_GPIO2) & GPIO_IRQ_EDGE_FALL)
+    printf("GPIO %d %ld\n", gpio, events);
+   if ((RN52_GPIO2 == gpio) && (GPIO_IRQ_EDGE_FALL == events))
    {
       /* send Q to RN52 module */
       bt_sendCommand(RN52_CMD_Q);

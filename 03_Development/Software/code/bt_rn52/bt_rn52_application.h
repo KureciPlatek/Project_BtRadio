@@ -24,7 +24,7 @@
 #define BT_UART_BAUDRATE   115200
 #define BT_UART_DATABITS   8
 #define BT_UART_STOPBITS   1
-#define BT_UART_PARITY     UART_BT_UART_PARITY_NONE
+#define BT_UART_PARITY     UART_PARITY_NONE
 
 /*** SET COMMANDS V1.16 ***
 S-,<text>  - Serialized Name

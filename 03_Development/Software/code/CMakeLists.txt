@@ -11,21 +11,18 @@ pico_sdk_init()
 # Add FM modules subdirectory
 add_subdirectory(fm_si470x)
 add_subdirectory(rdsDecoder)
+include_directories(fm_si470x)
+include_directories(rdsDecoder)
 
 # Add RN52 modules subdirectory
 add_subdirectory(bt_rn52)
+include_directories(bt_rn52)
 
-# add compilation subdirectory
-add_subdirectory(lib/Config)
-add_subdirectory(lib/e-Paper)
-add_subdirectory(lib/Fonts)
-add_subdirectory(lib/GUI)
+# add HMI subdirectory
 add_subdirectory(hmi_ePaper)
-
-# add header directory
 include_directories(hmi_ePaper)
-include_directories(./lib/Config)
-include_directories(./lib/GUI)
+add_subdirectory(re_Buttons)
+include_directories(re_Buttons)
 
 # Generate executable file
 add_executable(fmRadioTest main.c)
@@ -34,9 +31,8 @@ add_executable(fmRadioTest main.c)
 target_compile_options(fmRadioTest PRIVATE -Wall -O0 -Wextra -Wuninitialized)
 
 # Add libraries to project
-target_link_libraries(fmRadioTest fm_si470x rdsDecoder bt_rn52 hmi_ePaper ePaper GUI Fonts Config pico_stdlib hardware_spi)
+target_link_libraries(fmRadioTest fm_si470x rdsDecoder bt_rn52 hmi_ePaper re_Buttons pico_stdlib hardware_spi pico_multicore)
 #target_link_libraries(epd examples ePaper GUI Fonts Config pico_stdlib hardware_spi)
-
 
 # Disable usb output, enable uart output
 pico_enable_stdio_uart(fmRadioTest 1)

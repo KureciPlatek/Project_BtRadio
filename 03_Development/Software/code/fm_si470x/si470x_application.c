@@ -19,10 +19,9 @@
 #include "si470x_comm.h"
 #include "rdsDecoder.h"
 #include "bt_rn52_application.h"
+#include "ep_application.h"
 
 /* @todo add doxygen comments for those functions */
-static void printCommands(void);
-static void manualInput(void);
 static void processSTCEvent(bool seekTune);
 static void processRDSEvent(void);
 
@@ -43,10 +42,18 @@ FM_STATE fmState;
 /* Notify IRQ to process the interrupt */
 uint8_t tokenIRQ_GPIO2 = 0x00;
 
+void si470x_gpio2_callback(uint32_t gpio, uint32_t events)
+{
+   if ((SI470X_COMM_PIN_GPIO2 == gpio) 
+    && ((FM_STATE_INIT != fmState) || (FM_STATE_PWRUP != fmState))
+    && (GPIO_IRQ_EDGE_FALL == events))
+   {
+      fm_stateMachine();
+   }
+}
+
 void fm_stateMachine(void)
 {
-   manualInput();
-
    switch(fmState)
    {
       case FM_STATE_INIT:
@@ -112,7 +119,7 @@ void fm_init(void)
    /* Declare callback of GPIO2*/
    gpio_init(SI470X_COMM_PIN_GPIO2);
    gpio_set_dir(SI470X_COMM_PIN_GPIO2, GPIO_IN);
-   gpio_set_irq_enabled_with_callback(SI470X_COMM_PIN_GPIO2, GPIO_IRQ_EDGE_FALL, true, &gpio_callback);
+   gpio_set_irq_enabled_with_callback(SI470X_COMM_PIN_GPIO2, GPIO_IRQ_EDGE_FALL, true, (void *)si470x_gpio2_callback);
 
    /* Init RDS decoder, less quality for more verbose */
    rdsDecoder_init(RT_STATE_QUALITY_BAD, false);

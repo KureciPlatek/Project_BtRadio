@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "hardware/i2c.h"
 #include "si470x_comm.h"
-#include "si470x_regs.h"
+#include "si470x_driver_regs.h"
 
 /* handle to i2c instance - use default instance of Raspberry Pico */
 //static i2c_inst_t myInst = i2c_default;

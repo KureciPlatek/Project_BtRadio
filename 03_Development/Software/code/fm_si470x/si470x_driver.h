@@ -27,7 +27,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "hardware/i2c.h"
-#include "si470x__driver_regs.h"
+#include "si470x_driver_regs.h"
 #include "rdsDecoder.h"
 
 #ifdef __cplusplus
