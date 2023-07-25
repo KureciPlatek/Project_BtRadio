@@ -3911,7 +3911,7 @@
     (property "Value" "LM317_TO-220" (id 1) (at 60.96 18.415 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical" (id 2) (at 60.96 16.51 0)
+    (property "Footprint" "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown" (id 2) (at 60.96 16.51 0)
       (effects (font (size 1.27 1.27) italic) hide)
     )
     (property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm317.pdf" (id 3) (at 60.96 22.86 0)
@@ -5628,7 +5628,7 @@
       (reference "SW1") (unit 1) (value "SW_Push") (footprint "Button_Switch_THT:SW_PUSH_6mm")
     )
     (path "/350b95f4-a11f-4b8e-a1a2-6edb49986a2d"
-      (reference "U1") (unit 1) (value "LM317_TO-220") (footprint "Package_TO_SOT_THT:TO-220-3_Vertical")
+      (reference "U1") (unit 1) (value "LM317_TO-220") (footprint "Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown")
     )
     (path "/93984d3e-1049-40c4-85f7-3f9031f77d6e/2c8a87db-3d29-497c-8252-401310edddce"
       (reference "U3") (unit 1) (value "TPA6112A2DGQ") (footprint "Package_SO:HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm_ThermalVias")

@@ -68,7 +68,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project |NEW|
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | NEW |
 
@@ -86,6 +85,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_15 | *Main* Take care of radio project init and selection of mode with GPIOs | WIP - ready for test |
 |SFW_19 |*e-Paper* Add clean API for rest of the application | WIP - ready for test |
 |SFW_20 |*All* Make project compile. Maybe restart full project CMakes as they are strange | WIP - ready for test. Surely interrupt have to be deeply checked |
+|SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project | WIP - cleanup code for useless and commented lines |
 
 **Resolved issues:**
 
@@ -117,7 +117,10 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | NEW |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | NEW |
 |HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | NEW |
+|HDW_29| *PCB* LM317: move so that it may be mounted horizontally | NEW |
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | NEW |
+|HDW_31| *Powersupply* Put potentiometer for voltage regulator | NEW |
+|HDW_31| *Powersupply* Add potential DC-DC downconverter for 12V battery pack | NEW |
 
 
 **Work In Progress issues:**  
