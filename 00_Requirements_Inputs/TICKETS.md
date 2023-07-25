@@ -117,9 +117,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | NEW |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | NEW |
 |HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | NEW |
-|HDW_29| *PCB* LM317: move so that it may be mounted horizontally | NEW |
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | NEW |
-|HDW_31| *Powersupply* Put potentiometer for voltage regulator | NEW |
 |HDW_31| *Powersupply* Add potential DC-DC downconverter for 12V battery pack | NEW |
 
 
@@ -152,7 +150,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_24| *PCB* Add name and version on board | DONE |
 |HDW_17| *Schematic* Add list of elements that are not on PCB, like Jack barrel and heat sink | DONE - ordered heat sink and USB plug |
 |HDW_23| *PCB* CHeck minimal via and wire brigthness allowed by JLCPCB | DONE - JLCPCB offers up to 0,127 mm wire thickness |
-
+|HDW_29| *PCB* LM317: move so that it may be mounted horizontally | DONE - all pieces moved |
+|HDW_31| *Powersupply* Put potentiometer for voltage regulator | DONE - added in sschematic and PCB |
 
 **Rejected issues**
 
