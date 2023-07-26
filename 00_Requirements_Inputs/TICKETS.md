@@ -29,7 +29,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |-|-|-|
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
-|SYS_11| *System* Integrate all (obviously) |NEW|
 |SYS_12| *Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code |NEW|
 
 
@@ -37,6 +36,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
+|SYS_11| *System* Integrate all (obviously) | WIP - Breadboard done, integration of RE, BT and EP done. FM module will be deactivated at the beginning |
 
 
 **Resolved issues:**
@@ -70,6 +70,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |-|-|-|
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | NEW |
+|SFW_22 |*RP2040* [Optional] use of FreeRTOS for multitasking | NEW |
 
 **Work In Progress issues:**  
 
@@ -117,8 +118,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | NEW |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | NEW |
 |HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | NEW |
-|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | NEW |
-|HDW_34| *PCB* Move all button resistance down to few mm as they will disturb mechanical place of button holders | NEW |
 
 
 **Work In Progress issues:**  
@@ -128,6 +127,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_19| *RP2040* Check for powering if all good | WIP - test a 3V3 on Vsys on power supply (no microUSB load) | WIP |
 |HDW_7 | *Audio ampl* Order and test the TS5A2234 analog audio switch | WIP |
 |HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | WIP |
+|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 
 **Resolved issues:**
 
@@ -153,6 +153,9 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_33| *PCB* LM317: move so that it may be mounted horizontally | DONE - all pieces moved |
 |HDW_32| *Powersupply* Put potentiometer for voltage regulator | DONE - added in schematic and PCB |
 |HDW_31| *Powersupply* Add potential DC-DC downconverter for 12V battery pack | DONE - added in schematic and PCB |
+|HDW_34| *PCB* Move all button resistance down to few mm as they will disturb mechanical place of button holders | DONE - all resistance moved |
+|HDW_36| *PCB* Add boarder lines for cut | DONE - Had to remove fully drawn circle from edge.cut layer |
+
 
 **Rejected issues**
 
