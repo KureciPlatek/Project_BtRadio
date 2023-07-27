@@ -17,7 +17,11 @@ Technology used:
 
 For the management part, full development is managed with a TICKETS.md textual file. It is split into 3 parts: SYS, HW and SW: SYStem, HardWare and SoftWare. No particular mechanical development was done so no section for that is made (it could exists to interface PCB into old Phillips radio though).
 
-## How to start
+## Requirements:
+
+- Raspberry pico sdk
+- cmake
+- gnu c compiler toolsuite
 
 ## Bluetooth module
 
