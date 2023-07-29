@@ -2,8 +2,6 @@
 
 The aim of this project is to use an old radio Philips Hurricane de Luxe and connect it to modern audio channels so that we may stream music on it. The loudspeaker is still good. Another aim is to train in technologies such as RTOS programming, schematic and PCB design as well as project management.
 
-![alt text](../06_Doc/pictures/radio_originalpicture.png.png "Philips 50IC360")
-
 ## Functional requirements:
 
 |ID|Description|
