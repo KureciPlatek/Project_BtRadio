@@ -25,6 +25,7 @@ All details here:
 - Introduction, goals and constraints: [ARC42_IntroAndGoals](./00_Requirements_Inputs/ARC42_IntroAndGoals.md)
 - Contextes and solution strategy: [ARC42_SolStrat](./01_Analysis/ARC42_ContextAndScope.md)
 - Architecture description: [ARC42_Architecture](./02_Architecture_Modelisation/ARC42_architectureMain.md)
+- Project decisions, risks and technical debts: [ARC42_DecisionsRisksDebts](./02_Architecture_Modelisation/ARC42_RiskDebtDecisions.md)
 
 ## Requirements:
 

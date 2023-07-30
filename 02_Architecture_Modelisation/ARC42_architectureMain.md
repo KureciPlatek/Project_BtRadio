@@ -13,7 +13,7 @@ All issues and tickets about hardware and software topics are listed in [TICKETS
 |Module| Purpose/Description| Interface|Technology| Nickname |
 |:-:|:-|:-|:-|:-|
 |Central Unit| Contains the software, interfaces almost all other modules and is the main entity of this system| All possible interfaces needed by other modules | RP2040 on a Raspberry Pico board | CU |
-|Rotary encoders| Button interfaces with human. They can forward human commands to central unit: turned direct, turned indirect or pushed (they possess a push button too.) | 3 GPIOs are needed per Rotary Encoder | RE |
+|Rotary encoders| Button interfaces with human. They can forward human commands to central unit: turned direct, turned indirect or pushed (they possess a push button too.) | 3 GPIOs are needed per Rotary Encoder | Iduino Rotary Encoders |RE |
 |Bluetooth Chip| Provide a Bluetooth connection to audio stream sources, retrieve information about connected device and track metadata and provide an audio differential output | GPIOs and UART are needed to control this device | RN52 | BT|
 |FM demodulator | Can demodulate FM radiowaves and provide the audio output. It is also able to decode RDS metadata| I2C and UART are required to control this device | si470x| FM|
 |e-paper screen| Is used to print all info, status, any kind of output judged as relevant for human user. Like track metadata, FM status or BT status | SPI is required | Waveshare e-paper 5.83" | EP |
@@ -21,7 +21,9 @@ All issues and tickets about hardware and software topics are listed in [TICKETS
 |Power Management| Provide power supply to system. Is able to generate a 3.3V from either a 5V power supply, or a 12V power supply (battery)| USB plug and wires | LM317, NXE2S1205MC DC-DC converter |PM|
 |Auxiliary Connector| Most of modules have debug interfaces as well as additional interfaces available. They are all gathered here, for future purpose if needed. SWD and UART of RP2040 are available here for debug| SPI, UART, GPIOs | Simple headers | AUX |
 
-## Software architecture design
+**Note:** This system view is also deploymen-view like. Therefore, no deployment view will be described in further documentation.
+
+## Software architecture structure view
 
 The software structural architecture is quite straigth-forward, as it doesn't have any particular complexity. Therefore, a simple layer architecture is quite enough:  
 
@@ -42,4 +44,27 @@ Modules Pico SDK and RP2040 Hardware are actually "out of project" as they are a
 
 **Note:**  
 The whole code is written in C and uses CMake for compilation.
+
+## Software architecture runtime view
+
+This chapter describes, either with sequence, process or state machine UML diagrams, module's behavior as well as application's usecase.
+
+### Application usecases
+
+#### Usecase 1
+
+#### Usecase 2
+
+...
+
+### FM behavioral
+
+### BT behavioral
+
+### RE behavioral
+
+### EP behavioral
+
+
+[< prev (Context and scope)](../01_Analysis/ARC42_ContextAndScope.md) - [next > (Decision, Risks and Technical debt)](../02_Architecture_Modelisation/ARC42_RiskDebtDecisions.md)
 

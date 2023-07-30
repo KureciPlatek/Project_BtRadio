@@ -50,3 +50,6 @@ List of all constraints limiting solution choices and strategies. Either selecte
 |TC_3| (*OPTIONAL*) As it mechanically perfectly fits and is quality is still good (tested with direct plug on differential input), the system should use the old 8 Ohms 2,5 Watts loudspeaker |
 
 
+[< prev (README)](../README.md) - [next > (Context & Scope)](../01_Analysis/ARC42_ContextAndScope.md)
+
+

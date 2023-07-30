@@ -87,3 +87,5 @@ The main element, our system will be progtrammed with a Raspberry Pico, having a
  - Quite cheap
  - Enough I/O to be interfaced with all elements of project
  - Has a powerful SDK well documented, which uses CMake
+
+[< prev (Intro and goals)](../00_Requirements_Inputs/ARC42_IntroAndGoals.md) - [next > (Architecture design)](../02_Architecture_Modelisation/ARC42_architectureMain.md)
