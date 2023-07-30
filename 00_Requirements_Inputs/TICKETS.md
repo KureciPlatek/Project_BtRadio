@@ -29,7 +29,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |-|-|-|
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
-|SYS_12| *Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code |NEW|
+|SYS_13| *Architecture* Add clean doxygen API documentation of drivers to architecture documentation |NEW|
 
 
 **Work In Progress issues:**  
@@ -37,6 +37,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SYS_11| *System* Integrate all (obviously) | WIP - Breadboard done, integration of RE, BT and EP done. FM module will be deactivated at the beginning |
+|SYS_12| *Architecture* Write down all algorithms and interrupt routines in UML diagrams/pseudo code |NEW|
 
 
 **Resolved issues:**
