@@ -31,6 +31,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
 |SYS_13| *Architecture* Add clean doxygen API documentation of drivers to architecture documentation |NEW|
 |SYS_14| *Architecture* Add application main usecases and link them to runtime view of software architecture |NEW|
+|SYS_15| *Architecture* Add add link to requirements/constraints, everywhere in project description |NEW|
 
 
 **Work In Progress issues:**  

@@ -27,7 +27,7 @@ All details here:
 - Architecture description: [ARC42_Architecture](./02_Architecture_Modelisation/ARC42_architectureMain.md)
 - Project decisions, risks and technical debts: [ARC42_DecisionsRisksDebts](./02_Architecture_Modelisation/ARC42_RiskDebtDecisions.md)
 
-## Requirements:
+## Required:
 
 - Raspberry pico sdk
 - cmake

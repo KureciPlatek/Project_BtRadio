@@ -30,6 +30,13 @@ In this part are explained the context in which the device is, on a business poi
 ### Control radio
 For the interaction with human user, rotary encoders were selected. They can mechanically easily be mounted on Philips Radio. Old potentiometers are more complex to interface with the Bluetooth chip and modern FM demodulator. Indeed, those have industrial communication interfaces like I2C, SPI or UART and requires encoded binary messages to be controlled. Therefore, the action to turn button, must be first sent to a central unit, which convert the rotation direction into a command, understandable for the sub entity (Bluetooth chip, screen, FM demodulator...)
 
+Rotary encoders generally also offers a push button when pushing their knob. It allows to have for all rotary encoders, the capacity to send 3 different signals to a microcontroller:
+ - Direct rotation
+ - Indirect rotation
+ - Button pushed
+
+Legacy push-buttons will however be re-used (**TC_3**), as they are simple contact push-buttons on which a binary info may be sent to our system. They will be used to select radio mode, like switch between audio source, or power supply, or anything like that.
+
 ### Get radio status
 Use of an e-paper screen to get info from radio (status, track metadata, etc...) This kind of screen is actually quite nice to use and present an advantage about power consumption. Waveshare epaper 5.83" was selected as it provides a ready-to-use API which is programmed in C.
 

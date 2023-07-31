@@ -10,8 +10,18 @@ The aim of this project is to use an old radio Philips Hurricane de Luxe and con
 | FR_2 | Still be able to demodulate FM audi source and select between modern stream (*FR_1*) and FM radio |
 | FR_3 | (*OPTIONAL*) Be able to decode DRS from FM channel should be possible |
 | FR_4 | Control volume level and select audio source: FM or modern stream |
-| FR_5 | Be able to use it without a permanent power supply (be nomad) |
+| FR_5 | (*OPTIONAL*) Be able to use it without a permanent power supply (be nomad) |
+| FR_6 | Save FM stations in favorites and select them after a radio restart |
 
+**Use case diagram:**
+![Use case diagram](./ARC42_useCases.svg "Use case diagram")
+
+|Usecase|Name|Description|
+|:-:|:-|:-|
+|usecase 1| Typical audio stream control | Provides typical audi controls, like next track, previous track, play/pause, volume control, etc... |
+|usecase 2| Connect modern audio stream| User is able to connect a "modern" device, like his smartphone, to the system and to stream audio on it|
+|usecase 3| Save and select FM stations| User may save a prefered FM station to a list of 5 presets and select them after a radio restart (power off). This favorites list shall save the FM frequency, and if possible (*OPTIONAL*) FM station should have their name saved too |
+|usecase 4| Seek a station on FM radiowaves | User shall be able to trigger a seek on FM band in a direction (frequency increasing or decreasing) and radio shall be able to stop on a "correct" station. Correct means, audio quality is acceptable |
 
 ## Quality goals:
 

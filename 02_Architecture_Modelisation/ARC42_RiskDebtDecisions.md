@@ -8,7 +8,7 @@ This chapter gathers technical decisions made, why it was decided like that and 
 
 - No AirPlay. Maybe in a second version. But in a first one, use Bluetooth is plenty enough for a fun use of this radio. Many nomad radios also implement only Bluetooth.  
 
-- No Bluetoot low energy. Simply because I wanted to use this old chip I have and because it is enough for the need presented.  
+- No Bluetooth low energy. Simply because I wanted to use this old chip I have and because it is enough for the need presented.  
 
 - No AM demodulation. Simply because it is almost never used anymore. Even if it still possible to capture radiowaves from the other side of Europa.  
 
