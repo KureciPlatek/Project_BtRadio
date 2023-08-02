@@ -1,7 +1,7 @@
 /**
  * @file    bt_rn52_application.h
  * @author  Kureciplatek (galleej@gmail.com)
- * @brief 
+ * @brief   Driver for RN52 Bluetooth module
  * @version 0.1
  * @date    2023-05-26
  * 
@@ -26,74 +26,7 @@
 #define BT_UART_STOPBITS   1
 #define BT_UART_PARITY     UART_PARITY_NONE
 
-/*** SET COMMANDS V1.16 ***
-S-,<text>  - Serialized Name
-S|,<hex16> - Audio Settings
--  S^,<dec>   - Auto Power Off timer
-S%,<hex16> - Extended Features
-SA,<dec>   - Authentication Mode
--  SC,<hex24> - Class of Device
--  SD,<hex8>  - Discovery Mask
--  SF,1       - Factory Default
--  SK,<hex8>  - Connection Mask
--  SM,<hex32> - Microphone Gain
--  SL,<hex32> - Line Input Gain
-SN,<text>  - Name
-SP,<text>  - Pin Code
-SS,<hex8>  - Speaker Level
--  ST,<hex8>  - Tone Level
-SU,<hex8>  - UART Baudrate
--  STA,<dec>  - Connection Delay(ms)
--  STP,<dec>  - Pairing Timeout(s)
-GB         - AG Battery Status
-
-*** ACTION COMMANDS ***
-+          - Disable,Enable Local Echo
-@,<0,1>    - Disable,Enable Discovery
-#,<0,1>    - Accept,Reject Pairing Passkey
--  $          - Enter DFU Mode
-D          - Dump Configuration
-K,<hex8>   - Disconnect
--  M,<0,1>    - Mute Active Call
-Q          - Connection Status
-R,1        - Reboot
--  U          - Reset Paired Device List(PDL)
--  V          - Firmare Version
-
-*** AVRCP COMMANDS ***
-AV+        - Volume Up
-AV-        - Volume Down
-AT+        - Next Track
-AT-        - Previous Track
-AP         - Play/Pause
-AD         - Track Metadata
-
-*** CONNECTION COMMANDS ***
--  A,<text>   - Initiate Voice Call
--  AR         - Redial Last Dialed Number
-B          - Reconnect Last Device
--  C          - Accept Incoming Call
--  E          - Drop/Reject Active Or Incoming Call
--  F          - Release All Held Calls
--  J          - Accept Waiting Calls And Release Active Calls
--  L          - Accept Waiting Calls And Hold Active Calls
--  N          - Add Held Call
--  O          - Connect Two Calls And Disconnect The Subscriber
-T          - Caller ID Information
--  P          - Initiate Voice Recognition
--  X,<0,1>    - Transfer Call Between HF And AG
-*/
-
-/** 
- * Q results:
- * 0 iAP wireless active connection to remote device
- * 1 SPP active connection to remote device
- * 2 A2DP active connection to remote device
- * 3 HFP/HSP active connection to remote device
- * 4 Caller ID notification event from audio gateway
- * 5 Track change event notification
- */
-
+/* All commands are described in bt_rn52_commandDescription.md file */
 #define RN52_CMD_SIZE_VOLUP   4
 #define RN52_CMD_SIZE_VOLDWN  4
 #define RN52_CMD_SIZE_NXT     4

@@ -30,7 +30,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
 |SYS_13| *Architecture* Add clean doxygen API documentation of drivers to architecture documentation |NEW|
-|SYS_14| *Architecture* Add application main usecases and link them to runtime view of software architecture |NEW|
 |SYS_15| *Architecture* Add add link to requirements/constraints, everywhere in project description |NEW|
 
 
@@ -53,6 +52,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_4| *HMI* List all input and features that system shall have: AM/FM switch, Bluetooth pair and connect, maybe a small screen | DONE - AM/FM in option, rest is all integrated |
 |SYS_5| *HMI* Test and assignate available push button and rotary button of Phillips to interface of RN52 | DONE - Look at document  Architecture->Behavioral->hmi_description.md    |
 |SYS_8| *Project versioning* Add a github repository | DONE - but lose of old git repo history |
+|SYS_14| *Architecture* Add application main usecases and link them to runtime view of software architecture |DONE - Add of Usecase diagram and its corresponding behavioral diagrams|
 
 
 **Rejected issues**

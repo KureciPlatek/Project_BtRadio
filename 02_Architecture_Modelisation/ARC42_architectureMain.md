@@ -110,3 +110,29 @@ Rotary encoders work as state machines. As soon as one of the input of rotary en
 
 [< prev (Context and scope)](../01_Analysis/ARC42_ContextAndScope.md) - [next > (Decision, Risks and Technical debt)](../02_Architecture_Modelisation/ARC42_RiskDebtDecisions.md)
 
+## Hardware architecture view
+
+This section provides a detailled view of circuit schematic and PCB design. There is no behavioral described, as it may be found in the corresponding datasheet of components and will only be a re-write of what already exists.
+
+### Schematic
+
+Schematic is divided into thre sheets: a main sheet with modules. An audio amplifiying stage sheet and a connectors to legacy push buttons sheet.
+
+#### Main schematic
+![Main schematic](../06_Doc/pictures/schematic_main_V1.png)
+
+#### Audio amplification stage schematic
+![Audio stage](../06_Doc/pictures/schematic_audioAmplifier.png)
+
+#### Legacy push buttons connectors schematic
+![Legacy push buttons](../06_Doc/pictures/schematic_connectors.png)
+
+
+### PCB
+After routing, PCB has the following face:  
+
+![PCB 2D view](../06_Doc/pictures/Board_Bluetooth_radio_platform_2Dview.png)
+
+![PCB 3D view](../06_Doc/pictures/Board_Bluetooth_radio_platform_3Dview.png)
+
+@todo: holes, form and connectors placement dimension measure list.
