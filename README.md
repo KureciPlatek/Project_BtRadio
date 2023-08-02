@@ -1,4 +1,4 @@
-# Vintage radio with Bluetooth
+# Vintage radio Philips Hurricane De Luxe with Bluetooth
 
 This project is about renewing an old (and wonderful) Phillips Hurricane De Luxe 50IC361.
 It still uses loudspeaker, but inside is everything new. It becomes new and modern audio stream source
@@ -15,7 +15,7 @@ The aim is also to have fun with new technologies and train HW/SW skills as well
 - Rotary encoders to give "digital" signals to central/control unit
 - RP2040 as central unit because it is cheap, has double core features and suits perfectly the need of this project
 - KiCad for HW development
-- CMake for software development
+- CMake/Pico SDK for software development
 - git for versionning and project management
 - Use ARC42 documentation format to present project and explain architecture
 

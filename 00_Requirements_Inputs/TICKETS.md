@@ -116,11 +116,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_25| *PCB* Install holes for screwing/monting on old radio | NEW |
-|HDW_26| *PCB* - *Proj_DVA* Add PCB of AD8428 evaluation board | NEW |
-|HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | NEW |
-|HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | NEW |
-|HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | NEW |
 
 
 **Work In Progress issues:**  
@@ -131,6 +126,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_7 | *Audio ampl* Order and test the TS5A2234 analog audio switch | WIP |
 |HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | WIP |
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
+|HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
+
 
 **Resolved issues:**
 
@@ -158,6 +155,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_31| *Powersupply* Add potential DC-DC downconverter for 12V battery pack | DONE - added in schematic and PCB |
 |HDW_34| *PCB* Move all button resistance down to few mm as they will disturb mechanical place of button holders | DONE - all resistance moved |
 |HDW_36| *PCB* Add boarder lines for cut | DONE - Had to remove fully drawn circle from edge.cut layer |
+|HDW_25| *PCB* Install holes for screwing/monting on old radio | DONE - add mounting holes for PAM8302 too |
 
 
 **Rejected issues**
@@ -169,5 +167,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_5 |*Board* Add connectors for exclusive push buttons of vintage and phillips radios | REJECTED - Double with ticket HDW_4 |
 |HDW_11| *Class A audio amplifier* check that all component from current's driving class A amplifier exists | REJECTED - Class A will take too much time to develop |
 |HDW_13| *Breakout boards* Some of the modules are from breakout boards. Add mechanical holder for them | REJECTED - No need for that. Header will be fine |
-
+|HDW_26| *PCB* - *Proj_DVA* Add PCB of AD8428 evaluation board | REJECTED - one project at a time |
+|HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | REJECTED, will find solutions without |
+|HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | REJECTED - one project at a time |
 
