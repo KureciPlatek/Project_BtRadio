@@ -127,6 +127,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | WIP |
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
+|HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | WIP |
 
 
 **Resolved issues:**
