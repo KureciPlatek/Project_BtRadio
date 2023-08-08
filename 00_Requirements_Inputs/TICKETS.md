@@ -157,6 +157,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_34| *PCB* Move all button resistance down to few mm as they will disturb mechanical place of button holders | DONE - all resistance moved |
 |HDW_36| *PCB* Add boarder lines for cut | DONE - Had to remove fully drawn circle from edge.cut layer |
 |HDW_25| *PCB* Install holes for screwing/monting on old radio | DONE - add mounting holes for PAM8302 too |
+|HDW_38| *All* Fix UART communication wires. BT_Rx is actually on GPIO4 and BT_Tx on GPIO5 | DONE - modify schematic and PCB |
 
 
 **Rejected issues**

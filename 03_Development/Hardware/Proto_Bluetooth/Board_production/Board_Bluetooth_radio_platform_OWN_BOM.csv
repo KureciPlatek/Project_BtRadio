@@ -1,48 +1,49 @@
-Comment,Designator,Footprint,JLCPCB ref,Mouser ref
-100u,C1,Capacitor_THT:CP_Radial_D5.0mm_P2.50mm,Own stock,
-100u,C15,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,-,TODO
-68u,"C16,C17",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,-,TODO
-10u,C19,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C408142,
-10u,C2,Capacitor_THT:CP_Radial_D5.0mm_P2.50mm,Own stock,
-100n,"C3,C18,C20",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77082,
-47n,"C4,C5,C6,C7",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77063,
-1u,"C8,C9,C10,C11,C12",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77083,
-1N4001,D1,Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal,Own stock,
-LED,"D2,D3",LED_THT:LED_D5.0mm,-,TODO
-"Polyfuse 1,5A",F1,Fuse:Fuse_BelFuse_0ZRE0005FF_L8.3mm_W3.8mm,-,TODO
-Conn_01x02,"J1,J_pwrLed1,J_sys1,J4,J17",Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical,-,TODO
-Conn_01x03,J10,Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical,-,TODO
-HMI_rotaryEncoder_1,"J11,J12",Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical,-,TODO
-Conn_01x08_epaper,J13,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO
-Conn_01x03_fmModule_audioOutput,J14,Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical,-,TODO
-Conn_01x02_classD_SD,J15,Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical,-,TODO
-Conn_01x02_rn52_usb,J19,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,-,TODO
-Conn_01x08,J2,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO
-Conn_01x05_toClassD,J20,Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical,-,TODO
-BT_RN52_connector_left,J3,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO
-BT_RN52_connector_right,J5,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO
-FM_interface,J6,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO
-BT_debug_connector,J7,Connector_PinSocket_2.54mm:PinSocket_2x04_P2.54mm_Vertical,-,TODO
-BT_extension_connector,J8,Connector_PinSocket_2.54mm:PinSocket_2x08_P2.54mm_Vertical,-,TODO
-SYS_debug_connector,J9,Connector_PinSocket_2.54mm:PinSocket_2x05_P2.54mm_Vertical,-,TODO
-Conn_01x03,"JGPIO7,JGPIO9",Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,-,TODO
-RP2040_1,JRP2040R_1,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO
-RP2040_2,JRP4020L_1,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO
-Conn_02x03_Odd_Even,"J_I1,J_II1,J_III1,J_IV1,J_V1,J_VI1,J_VII1",Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical,Own stock,
-Conn_02x09_Odd_Even,"J_IX1,J_X1",Connector_PinSocket_2.54mm:PinSocket_2x09_P2.54mm_Vertical,Own stock,
-Conn_02x12_Odd_Even,J_VIII1,Connector_PinSocket_2.54mm:PinSocket_2x12_P2.54mm_Vertical,Own stock,
-L_Coupled_1243 22n,L1,Inductor_SMD:L_Wuerth_WE-DD-Typ-M-Typ-S,-,TODO
-100k,"R1,R2,R3,R4,R11,R12,R28,R29,R30,R31,R32,R33,R34,R35,R36,R37,R38,R39,R40,R41,R42",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C3152173,
-330,R10,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C844839,
-470k,"R13,R14,R15,R16",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C168502,
-22k,"R17,R18,R21,R22",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C114565,
-47k,"R19,R20,R26,R27",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C212464,
-10k,R43,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C2907219,
-470,"R7,R9",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C163998,
-240,R8,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C352239,
-R_Potentiometer_Trim,RV1,Potentiometer_THT:Potentiometer_Bourns_3299W_Vertical,-,TODO
-SW_Push,SW1,Button_Switch_THT:SW_PUSH_6mm,Own stock,
-LM317_TO-220,U1,Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown,Own stock,
-NXE2S1205MC,U2,Converter_DCDC:Converter_DCDC_Murata_NXExSxxxxMC_SMD,-,TODO
-TPA6112A2DGQ,U3,Package_SO:HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm_ThermalVias,Own stock,
-TS5A2234,U4,Package_SO:VSSOP-10_3x3mm_P0.5mm,Own stock,
+Comment,Designator,Footprint,JLCPCB ref,Mouser ref,
+100u,C1,Capacitor_THT:CP_Radial_D5.0mm_P2.50mm,Own stock,,
+100u,C15,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,-,TODO,
+68u,"C16,C17",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,-,TODO,
+10u,C19,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C408142,,
+10u,C2,Capacitor_THT:CP_Radial_D5.0mm_P2.50mm,Own stock,,
+100n,"C3,C18,C20",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77082,,
+47n,"C4,C5,C6,C7",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77063,,
+1u,"C8,C9,C10,C11,C12",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C77083,,
+1N4001,D1,Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal,Own stock,,
+LED,"D2,D3",LED_THT:LED_D5.0mm,-,WP7113ND,C4SMM-BJY-CN3Q2352
+"Polyfuse 1,5A",F1,Fuse:Fuse_BelFuse_0ZRE0005FF_L8.3mm_W3.8mm,Own stock,,
+Conn_01x02,"J1,J_pwrLed1,J_sys1,J4,J17",Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical,-,TODO,
+Conn_01x03,J10,Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical,-,TODO,
+HMI_rotaryEncoder_1,"J11,J12",Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical,-,TODO,
+Conn_01x08_epaper,J13,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO,
+Conn_01x03_fmModule_audioOutput,J14,Connector_PinSocket_2.54mm:PinSocket_1x03_P2.54mm_Vertical,-,TODO,
+Conn_01x02_classD_SD,J15,Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical,-,TODO,
+Conn_01x02_rn52_usb,J19,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,-,TODO,
+Conn_01x08,J2,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO,
+Conn_01x05_toClassD,J20,Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical,-,TODO,
+BT_RN52_connector_left,J3,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO,
+BT_RN52_connector_right,J5,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO,
+FM_interface,J6,Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical,-,TODO,
+BT_debug_connector,J7,Connector_PinSocket_2.54mm:PinSocket_2x04_P2.54mm_Vertical,-,TODO,
+BT_extension_connector,J8,Connector_PinSocket_2.54mm:PinSocket_2x08_P2.54mm_Vertical,-,TODO,
+SYS_debug_connector,J9,Connector_PinSocket_2.54mm:PinSocket_2x05_P2.54mm_Vertical,-,TODO,
+Conn_01x03,"JGPIO7,JGPIO9",Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,-,TODO,
+RP2040_1,JRP2040R_1,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO,
+RP2040_2,JRP4020L_1,Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical,-,TODO,
+Conn_02x03_Odd_Even,"J_I1,J_II1,J_III1,J_IV1,J_V1,J_VI1,J_VII1",Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical,Own stock,,
+Conn_02x09_Odd_Even,"J_IX1,J_X1",Connector_PinSocket_2.54mm:PinSocket_2x09_P2.54mm_Vertical,Own stock,,
+Conn_02x12_Odd_Even,J_VIII1,Connector_PinSocket_2.54mm:PinSocket_2x12_P2.54mm_Vertical,Own stock,,
+L_Coupled_1243 22n,L1,Inductor_SMD:L_Wuerth_WE-DD-Typ-M-Typ-S,-,710-744877220,
+100k,"R1,R2,R3,R4,R11,R12,R28,R29,R30,R31,R32,R33,R34,R35,R36,R37,R38,R39,R40,R41,R42",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C3152173,,
+330,R10,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C844839,,
+470k,"R13,R14,R15,R16",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C168502,,
+22k,"R17,R18,R21,R22",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C114565,,
+47k,"R19,R20,R26,R27",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C212464,,
+10k,R43,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C2907219,,
+470,"R7,R9",Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C163998,,
+240,R8,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C352239,,
+R_Potentiometer_Trim,RV1,Potentiometer_THT:Potentiometer_Bourns_3299W_Vertical,-,652-3299W-1-102LF,
+SW_Push,SW1,Button_Switch_THT:SW_PUSH_6mm,Own stock,,
+LM317_TO-220,U1,Package_TO_SOT_THT:TO-220-3_Horizontal_TabDown,Own stock,,
+NXE2S1205MC,U2,Converter_DCDC:Converter_DCDC_Murata_NXExSxxxxMC_SMD,-,"Modified for a WurthElec 
+1769405241",
+TPA6112A2DGQ,U3,Package_SO:HVSSOP-10-1EP_3x3mm_P0.5mm_EP1.57x1.88mm_ThermalVias,Own stock,,
+TS5A2234,U4,Package_SO:VSSOP-10_3x3mm_P0.5mm,Own stock,,
