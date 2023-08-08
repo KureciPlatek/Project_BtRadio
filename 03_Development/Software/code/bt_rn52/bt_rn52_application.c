@@ -78,11 +78,6 @@ void bt_init(void)
    gpio_set_function(BT_UART_TXPIN, GPIO_FUNC_UART);
    gpio_set_function(BT_UART_RXPIN, GPIO_FUNC_UART);
 
-   // Actually, we want a different speed
-   // The call will return the actual baud rate selected, which will be as close as
-   // possible to that requested
-//   int __unused actual = uart_set_baudrate(BT_UART_ID, BT_UART_BAUDRATE);
-
    // Set UART flow control CTS/RTS
    uart_set_hw_flow(BT_UART_ID, false, false);
 
@@ -109,7 +104,7 @@ void bt_init(void)
 
 void bt_sendCommand(RN52_CMD_ID rn52cmd)
 {
-   if(RN52_CMD_MAX >= rn52cmd )
+   if(RN52_CMD_MAX <= rn52cmd )
    {
       /* Not a reckognized command */
       printf("[BT][API]RN52 command error\n");
@@ -165,7 +160,7 @@ void bt_processInputs(void)
 static void bt_irqUartRx(void) 
 {
    uint8_t ch = uart_getc(BT_UART_ID);
-   printf("[BT][API]%c", ch);
+   printf("%c", ch);
 
    while (uart_is_readable(BT_UART_ID))
    {

@@ -18,8 +18,8 @@
 #include "hardware/irq.h"
 #include "hardware/gpio.h"
 
-#define BT_UART_TXPIN      8 /* UART1_Tx on GPIO 8 */
-#define BT_UART_RXPIN      9 /* UART1_Rx on GPIO 9 */
+#define BT_UART_TXPIN      4 /* UART1_Tx on GPIO 8 */
+#define BT_UART_RXPIN      5 /* UART1_Rx on GPIO 9 */
 #define BT_UART_ID         uart1
 #define BT_UART_BAUDRATE   115200
 #define BT_UART_DATABITS   8
@@ -39,7 +39,7 @@
 #define RN52_QREPLY_CONNMASK  0x0F
 
 typedef enum {
-   RN52_CMD_VOLUP = 1,
+   RN52_CMD_VOLUP = 0,
    RN52_CMD_VOLDWN,
    RN52_CMD_NXT,
    RN52_CMD_PRV,
