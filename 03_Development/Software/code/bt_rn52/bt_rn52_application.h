@@ -35,8 +35,6 @@
 #define RN52_CMD_SIZE_TRACK   3  /* Track metadata */
 #define RN52_CMD_SIZE_Q       2
 
-#define RN52_GPIO2   28 /* GPIO 28 for rn52's gpio2 notification pin */
-
 #define RN52_QREPLY_TRACK_POS 5
 #define RN52_QREPLY_CONNMASK  0x0F
 
@@ -76,5 +74,10 @@ void bt_sendCommand(RN52_CMD_ID rn52cmd);
  * periodically.
  */
 void bt_processInputs(void);
+
+/**
+ * @brief Handle notification interrupt from RN52 module
+ */
+void rn52_handleGpio2(void);
 
 #endif /* _BT_RN52_APPLICATION_H_ */

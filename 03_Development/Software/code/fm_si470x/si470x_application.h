@@ -53,6 +53,11 @@ static fm_station_preset stationsPresets[MAX_PRESETS];
 void fm_init(void);
 
 /**
+ * @brief Callback in case of GPIO2 interrupt from si470x
+ */
+void fm_si470xGpio2_callback(void);
+
+/**
  * @brief main state machine of FM demodulator module
  */
 void fm_stateMachine(void);

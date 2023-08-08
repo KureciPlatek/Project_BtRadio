@@ -14,14 +14,6 @@
 #ifndef RE_APPLICATION_H
 #define RE_APPLICATION_H
 
-#define RE1_GPIOA 18  // GPIO 18 of RP2040
-#define RE1_GPIOB 19  // GPIO 19 of RP2040
-#define RE1_GPIOSW 16 // GPIO 16 of RP2040
-
-#define RE2_GPIOA 20  // GPIO 20 of RP2040
-#define RE2_GPIOB 21  // GPIO 21 of RP2040
-#define RE2_GPIOSW 17 // GPIO 17 of RP2040
-
 typedef enum
 {
    RE_STATE_IDLE = 0,
@@ -38,9 +30,6 @@ typedef enum
 typedef struct
 {
    /* data */
-   uint32_t gpioA;     /* GPIO connected to entry B */
-   uint32_t gpioB;     /* GPIO connected to entry A */
-   uint32_t gpioSW;    /* GPIO connected to switch */
    RE_STATE reState;   /* State of this RE handle */
    bool tokenIndirect; /* If indirect turn of RE found */
    bool tokenDirect;   /* If direct turn of RE found */
@@ -62,9 +51,17 @@ void re_initModule(void);
 /**
  * @brief Return pointers to static handles
  *
- * @param [out] ptrToHandle1 pointer to rotary encoder 1
- * @param [out] ptrToHandle2 pointer to rotary encoder 2
+ * @param [out] uint32_t pointer to rotary encoder 1
+ * @param [out] uint32_t pointer to rotary encoder 2
  */
-void re_getHandles(re_appli_handle *ptrToHandle1, re_appli_handle *ptrToHandle2);
+void re_getHandles(uint32_t *ptrToHandle1, uint32_t *ptrToHandle2);
+
+void irqhandlerRE1A(void);
+void irqhandlerRE1B(void);
+void irqhandlerRE1SW(void);
+void irqhandlerRE2A(void);
+void irqhandlerRE2B(void);
+void irqhandlerRE2SW(void);
+
 
 #endif /* RE_APPLICATION_H */

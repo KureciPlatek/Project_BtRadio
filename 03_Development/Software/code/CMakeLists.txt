@@ -21,8 +21,14 @@ include_directories(bt_rn52)
 # add HMI subdirectory
 add_subdirectory(hmi_ePaper)
 include_directories(hmi_ePaper)
+
+# add RE subdirectory
 add_subdirectory(re_Buttons)
 include_directories(re_Buttons)
+
+# add HAL subdirectory
+add_subdirectory(hal_radio)
+include_directories(hal_radio)
 
 # Generate executable file
 add_executable(fmRadioTest main.c)
@@ -31,7 +37,7 @@ add_executable(fmRadioTest main.c)
 target_compile_options(fmRadioTest PRIVATE -Wall -O0 -Wextra -Wuninitialized)
 
 # Add libraries to project
-target_link_libraries(fmRadioTest fm_si470x rdsDecoder bt_rn52 hmi_ePaper re_Buttons pico_stdlib hardware_spi pico_multicore)
+target_link_libraries(fmRadioTest fm_si470x rdsDecoder bt_rn52 hmi_ePaper re_Buttons hal_radio pico_stdlib hardware_spi pico_multicore)
 #target_link_libraries(epd examples ePaper GUI Fonts Config pico_stdlib hardware_spi)
 
 # Disable usb output, enable uart output

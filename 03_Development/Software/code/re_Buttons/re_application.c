@@ -1,6 +1,6 @@
 /**
  * @file    re_application.c
- * @author  Jeremie Gallee (@gmail.com)
+ * @author  Jeremie Gallee (galleej@gmail.com)
  * @brief
  * @version 0.1
  * @date    2023-07-10
@@ -36,75 +36,48 @@ int64_t alarm_callback(alarm_id_t id, void *user_data)
    return 0;
 }
 
-static void irqhandlerRE1A(uint gpio, uint32_t events)
+void irqhandlerRE1A(void)
 {
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary1.gpioA == gpio))
-   {
-      re_application_StateMachine(&rotary1, RE_STATE_A_KEYED);
-   }
+   re_application_StateMachine(&rotary1, RE_STATE_A_KEYED);
 }
 
-static void irqhandlerRE1B(uint gpio, uint32_t events)
+void irqhandlerRE1B(void)
 {
-//   if (gpio_get_irq_event_mask(rotary1.gpioB) & GPIO_IRQ_EDGE_RISE)
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary1.gpioB == gpio))
-   {
-      re_application_StateMachine(&rotary1, RE_STATE_B_KEYED);
-   }
+   re_application_StateMachine(&rotary1, RE_STATE_B_KEYED);
 }
 
-static void irqhandlerRE1SW(uint gpio, uint32_t events)
+void irqhandlerRE1SW(void)
 {
-//   if (gpio_get_irq_event_mask(rotary1.gpioSW) & GPIO_IRQ_EDGE_RISE)
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary1.gpioSW == gpio))
-   {
-      rotary1.tokenPush = true;
-   }
+   rotary1.tokenPush = true;
 }
 
-static void irqhandlerRE2A(uint gpio, uint32_t events)
+void irqhandlerRE2A(void)
 {
-//   if (gpio_get_irq_event_mask(rotary2.gpioA) & GPIO_IRQ_EDGE_RISE)
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary2.gpioA == gpio))
-   {
-      re_application_StateMachine(&rotary2, RE_STATE_A_KEYED);
-   }
+   re_application_StateMachine(&rotary2, RE_STATE_A_KEYED);
 }
 
-static void irqhandlerRE2B(uint gpio, uint32_t events)
+void irqhandlerRE2B(void)
 {
-//   if (gpio_get_irq_event_mask(rotary2.gpioB) & GPIO_IRQ_EDGE_RISE)
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary2.gpioB == gpio))
-   {
-      re_application_StateMachine(&rotary2, RE_STATE_B_KEYED);
-   }
+   re_application_StateMachine(&rotary2, RE_STATE_B_KEYED);
 }
 
-static void irqhandlerRE2SW(uint gpio, uint32_t events)
+void irqhandlerRE2SW(void)
 {
-//   if (gpio_get_irq_event_mask(rotary2.gpioSW) & GPIO_IRQ_EDGE_RISE)
-   if ((GPIO_IRQ_EDGE_RISE == events)
-    && (rotary2.gpioSW == gpio))
-   {
-      rotary2.tokenPush = true;
-   }
+   rotary2.tokenPush = true;
 }
 
 void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
 {
+   printf("RE 0x%02x - ", handle);
+
    switch (handle->reState)
    {
    case RE_STATE_A_KEYED:
    {
-      printf("A keyed\n");
       if (RE_STATE_B_KEYED == event)
       {
          handle->tokenIndirect = true;
+         printf("turn indirect\n");
       }
       /* Reset in IDLE state anyway, even if any other event.
        * Because if it is key_a again, it is maybe a glitch.
@@ -114,10 +87,10 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
    }
    case RE_STATE_B_KEYED:
    {
-      printf("B keyed\n");
       if (RE_STATE_A_KEYED == event)
       {
          handle->tokenDirect = true;
+         printf("turn direct\n");
       }
       /* Reset in IDLE state anyway, even if any other event.
        * Because if it is key_a again, it is maybe a glitch.
@@ -130,82 +103,46 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_A_KEYED == event)
       {
          handle->reState = RE_STATE_A_KEYED;
+         printf("A keyed\n");
 
-         /* Start timer - other pin of RE should be triggered there */
-         if (false == cancel_alarm(currentAlarm))
-         {
-            printf("Error 4, can't deactivate actual alarm");
-         }
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
 
       if (RE_STATE_B_KEYED == event)
       {
          handle->reState = RE_STATE_B_KEYED;
+         printf("B keyed\n");
 
-         /* Start timer - other pin of RE should be triggered there */
-         if (false == cancel_alarm(currentAlarm))
-         {
-            printf("Error 3, can't deactivate actual alarm");
-         }
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
       break;
    }
 
    default:
+      printf("[RE][API]Wrong RE state\n");
       break;
    }
 }
 
-void re_getHandles(re_appli_handle *ptrToHandle1, re_appli_handle *ptrToHandle2)
+void re_getHandles(uint32_t *ptrToHandle1, uint32_t *ptrToHandle2)
 {
-   ptrToHandle1 = &rotary1;
-   ptrToHandle2 = &rotary2;
+   *ptrToHandle1 = &rotary1;
+   *ptrToHandle2 = &rotary2;
 }
 
 void re_initModule(void)
 {
    /* Init rotary 1 */
-   rotary1.gpioA = RE1_GPIOA;
-   rotary1.gpioB = RE1_GPIOB;
-   rotary1.gpioSW = RE1_GPIOSW;
    rotary1.reState = RE_STATE_IDLE;
    rotary1.tokenIndirect = false; /* If indirect turn of RE found */
    rotary1.tokenDirect = false;   /* If direct turn of RE found */
    rotary1.tokenPush = false;     /* If push of RE found */
 
    /* Init rotary 2 */
-   rotary2.gpioA = RE2_GPIOA;
-   rotary2.gpioB = RE2_GPIOB;
-   rotary2.gpioSW = RE2_GPIOSW;
    rotary2.reState = RE_STATE_IDLE;
    rotary2.tokenIndirect = false; /* If indirect turn of RE found */
    rotary2.tokenDirect = false;   /* If direct turn of RE found */
    rotary2.tokenPush = false;     /* If push of RE found */
 
-//   gpio_set_irq_enabled(rotary1.gpioA, GPIO_IRQ_EDGE_RISE, true);  // monitor pin 1 connected to pin 0
-//   gpio_set_irq_enabled(rotary1.gpioB, GPIO_IRQ_EDGE_RISE, true);  // monitor pin 4 connected to pin 3
-//   gpio_set_irq_enabled(rotary1.gpioSW, GPIO_IRQ_EDGE_RISE, true); // monitor pin 4 connected to pin 3
-//   gpio_add_raw_irq_handler(rotary1.gpioA,  irqhandlerRE1A);
-//   gpio_add_raw_irq_handler(rotary1.gpioB,  irqhandlerRE1B);
-//   gpio_add_raw_irq_handler(rotary1.gpioSW, irqhandlerRE1SW);
-   gpio_set_irq_enabled_with_callback(rotary1.gpioA,  GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE1A);
-   gpio_set_irq_enabled_with_callback(rotary1.gpioB,  GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE1B);
-   gpio_set_irq_enabled_with_callback(rotary1.gpioSW, GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE1SW);
-
-
-//   gpio_set_irq_enabled(rotary2.gpioA, GPIO_IRQ_EDGE_RISE, true);  // monitor pin 1 connected to pin 0
-//   gpio_set_irq_enabled(rotary2.gpioB, GPIO_IRQ_EDGE_RISE, true);  // monitor pin 4 connected to pin 3
-//   gpio_set_irq_enabled(rotary2.gpioSW, GPIO_IRQ_EDGE_RISE, true); // monitor pin 4 connected to pin 3
-//   gpio_add_raw_irq_handler(rotary2.gpioA,  irqhandlerRE2A );
-//   gpio_add_raw_irq_handler(rotary2.gpioB,  irqhandlerRE2B );
-//   gpio_add_raw_irq_handler(rotary2.gpioSW, irqhandlerRE2SW);
-   gpio_set_irq_enabled_with_callback(rotary2.gpioA,  GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE2A);
-   gpio_set_irq_enabled_with_callback(rotary2.gpioB,  GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE2B);
-   gpio_set_irq_enabled_with_callback(rotary2.gpioSW, GPIO_IRQ_EDGE_RISE, true, &irqhandlerRE2SW);
-
-   /* @todo check stuff here */
-//   irq_set_enabled(get_core_num() ? IO_IRQ_BANK1 : IO_IRQ_BANK0, true);
-//   printf("Core: %d\n", get_core_num());
+   printf("[RE][API] Init RE done\n");
 }

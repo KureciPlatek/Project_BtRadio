@@ -59,11 +59,6 @@ static rn52_mcmdMsg allRN52_cmd[RN52_CMD_MAX] = {
 uint8_t rn52_inputBuffer[MAX_RN52_INPUTBUFF_LINES][MAX_RN52_INPUTBUFF_CHARACTERS];
 
 /**
- * @brief Handle notification interrupt from RN52 module
- */
-static void rn52_handleGpio2(uint gpio, uint32_t events);
-
-/**
  * @brief Receive RX on bluetooth's module UART
  */
 static void bt_irqUartRx(void);
@@ -109,10 +104,7 @@ void bt_init(void)
    // Now enable the UART to send interrupts - RX only
    uart_set_irq_enables(BT_UART_ID, true, false);
 
-   // GPIO_IRQ_EDGE_RISE
-   gpio_set_irq_enabled_with_callback(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true, &rn52_handleGpio2);
-//   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true); //monitor pin 1 connected to pin 0
-//   gpio_add_raw_irq_handler(RN52_GPIO2, rn52_handleGpio2);
+   printf("[BT][API] Init BT done\n");
 }
 
 void bt_sendCommand(RN52_CMD_ID rn52cmd)
@@ -120,7 +112,7 @@ void bt_sendCommand(RN52_CMD_ID rn52cmd)
    if(RN52_CMD_MAX >= rn52cmd )
    {
       /* Not a reckognized command */
-      printf("RN52 command error\n");
+      printf("[BT][API]RN52 command error\n");
    }
    else
    {
@@ -146,14 +138,14 @@ void bt_processInputs(void)
          }
 
          qValue = rn52_inputBuffer[1][0];
-         if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
-         {
-            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth connected");
-         }
-         else
-         {
-            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth ready to pair");
-         }
+//         if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
+//         {
+//            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth connected");
+//         }
+//         else
+//         {
+//            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth ready to pair");
+//         }
          qSent = 0x00;
       }
 
@@ -173,7 +165,7 @@ void bt_processInputs(void)
 static void bt_irqUartRx(void) 
 {
    uint8_t ch = uart_getc(BT_UART_ID);
-   printf("%c", ch);
+   printf("[BT][API]%c", ch);
 
    while (uart_is_readable(BT_UART_ID))
    {
@@ -197,19 +189,16 @@ static void bt_irqUartRx(void)
 
       ch = uart_getc(BT_UART_ID);
 
-//      printf("%c", ch);
+//      printf("[BT][API]%c", ch);
       /* @todo work received reply and take a decision about it */
    }
 
    token_Receivedrn52Msg = 0x01;
 }
 
-static void rn52_handleGpio2(uint gpio, uint32_t events)
+void rn52_handleGpio2(void)
 {
-    printf("GPIO %d %ld\n", gpio, events);
-   if ((RN52_GPIO2 == gpio) && (GPIO_IRQ_EDGE_FALL == events))
-   {
-      /* send Q to RN52 module */
-      bt_sendCommand(RN52_CMD_Q);
-   }
+   printf("[BT][API]GPIO 2 IRQ\n");
+   /* send Q to RN52 module */
+   bt_sendCommand(RN52_CMD_Q);
 }
