@@ -215,7 +215,7 @@ void radio_init(void)
    bt_init();
 
    /* e-Paper module init */
-//   ep_init();
+   ep_init();
 
    /* Set Pico Board LED ON */
    gpio_init(LED_PIN);
@@ -247,7 +247,8 @@ static void radio_getMode(void)
       if(RADIO_STATE_BT != radioState)
       {
          printf("Mode BT\n");
-//         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 1, "Device name: DJENA-FD03");
          radioState = RADIO_STATE_BT;
          gpio_put(GPIO_MODE_HW, 1);
       }
@@ -257,6 +258,7 @@ static void radio_getMode(void)
       if(RADIO_STATE_FM != radioState)
       {
          printf("Mode FM\n");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "FM demodulation");
          radioState = RADIO_STATE_FM;
          gpio_put(GPIO_MODE_HW, 0);
       }
@@ -265,7 +267,7 @@ static void radio_getMode(void)
    {
       radioState = RADIO_STATE_IDLE;
       printf("Mode IDLE\r");
-//      ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "No mode selected (FM or Bluetooth)");
+      ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "No mode selected (FM or Bluetooth)");
       gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
    }
 }

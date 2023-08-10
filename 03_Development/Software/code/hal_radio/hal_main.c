@@ -43,6 +43,7 @@ void hal_gpioCallback(uint gpio, uint32_t events)
 {
    if ((GPIO_IRQ_EDGE_FALL == events) && (RN52_GPIO2 == gpio))
    {
+      printf("[HAL][GPIO] RN52 gpio2 IRQ call\n");
       rn52_handleGpio2();
    }
    if ((GPIO_IRQ_EDGE_FALL == events) && (SI470X_COMM_PIN_GPIO2 == gpio))

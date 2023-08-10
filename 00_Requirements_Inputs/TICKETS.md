@@ -76,7 +76,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_22 |*RP2040* [Optional] use of FreeRTOS for multitasking | NEW |
 |SFW_23 |*Structure* Modify and clean hal_main for GPIOs IRQ as it is too quick and dirty | NEW |
 |SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
-|SFW_25 |*EP_module* EP_module provided API can't load new lines and keep the old ones. Way to use it should be different | NEW |
+|SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | NEW |
 
 **Work In Progress issues:**  
 
@@ -104,6 +104,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_18 |*FM mode* Restructure fm_application and fm_api as they have common role and SOLID principles not fully respected (call only from one place of the module, not 2) | DONE - renamed functions prototypes and file names |
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | DONE - Main state machine processes new inputs and execute corresponding actions |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | DONE - keep it simple and just check if connection bit of rn52 status registers is still set |
+|SFW_25 |*EP_module* EP_module provided API can't load new lines and keep the old ones. Way to use it should be different | DONE - call Paint_ClearWindows() to clean one line only |
 
 
 **Rejected issues**

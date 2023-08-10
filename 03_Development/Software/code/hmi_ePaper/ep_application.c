@@ -15,11 +15,18 @@
 /* Screen buffer image */
 static UBYTE *ep_imageBUffer;
 
+/* uint8_t coordinates_X uint8_t coordinates_Y sFONT desiredFont */   
+static epaperConfig _radioScreenConfig[EPAPER_PLACE_MAX] = {
+   {10, 10, &Font24},   /* EPAPER_PLACE_ACTIVEMODE   */
+   {10, 70, &Font24},   /* EPAPER_PLACE_BT_STATUS    */
+   {10, 100, &Font24},  /* EPAPER_PLACE_BT_TRACK     */
+   {10, 200, &Font24}   /* EPAPER_PLACE_FM_FAVORITE  */
+};
 
 bool ep_init(void)
 {
    bool retVal = true;
-   printf("Init epaper display\r\n");
+   printf("[EP][API] Start Iinit epaper display\r\n");
    
    if(0 != DEV_Module_Init())
    {
@@ -27,23 +34,23 @@ bool ep_init(void)
    }
    if(false != retVal)
    {
-      printf("e-Paper Init and Clear...\r\n");
+      printf("[EP][API] ePaper Init and Clear\r\n");
       EPD_5in83_V2_Init();
       EPD_5in83_V2_Clear();
       /* Wait for screen to start up */
       DEV_Delay_ms(500);
       
-      /* you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
+      /* @todo you have to edit the startup_stm32fxxx.s file and set a big enough heap size */
       UWORD Imagesize = ((EPD_5in83_V2_WIDTH % 8 == 0)? (EPD_5in83_V2_WIDTH / 8 ): (EPD_5in83_V2_WIDTH / 8 + 1)) * EPD_5in83_V2_HEIGHT;
   
       if((ep_imageBUffer = (UBYTE *)malloc(Imagesize)) == NULL) 
       {
-         printf("Failed to apply for black memory...\r\n");
+         printf("[EP][API] Failed to apply for black memoryr\n");
          retVal = false;
       }
       else
       {
-         printf("Paint_NewImage\r\n");
+         printf("[EP][API] Paint_NewImage\r\n");
          Paint_NewImage(ep_imageBUffer, EPD_5in83_V2_WIDTH, EPD_5in83_V2_HEIGHT, ROTATE_270, WHITE); 
       }
    }
@@ -52,13 +59,28 @@ bool ep_init(void)
 
 bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
 {
+   printf("[EP][API] ep_write called\n");
    Paint_SelectImage(ep_imageBUffer);
-   Paint_Clear(WHITE);
-   Paint_DrawString_EN(10, 10, ptrToString, &Font24, WHITE, BLACK);
+
+   UWORD Y_startClean = _radioScreenConfig[place].coordinates_Y + (line * EPAPER_PIXELS_PER_LINE);
+   UWORD Y_start = Y_startClean + 3;
+   UWORD Y_end = Y_startClean + EPAPER_PIXELS_PER_LINE;
+
+   printf("[EP][API] Clean Pixels %d to %d + write at: %d\n", Y_startClean, Y_end, Y_start);
+   //void Paint_ClearWindows(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color)
+   Paint_ClearWindows(0, Y_startClean, 480, Y_end, WHITE);
+
+   /* void Paint_DrawString_EN(UWORD Xstart, UWORD Ystart, const char * pString,            */
+   /*                          sFONT* Font, UWORD Color_Foreground, UWORD Color_Background) */
+   Paint_DrawString_EN(_radioScreenConfig[place].coordinates_X, 
+                       Y_start,
+                       ptrToString,
+                       _radioScreenConfig[place].desiredFont,
+                       WHITE, BLACK);
    EPD_5in83_V2_Display(ep_imageBUffer);
    
-   printf("Goto Sleep...\r\n");
-   EPD_5in83_V2_Sleep();
+   /* Deep sleep which requires hard ward reset assertion to be functional again. Deactivate */
+//   EPD_5in83_V2_Sleep();
 
    return true;
 }
@@ -67,9 +89,11 @@ bool ep_deactivate(void)
 {
    free(ep_imageBUffer);
    ep_imageBUffer = NULL;
-   DEV_Delay_ms(2000);//important, at least 2s
-   // close 5V
-   printf("close 5V, Module enters 0 power consumption ...\r\n");
+
+   /* 2 seconds timout at least are required before exit module (required from manufacturer) */
+   DEV_Delay_ms(2000);
+   /* Deactivate power supply */
+   printf("[EP][API] ePaper dactivated\n");
    DEV_Module_Exit();
 
    return true;

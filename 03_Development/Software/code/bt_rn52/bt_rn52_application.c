@@ -133,14 +133,14 @@ void bt_processInputs(void)
          }
 
          qValue = rn52_inputBuffer[1][0];
-//         if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
-//         {
-//            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth connected");
-//         }
-//         else
-//         {
-//            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth ready to pair");
-//         }
+         if(0x03 == (qValue & RN52_QREPLY_CONNMASK)) /* bytes 0-3 of byte 1 are to be analyzed per value and not bitwise */
+         {
+            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth connected");
+         }
+         else
+         {
+            ep_write(EPAPER_PLACE_BT_STATUS, 0, "Bluetooth ready to pair");
+         }
          qSent = 0x00;
       }
 
@@ -184,7 +184,6 @@ static void bt_irqUartRx(void)
 
       ch = uart_getc(BT_UART_ID);
 
-//      printf("[BT][API]%c", ch);
       /* @todo work received reply and take a decision about it */
    }
 

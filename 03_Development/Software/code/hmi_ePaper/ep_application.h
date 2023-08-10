@@ -24,14 +24,22 @@
 #include "ImageData.h"
 #include "EPD_5in83_V2.h"
 
+#define EPAPER_PIXELS_PER_LINE 30
+
 typedef enum {
-   EPAPER_PLACE_BT_TRACK = 0,
+   EPAPER_PLACE_ACTIVEMODE = 0,
    EPAPER_PLACE_BT_STATUS,
+   EPAPER_PLACE_BT_TRACK,
    EPAPER_PLACE_FM_FAVORITES,
-   EPAPER_PLACE_ACTIVEMODE,
    /* Keep at the end */
    EPAPER_PLACE_MAX
 } EPAPER_PLACE;
+
+typedef struct {
+   uint8_t coordinates_X;
+   uint8_t coordinates_Y;
+   sFONT * desiredFont;
+} epaperConfig;
 
 /**
  * @brief   initialize e-paper and its required place in memory
