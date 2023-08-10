@@ -27,9 +27,7 @@ static alarm_id_t currentAlarm;
 
 int64_t alarm_callback(alarm_id_t id, void *user_data)
 {
-   uint32_t data = (uint32_t)(user_data);
-   printf("Timer %d fired! Data: %ld\n", (int)id, data);
-
+   /* Both alarm ID and data not needed */
    /* Reset both states as we don't care about accuracy. Turn both RE at the same time is rare */
    rotary1.reState = RE_STATE_IDLE;
    rotary2.reState = RE_STATE_IDLE;
@@ -68,8 +66,6 @@ void irqhandlerRE2SW(void)
 
 void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
 {
-   printf("RE 0x%02x - ", handle);
-
    switch (handle->reState)
    {
    case RE_STATE_A_KEYED:
@@ -77,7 +73,7 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_B_KEYED == event)
       {
          handle->tokenIndirect = true;
-         printf("turn indirect\n");
+         printf("[RE][API] Turn indirect\n");
       }
       /* Reset in IDLE state anyway, even if any other event.
        * Because if it is key_a again, it is maybe a glitch.
@@ -90,7 +86,7 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_A_KEYED == event)
       {
          handle->tokenDirect = true;
-         printf("turn direct\n");
+         printf("[RE][API] Turn direct\n");
       }
       /* Reset in IDLE state anyway, even if any other event.
        * Because if it is key_a again, it is maybe a glitch.
@@ -103,7 +99,7 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_A_KEYED == event)
       {
          handle->reState = RE_STATE_A_KEYED;
-         printf("A keyed\n");
+         printf("[RE][API] A keyed\n");
 
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
@@ -111,7 +107,7 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_B_KEYED == event)
       {
          handle->reState = RE_STATE_B_KEYED;
-         printf("B keyed\n");
+         printf("[RE][API] B keyed\n");
 
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
@@ -119,15 +115,15 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
    }
 
    default:
-      printf("[RE][API]Wrong RE state\n");
+      printf("[RE][API] Wrong RE state\n");
       break;
    }
 }
 
 void re_getHandles(uint32_t *ptrToHandle1, uint32_t *ptrToHandle2)
 {
-   *ptrToHandle1 = &rotary1;
-   *ptrToHandle2 = &rotary2;
+   *ptrToHandle1 = (uint32_t)&rotary1;
+   *ptrToHandle2 = (uint32_t)&rotary2;
 }
 
 void re_initModule(void)
