@@ -1706,7 +1706,7 @@
     (in_bom yes) (on_board yes)
     (uuid cef8712d-5f0d-43a8-97d8-e6b7f04b8684)
     (property "Reference" "R28" (id 0) (at 104.775 111.125 90))
-    (property "Value" "100k" (id 1) (at 102.235 109.855 90))
+    (property "Value" "10k" (id 1) (at 102.235 109.855 90))
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (id 2) (at 100.457 109.855 90)
       (effects (font (size 1.27 1.27)) hide)
     )

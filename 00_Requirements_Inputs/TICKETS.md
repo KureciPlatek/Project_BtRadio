@@ -74,6 +74,9 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | NEW |
 |SFW_22 |*RP2040* [Optional] use of FreeRTOS for multitasking | NEW |
+|SFW_23 |*Structure* Modify and clean hal_main for GPIOs IRQ as it is too quick and dirty | NEW |
+|SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
+|SFW_25 |*EP_module* EP_module provided API can't load new lines and keep the old ones. Way to use it should be different | NEW |
 
 **Work In Progress issues:**  
 
@@ -128,6 +131,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
 |HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | WIP |
+|HDW_39| *Schematic*  RP2040 actually has very low internal pull-up/down. 100k is way too high and signal at RP2040 pin 
+is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP |
 
 
 **Resolved issues:**
