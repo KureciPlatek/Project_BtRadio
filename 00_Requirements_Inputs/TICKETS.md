@@ -71,28 +71,18 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | NEW |
-|SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | NEW |
-|SFW_22 |*RP2040* [Optional] use of FreeRTOS for multitasking | NEW |
-|SFW_23 |*Structure* Modify and clean hal_main for GPIOs IRQ as it is too quick and dirty | NEW |
 |SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
-|SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | NEW |
 
 **Work In Progress issues:**  
 
 |Issue| Description | state |
 |-|-|-|
 |SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
-|SFW_4 |*Architecture* Create RotaryEncoder interrupts | WIP - need to test |
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
-|SFW_11 |*REx* Add delay between each rotary A or B key | WIP - must be tested |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | WIP - processing of received chars still to do |
-|SFW_13 | *BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | WIP - ready to test |
-|SFW_15 | *Main* Take care of radio project init and selection of mode with GPIOs | WIP - ready for test |
-|SFW_19 |*e-Paper* Add clean API for rest of the application | WIP - ready for test |
-|SFW_20 |*All* Make project compile. Maybe restart full project CMakes as they are strange | WIP - ready for test. Surely interrupt have to be deeply checked |
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project | WIP - cleanup code for useless and commented lines |
+|SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | WIP - Use of ep_deactivate() when no HW mode is selected |
 
 **Resolved issues:**
 
@@ -105,6 +95,13 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_5 |*Architecture* Create main state machine and its sub state machines | DONE - Main state machine processes new inputs and execute corresponding actions |
 |SFW_9 |*BT mode* Add feature to print "ready to pair", "connected" and so on to epaper screen | DONE - keep it simple and just check if connection bit of rn52 status registers is still set |
 |SFW_25 |*EP_module* EP_module provided API can't load new lines and keep the old ones. Way to use it should be different | DONE - call Paint_ClearWindows() to clean one line only |
+|SFW_4 |*Architecture* Create RotaryEncoder interrupts | DONE - Test success |
+|SFW_13 | *BT mode* Add GPIO2 interrupt (which implies to send Q to radio) | DONE - Q is sent to RN52 after GPIO2 interrupt |
+|SFW_15 | *Main* Take care of radio project init and selection of mode with GPIOs | DONE - GPIOS which requires interrupt are gathered together in hal_radio module |
+|SFW_19 |*e-Paper* Add clean API for rest of the application | DONE |
+|SFW_20 |*All* Make project compile. Maybe restart full project CMakes as they are strange | DONE - use simple CMake structure |
+|SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | DONE - Not perfect but enough for requirements |
+|SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | DONE - Only core0 is called. Nothing on core1 right now |
 
 
 **Rejected issues**
@@ -112,6 +109,9 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_12 |*FM mode* Manage FM as a handle too | REJECTED - use getters and setters instead |
+|SFW_11 |*REx* Add delay between each rotary A or B key | REJECTED - Control of RE is not perfect but enough for now |
+|SFW_22 |*RP2040* [Optional] use of FreeRTOS for multitasking | REJECTED - Do it in a second version |
+|SFW_23 |*Structure* Modify and clean hal_main for GPIOs IRQ as it is too quick and dirty | REJECTED - Do it in a second version |
 
 ***
 ## HARDWARE ISSUES

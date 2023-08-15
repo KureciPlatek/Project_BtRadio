@@ -21,7 +21,10 @@ void hal_initGPIOs(void)
 {
 
    /* ------------------------------- RN52 ------------------------------- */
+   gpio_init(RN52_GPIO2);
+   gpio_set_dir(RN52_GPIO2, GPIO_IN);
    gpio_set_irq_enabled_with_callback(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true, &hal_gpioCallback);
+//   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true);
 
    /* ------------------------------- SI470X ------------------------------- */
    /* Declare callback of GPIO2*/
