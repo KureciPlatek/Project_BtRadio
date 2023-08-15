@@ -45,7 +45,7 @@ bool ep_init(void)
   
       if((ep_imageBUffer = (UBYTE *)malloc(Imagesize)) == NULL) 
       {
-         printf("[EP][API] Failed to apply for black memoryr\n");
+         printf("[EP][API] Failed to save enough memory for e-paper buffer image\n");
          retVal = false;
       }
       else
@@ -87,6 +87,8 @@ bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
 
 bool ep_deactivate(void)
 {
+   EPD_5in83_V2_Clear();
+
    free(ep_imageBUffer);
    ep_imageBUffer = NULL;
 

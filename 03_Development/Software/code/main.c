@@ -131,6 +131,7 @@ void radio_SM(void)
          bt_sendCommand(RN52_CMD_NXT);
          re2->tokenIndirect = false;
          printf("NextTrack\n");
+         bt_sendCommand(RN52_CMD_TRACK);
       }
 
       if (true == re2->tokenDirect)
@@ -138,6 +139,7 @@ void radio_SM(void)
          bt_sendCommand(RN52_CMD_PRV);
          re2->tokenDirect = false;
          printf("PrevTrack\n");
+         bt_sendCommand(RN52_CMD_TRACK);
       }
 
       if (true == re2->tokenPush)
@@ -248,7 +250,7 @@ static void radio_getMode(void)
       {
          printf("Mode BT\n");
          ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated");
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 1, "Device name: DJENA-FD03");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 1, "Device name: radioLaenggass");
          radioState = RADIO_STATE_BT;
          gpio_put(GPIO_MODE_HW, 1);
       }
@@ -265,9 +267,11 @@ static void radio_getMode(void)
    }
    else
    {
-      radioState = RADIO_STATE_IDLE;
       printf("Mode IDLE\r");
-      ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "No mode selected (FM or Bluetooth)");
-      gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default */
+      /* In case of no mode active, clean e-paper */
+      ep_deactivate();
+
+      radioState = RADIO_STATE_IDLE;
+      gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default still active, but not using it */
    }
 }
