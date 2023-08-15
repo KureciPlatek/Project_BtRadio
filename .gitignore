@@ -12,10 +12,16 @@
 
 # Project specific
 06_Doc/*.pdf
+06_Doc/*.png
 .vscode
 *backup*
 #  Libreoffice temporar files
 .~*
+#  Build firmware and other folders:
+03_Development/Software/code/build/*
+03_Development/external_sources/*
+06_Doc/Class_AB_openSource
+06_Doc/_raspberry_debugProbe_instructions
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
