@@ -10,6 +10,13 @@
 *.userosscache
 *.sln.docstates
 
+# Project specific
+06_Doc/*.pdf
+.vscode
+*backup*
+#  Libreoffice temporar files
+.~*
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
