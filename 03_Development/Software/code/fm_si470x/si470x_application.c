@@ -75,7 +75,7 @@ void fm_stateMachine(void)
          break;
       case FM_STATE_IDLE:
          /* Wait for Seek or tune event from human */
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Radio - FM demodulator");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Radio - FM demodulator", true);
 
          break;
       case FM_STATE_SEEKING:

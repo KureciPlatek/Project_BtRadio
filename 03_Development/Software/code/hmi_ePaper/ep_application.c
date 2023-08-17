@@ -59,7 +59,7 @@ bool ep_init(void)
    return retVal;
 }
 
-bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
+bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString, bool flush)
 {
    printf("[EP][API] ep_write called\n");
    Paint_SelectImage(ep_imageBUffer);
@@ -79,12 +79,21 @@ bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
                        ptrToString,
                        _radioScreenConfig[place].desiredFont,
                        WHITE, BLACK);
-   EPD_5in83_V2_Display(ep_imageBUffer);
+   
+   if(true == flush)
+   {
+      ep_flush();
+   }
    
    /* Deep sleep which requires hard ward reset assertion to be functional again. Deactivate */
 //   EPD_5in83_V2_Sleep();
 
    return true;
+}
+
+void ep_flush(void)
+{
+   EPD_5in83_V2_Display(ep_imageBUffer);
 }
 
 bool ep_deactivate(void)

@@ -351,13 +351,17 @@ static void rn52_processADReply(uint8_t line)
    uint8_t indexChar = 0x00;
    uint8_t track[EPAPER_CHARS_PER_LINE];  /* Max EP characters per line */
    uint8_t artist[EPAPER_CHARS_PER_LINE]; /* Max EP characters per line */
+   uint8_t Album[EPAPER_CHARS_PER_LINE]; /* Max EP characters per line */
 
    for(index = 0; index < EPAPER_CHARS_PER_LINE; index++)
    {
       track[index]  = 0x00;
       artist[index] = 0x00;
+      Album[index]  = 0x00;
    }
 
+   /* ==================== PRINT TITLE ==================== */
+   /* Drop all 0x00 if exists */
    /* +6 is for "Title=" character offset which we don't require */
    do {
       track[indexChar] = rn52_inputBuffer[line][indexChar+6];
@@ -365,9 +369,11 @@ static void rn52_processADReply(uint8_t line)
    }
    while(('\n' != rn52_inputBuffer[line][indexChar+6])
     && (EPAPER_CHARS_PER_LINE > (indexChar+6)));
-    
-   ep_write(EPAPER_PLACE_BT_TRACK, 0, (char *)&track[0]);
 
+   ep_write(EPAPER_PLACE_BT_TRACK, 1, (char *)&track[0], false);
+
+
+   /* ==================== PRINT ARTIST ==================== */
    /* +7 is for "Artist=" character offset which we don't require */
    indexChar = 0x00;
    while(('\n' != rn52_inputBuffer[line+1][indexChar+7])
@@ -376,7 +382,22 @@ static void rn52_processADReply(uint8_t line)
       artist[indexChar] = rn52_inputBuffer[line+1][indexChar+7];
       indexChar++;
    }
-   ep_write(EPAPER_PLACE_BT_TRACK, 1, (char *)&artist[0]);
+   ep_write(EPAPER_PLACE_BT_TRACK, 3, (char *)&artist[0], false);
+
+
+   /* ==================== PRINT ALBUM ==================== */
+   /* +6 is for "Album=" character offset which we don't require */
+   indexChar = 0x00;
+   while(('\n' != rn52_inputBuffer[line+2][indexChar+6])
+    &&   (EPAPER_CHARS_PER_LINE > (indexChar+6)))
+   {
+      Album[indexChar] = rn52_inputBuffer[line+2][indexChar+6];
+      indexChar++;
+   }
+   ep_write(EPAPER_PLACE_BT_TRACK, 5, (char *)&Album[0], false);
+
+   /* Write down to display */
+   ep_flush();
 
    /* Finished with cmd process */
    rn52_cmdProcessed();

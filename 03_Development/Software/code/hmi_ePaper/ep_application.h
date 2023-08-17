@@ -50,15 +50,17 @@ typedef struct {
 bool ep_init(void);
 
 /**
+
  * @brief   Write string at a specified place on screen
  * 
  * @param   EPAPER_PLACE [in] enumerate, will write lines at this defined place
  * @param   line         [in] Starting line in screen section 
  * @param   char*        [in] pointer to string of char to print on epaper
+ * @param   flush        [in] boole if we direct write on epaper, or just write some lines and call ep_flush later
  * @return  true  if write text success
  * @return  false if not
  */
-bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString);
+bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString, bool flush);
 
 /**
  * @brief   Clear and deactivate screen
@@ -75,6 +77,12 @@ bool ep_deactivate(void);
  * Should be called only at start-up.
  */
 void ep_cleanImageBUffer(void);
+
+/**
+ * @brief To avoid all time refresh, when writing couple of lines,
+ * just write lines, then call this function to print all to epaper.
+ */
+void ep_flush(void);
 
 
 #endif /* EP_APPLICATION_H */

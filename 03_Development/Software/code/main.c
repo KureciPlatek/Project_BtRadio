@@ -254,8 +254,14 @@ static void radio_getMode(void)
       if(RADIO_STATE_BT != radioState)
       {
          printf("Mode BT\n");
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated");
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 1, "Device name: radioLaenggass");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Bluetooth activated", false);
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 2, "Device name: radioLaenggass", false);
+         ep_write(EPAPER_PLACE_BT_TRACK,   0, "         Track:", false);
+         ep_write(EPAPER_PLACE_BT_TRACK,   2, "         Artist:", false);
+         ep_write(EPAPER_PLACE_BT_TRACK,   4, "         Album:", false);
+         /* Write down to display */
+         ep_flush();
+
          radioState = RADIO_STATE_BT;
          gpio_put(GPIO_MODE_HW, 1);
       }
@@ -265,7 +271,7 @@ static void radio_getMode(void)
       if(RADIO_STATE_FM != radioState)
       {
          printf("Mode FM\n");
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "FM demodulation");
+         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "FM demodulation", true);
          radioState = RADIO_STATE_FM;
          gpio_put(GPIO_MODE_HW, 0);
       }
