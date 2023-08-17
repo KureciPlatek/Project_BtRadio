@@ -72,7 +72,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
-|SFW_27 |*EP_module* Check why is epaper having this cathodic tube like effect (imageBuffer not all 0?) | NEW |
 
 **Work In Progress issues:**  
 
@@ -103,6 +102,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | DONE - Not perfect but enough for requirements |
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | DONE - Only core0 is called. Nothing on core1 right now |
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | DONE - RN52's comm had to be hugely cleaned up |
+|SFW_27 |*EP_module* Check why is epaper having this cathodic tube like effect (imageBuffer not all 0?) | DONE - had to clean heap where image buffer was saved |
 
 
 **Rejected issues**

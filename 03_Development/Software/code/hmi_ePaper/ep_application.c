@@ -19,7 +19,7 @@ static UBYTE *ep_imageBUffer;
 static epaperConfig _radioScreenConfig[EPAPER_PLACE_MAX] = {
    {10, 40, &Font24},   /* EPAPER_PLACE_ACTIVEMODE   */
    {10, 100, &Font24},  /* EPAPER_PLACE_BT_STATUS    */
-   {10, 300, &Font24},  /* EPAPER_PLACE_BT_TRACK     */
+   {10, 220, &Font24},  /* EPAPER_PLACE_BT_TRACK     */
    {10, 400, &Font24}   /* EPAPER_PLACE_FM_FAVORITE  */
 };
 
@@ -50,6 +50,8 @@ bool ep_init(void)
       }
       else
       {
+         /* Clean memory at this place */
+         ep_cleanImageBUffer();
          printf("[EP][API] Paint_NewImage\r\n");
          Paint_NewImage(ep_imageBUffer, EPD_5in83_V2_WIDTH, EPD_5in83_V2_HEIGHT, ROTATE_270, WHITE); 
       }
@@ -99,4 +101,15 @@ bool ep_deactivate(void)
    DEV_Module_Exit();
 
    return true;
+}
+
+void ep_cleanImageBUffer(void)
+{
+   uint32_t indexToClean = 0x00; 
+   // 648*480 = 311040, need an uint32_t
+   uint32_t sizeOfStuff = ((EPD_5in83_V2_WIDTH % 8 == 0)? (EPD_5in83_V2_WIDTH / 8 ): (EPD_5in83_V2_WIDTH / 8 + 1)) * EPD_5in83_V2_HEIGHT;
+   for(indexToClean = 0x00; indexToClean < sizeOfStuff; indexToClean++)
+   {
+      *(ep_imageBUffer + indexToClean) = 0xFF;
+   }
 }

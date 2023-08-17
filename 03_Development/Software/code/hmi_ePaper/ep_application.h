@@ -68,5 +68,13 @@ bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString);
  */
 bool ep_deactivate(void);
 
+/**
+ * @brief Clean image buffer as it uses a huge part of heap which may be
+ * polluted with old code and have remanent bits which produces stranges 
+ * images.
+ * Should be called only at start-up.
+ */
+void ep_cleanImageBUffer(void);
+
 
 #endif /* EP_APPLICATION_H */
