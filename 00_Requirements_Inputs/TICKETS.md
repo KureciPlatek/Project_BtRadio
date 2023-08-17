@@ -72,6 +72,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
+|SFW_27 |*EP_module* Check why is epaper having this cathodic tube like effect (imageBuffer not all 0?) | NEW |
 
 **Work In Progress issues:**  
 
@@ -80,7 +81,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
-|SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | WIP - processing of received chars still to do |
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project | WIP - cleanup code for useless and commented lines |
 |SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | WIP - Use of ep_deactivate() when no HW mode is selected |
 
@@ -102,6 +102,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_20 |*All* Make project compile. Maybe restart full project CMakes as they are strange | DONE - use simple CMake structure |
 |SFW_16 |*REx* Add timeout before other GPIOs may "react". Aim is to entprellen | DONE - Not perfect but enough for requirements |
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | DONE - Only core0 is called. Nothing on core1 right now |
+|SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | DONE - RN52's comm had to be hugely cleaned up |
 
 
 **Rejected issues**
@@ -178,4 +179,5 @@ is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP
 |HDW_26| *PCB* - *Proj_DVA* Add PCB of AD8428 evaluation board | REJECTED - one project at a time |
 |HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | REJECTED, will find solutions without |
 |HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | REJECTED - one project at a time |
+|HDW_40| *Powersupply* DC-DC converter 12 to 5 volts from MURATA is not always available and Wuerth Elektronik provides wome acceptable solutions. Add branch or schematic to manage both configurations | REJECTED - Do it in a second version |
 

@@ -24,7 +24,6 @@ void hal_initGPIOs(void)
    gpio_init(RN52_GPIO2);
    gpio_set_dir(RN52_GPIO2, GPIO_IN);
    gpio_set_irq_enabled_with_callback(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true, &hal_gpioCallback);
-//   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true);
 
    /* ------------------------------- SI470X ------------------------------- */
    /* Declare callback of GPIO2*/
@@ -46,7 +45,6 @@ void hal_gpioCallback(uint gpio, uint32_t events)
 {
    if ((GPIO_IRQ_EDGE_FALL == events) && (RN52_GPIO2 == gpio))
    {
-      printf("[HAL][GPIO] RN52 gpio2 IRQ call\n");
       rn52_handleGpio2();
    }
    if ((GPIO_IRQ_EDGE_FALL == events) && (SI470X_COMM_PIN_GPIO2 == gpio))

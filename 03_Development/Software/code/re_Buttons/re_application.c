@@ -99,23 +99,19 @@ void re_application_StateMachine(re_appli_handle *handle, RE_STATE event)
       if (RE_STATE_A_KEYED == event)
       {
          handle->reState = RE_STATE_A_KEYED;
-         printf("[RE][API] A keyed\n");
-
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
 
       if (RE_STATE_B_KEYED == event)
       {
          handle->reState = RE_STATE_B_KEYED;
-         printf("[RE][API] B keyed\n");
-
          currentAlarm = add_alarm_in_ms(RE_TIMEOUT_CLICKS_MS, alarm_callback, NULL, false);
       }
       break;
    }
 
    default:
-      printf("[RE][API] Wrong RE state\n");
+      printf("[RE][ERROR] Wrong RE state\n");
       break;
    }
 }

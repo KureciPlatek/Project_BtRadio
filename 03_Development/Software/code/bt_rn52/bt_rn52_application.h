@@ -5,6 +5,9 @@
  * @version 0.1
  * @date    2023-05-26
  * 
+ * Configuration of Extended features:
+ * 0x10A6, Bit 11 – Enable latch event indicator PIO2 must be set to LOW for events to be latched
+ * 
  * @copyright Copyright (c) 2023
  * 
  */

@@ -17,10 +17,10 @@ static UBYTE *ep_imageBUffer;
 
 /* uint8_t coordinates_X uint8_t coordinates_Y sFONT desiredFont */   
 static epaperConfig _radioScreenConfig[EPAPER_PLACE_MAX] = {
-   {10, 10, &Font24},   /* EPAPER_PLACE_ACTIVEMODE   */
-   {10, 70, &Font24},   /* EPAPER_PLACE_BT_STATUS    */
-   {10, 100, &Font24},  /* EPAPER_PLACE_BT_TRACK     */
-   {10, 200, &Font24}   /* EPAPER_PLACE_FM_FAVORITE  */
+   {10, 40, &Font24},   /* EPAPER_PLACE_ACTIVEMODE   */
+   {10, 100, &Font24},  /* EPAPER_PLACE_BT_STATUS    */
+   {10, 300, &Font24},  /* EPAPER_PLACE_BT_TRACK     */
+   {10, 400, &Font24}   /* EPAPER_PLACE_FM_FAVORITE  */
 };
 
 bool ep_init(void)
@@ -62,9 +62,9 @@ bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString)
    printf("[EP][API] ep_write called\n");
    Paint_SelectImage(ep_imageBUffer);
 
-   UWORD Y_startClean = _radioScreenConfig[place].coordinates_Y + (line * EPAPER_PIXELS_PER_LINE);
+   UWORD Y_startClean = _radioScreenConfig[place].coordinates_Y + (line * EPAPER_CHARS_PER_LINE);
    UWORD Y_start = Y_startClean + 3;
-   UWORD Y_end = Y_startClean + EPAPER_PIXELS_PER_LINE;
+   UWORD Y_end = Y_startClean + EPAPER_CHARS_PER_LINE;
 
    printf("[EP][API] Clean Pixels %d to %d + write at: %d\n", Y_startClean, Y_end, Y_start);
    //void Paint_ClearWindows(UWORD Xstart, UWORD Ystart, UWORD Xend, UWORD Yend, UWORD Color)

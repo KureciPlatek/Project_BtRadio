@@ -6,7 +6,12 @@
  * @date 2  023-03-02
  *
  * @copyright Copyright (c) 2023
+ * 
+ * run gdb server on Raspberry Debug probe:
+ * sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000"
  *
+ * run gdb on other side:
+ * gdb-multiarch prog.elf
  */
 
 /* C standard library */

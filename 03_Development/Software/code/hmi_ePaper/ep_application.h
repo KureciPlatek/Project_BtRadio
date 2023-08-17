@@ -24,7 +24,7 @@
 #include "ImageData.h"
 #include "EPD_5in83_V2.h"
 
-#define EPAPER_PIXELS_PER_LINE 30
+#define EPAPER_CHARS_PER_LINE 30
 
 typedef enum {
    EPAPER_PLACE_ACTIVEMODE = 0,
@@ -36,8 +36,8 @@ typedef enum {
 } EPAPER_PLACE;
 
 typedef struct {
-   uint8_t coordinates_X;
-   uint8_t coordinates_Y;
+   uint16_t coordinates_X;
+   uint16_t coordinates_Y;
    sFONT * desiredFont;
 } epaperConfig;
 
