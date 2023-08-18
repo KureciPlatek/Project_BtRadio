@@ -64,6 +64,9 @@ typedef struct {
  */
 void bt_init(void);
 
+void bt_deactivate(void);
+void bt_activate(void);
+
 /**
  * @brief send an RN52 command to bluetooth module
  * 

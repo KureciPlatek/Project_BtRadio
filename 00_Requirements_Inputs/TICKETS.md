@@ -81,7 +81,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project | WIP - cleanup code for useless and commented lines |
-|SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | WIP - Use of ep_deactivate() when no HW mode is selected |
+|SFW_28| *BT_module*, *FM_module* Deactivate interrupts of module when not in use | WIP - only UART and GPIO interrupts are activable/deactivable |
 
 **Resolved issues:**
 
@@ -103,6 +103,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_21 |*RP2040* Check this stuff with double core. We may have pbm with interrupts affected to a core | DONE - Only core0 is called. Nothing on core1 right now |
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | DONE - RN52's comm had to be hugely cleaned up |
 |SFW_27 |*EP_module* Check why is epaper having this cathodic tube like effect (imageBuffer not all 0?) | DONE - had to clean heap where image buffer was saved |
+|SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | DONE - Use of ep_deactivate() when no HW mode is selected |
 
 
 **Rejected issues**

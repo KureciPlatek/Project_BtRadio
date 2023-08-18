@@ -216,7 +216,7 @@ void radio_init(void)
    re_initModule();
 
    /* FM module init */
-//   fm_init();
+   fm_init();
 
    /* Bluetooth module init */
    bt_init();
@@ -262,6 +262,9 @@ static void radio_getMode(void)
          /* Write down to display */
          ep_flush();
 
+         bt_activate();
+         fm_deactivate();
+
          radioState = RADIO_STATE_BT;
          gpio_put(GPIO_MODE_HW, 1);
       }
@@ -272,6 +275,10 @@ static void radio_getMode(void)
       {
          printf("Mode FM\n");
          ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "FM demodulation", true);
+
+         fm_activate();
+         bt_deactivate();
+
          radioState = RADIO_STATE_FM;
          gpio_put(GPIO_MODE_HW, 0);
       }
@@ -281,6 +288,9 @@ static void radio_getMode(void)
       printf("Mode IDLE\r");
       /* In case of no mode active, clean e-paper */
       ep_deactivate();
+      /* Deactivate modules to avoid parasite on/off due to interrupts */
+      bt_deactivate();
+      fm_deactivate();
 
       radioState = RADIO_STATE_IDLE;
       gpio_put(GPIO_MODE_HW, 0); /* Bluetooth module per default still active, but not using it */

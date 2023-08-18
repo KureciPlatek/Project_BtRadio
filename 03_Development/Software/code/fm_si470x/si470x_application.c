@@ -20,6 +20,7 @@
 #include "rdsDecoder.h"
 #include "bt_rn52_application.h"
 #include "ep_application.h"
+#include "hal_main.h"
 
 /* @todo add doxygen comments for those functions */
 static void processSTCEvent(bool seekTune);
@@ -120,6 +121,16 @@ void fm_init(void)
    rdsDecoder_init(RT_STATE_QUALITY_BAD, false);
 
    fmState = FM_STATE_INIT;
+}
+
+void fm_deactivate(void)
+{
+   hal_deactivateFM();
+}
+
+void fm_activate(void)
+{
+   hal_activateFM();
 }
 
 void fm_setVolume(bool upDown)

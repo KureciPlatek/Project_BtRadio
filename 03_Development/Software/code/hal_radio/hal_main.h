@@ -52,4 +52,9 @@ void hal_initGPIOs(void);
  */
 void hal_gpioCallback(uint gpio, uint32_t events);
 
+void hal_deactivateFM(void);
+void hal_deactivateBT(void);
+void hal_activateFM(void);
+void hal_activateBT(void);
+
 #endif

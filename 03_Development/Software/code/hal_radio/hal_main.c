@@ -41,6 +41,26 @@ void hal_initGPIOs(void)
    gpio_set_irq_enabled(RE2_GPIOSW, GPIO_IRQ_EDGE_RISE, true);
 }
 
+void hal_deactivateBT(void)
+{
+   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, false);
+}
+
+void hal_deactivateFM(void)
+{
+   gpio_set_irq_enabled(SI470X_COMM_PIN_GPIO2, GPIO_IRQ_EDGE_FALL, false);
+}
+
+void hal_activateBT(void)
+{
+   gpio_set_irq_enabled(RN52_GPIO2, GPIO_IRQ_EDGE_FALL, true);
+}
+
+void hal_activateFM(void)
+{
+   gpio_set_irq_enabled(SI470X_COMM_PIN_GPIO2, GPIO_IRQ_EDGE_FALL, true);
+}
+
 void hal_gpioCallback(uint gpio, uint32_t events)
 {
    if ((GPIO_IRQ_EDGE_FALL == events) && (RN52_GPIO2 == gpio))

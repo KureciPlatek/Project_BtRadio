@@ -17,6 +17,7 @@
 
 #include "bt_rn52_application.h"
 #include "ep_application.h"
+#include "hal_main.h"
 
 #define ALARM_NUM 0
 #define ALARM_IRQ TIMER_IRQ_0
@@ -137,6 +138,20 @@ void bt_init(void)
    currentAlarm_rn52 = (alarm_id_t)0x00;
 
    printf("[BT][API] Init BT done\n");
+}
+
+void bt_deactivate(void)
+{
+   int UART_IRQ = BT_UART_ID == uart0 ? UART0_IRQ : UART1_IRQ;
+   irq_set_enabled(UART_IRQ, false);
+   hal_deactivateBT();
+}
+
+void bt_activate(void)
+{
+   int UART_IRQ = BT_UART_ID == uart0 ? UART0_IRQ : UART1_IRQ;
+   irq_set_enabled(UART_IRQ, true);
+   hal_activateBT();
 }
 
 void bt_sendCommand(RN52_CMD_ID rn52cmd)

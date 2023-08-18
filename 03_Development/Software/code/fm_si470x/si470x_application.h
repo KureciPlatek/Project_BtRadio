@@ -52,6 +52,9 @@ static fm_station_preset stationsPresets[MAX_PRESETS];
  */
 void fm_init(void);
 
+void fm_deactivate(void);
+void fm_activate(void);
+
 /**
  * @brief Callback in case of GPIO2 interrupt from si470x
  */
