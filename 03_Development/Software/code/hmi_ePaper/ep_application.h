@@ -26,6 +26,10 @@
 
 #define EPAPER_CHARS_PER_LINE 30
 
+/**
+ * @brief enumerate to list different places where categories
+ * of info/strings may be printed
+ */
 typedef enum {
    EPAPER_PLACE_ACTIVEMODE = 0,
    EPAPER_PLACE_BT_STATUS,
@@ -35,6 +39,10 @@ typedef enum {
    EPAPER_PLACE_MAX
 } EPAPER_PLACE;
 
+/**
+ * @brief For each place described earlier, describe on screen where it should be
+ * 
+ */
 typedef struct {
    uint16_t coordinates_X;
    uint16_t coordinates_Y;

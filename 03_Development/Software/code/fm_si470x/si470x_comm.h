@@ -17,15 +17,12 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 
-/* Raspberry Pico board pin config for Si470x module. 
- * You may change this config 
- */
-#define SI470X_COMM_PIN_SDIO  PICO_DEFAULT_I2C_SDA_PIN
-#define SI470X_COMM_PIN_SCLK  PICO_DEFAULT_I2C_SCL_PIN
-
-#define SI470X_COMM_PIN_GPIO1 15
-#define SI470X_COMM_PIN_RESET 4
-#define SI470X_COMM_PIN_SEN   5
+#define SI470X_COMM_PIN_RESET 2
+#define SI470X_COMM_PIN_SEN   3
+#define SI470X_COMM_PIN_SDIO  4  // Own project I2C_SDA_PIN
+#define SI470X_COMM_PIN_SCLK  5  // Own project I2C_SCL_PIN
+#define SI470X_COMM_PIN_GPIO1 7
+// #define SI470X_COMM_PIN_GPIO2 6
 
 #define SI470X_COMM_BAUDRATE  400000   /* In Hz */
 

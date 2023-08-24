@@ -92,11 +92,11 @@ void DEV_GPIO_Init(void)
 {
 
    EPD_RST_PIN    = 12;
-   EPD_DC_PIN     = 8;
+   EPD_DC_PIN     = 14; // 8;
    EPD_BUSY_PIN   = 13;
    
-   EPD_CS_PIN      = 9;
-   EPD_CLK_PIN      = 10;
+   EPD_CS_PIN     = 15; // 9;
+   EPD_CLK_PIN    = 10;
    EPD_MOSI_PIN   = 11;
 
    DEV_GPIO_Mode(EPD_RST_PIN, 1);

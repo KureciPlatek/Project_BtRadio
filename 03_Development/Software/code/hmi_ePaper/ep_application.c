@@ -61,6 +61,7 @@ bool ep_init(void)
 
 bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString, bool flush)
 {
+#if 0
    printf("[EP][API] ep_write called\n");
    Paint_SelectImage(ep_imageBUffer);
 
@@ -87,13 +88,15 @@ bool ep_write(EPAPER_PLACE place, uint8_t line, char * ptrToString, bool flush)
    
    /* Deep sleep which requires hard ward reset assertion to be functional again. Deactivate */
 //   EPD_5in83_V2_Sleep();
-
+#endif
    return true;
 }
 
 void ep_flush(void)
 {
+#if 0
    EPD_5in83_V2_Display(ep_imageBUffer);
+#endif
 }
 
 bool ep_deactivate(void)

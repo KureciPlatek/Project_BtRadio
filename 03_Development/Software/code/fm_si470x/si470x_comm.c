@@ -16,8 +16,7 @@
 #include "si470x_comm.h"
 #include "si470x_driver_regs.h"
 
-/* handle to i2c instance - use default instance of Raspberry Pico */
-//static i2c_inst_t myInst = i2c_default;
+// i2c_inst_t si470x_i2cInst;
 
 /* -------------------------------------------------------------------------- */
 /* ------------------------ READ/WRITE TO Si470x ---------------------------- */
@@ -38,20 +37,25 @@ void si470x_comm_initHW(void)
    gpio_init(SI470X_COMM_PIN_GPIO1);
    gpio_set_dir(SI470X_COMM_PIN_GPIO1, GPIO_OUT);
 
-   /* Input GPIOs, for STC/RDS complete interrput */
+   // Moved to hal_main
+//   /* Input GPIOs, for STC/RDS complete interrput */
 //   gpio_init(SI470X_COMM_PIN_GPIO2);
 //   gpio_set_dir(SI470X_COMM_PIN_GPIO2, GPIO_IN);
 
    /* I2C interface */
-#if !defined(i2c_default) || !defined(PICO_DEFAULT_I2C_SDA_PIN) || !defined(PICO_DEFAULT_I2C_SCL_PIN)
-#warning i2c/bus_scan example requires a board with I2C pins
-   puts("Default I2C pins were not defined");
-#else
+//#if !defined(i2c_default) || !defined(PICO_DEFAULT_I2C_SDA_PIN) || !defined(PICO_DEFAULT_I2C_SCL_PIN)
+//   gpio_set_function(SI470X_COMM_PIN_SDIO, GPIO_FUNC_I2C);
+//   gpio_set_function(SI470X_COMM_PIN_SCLK, GPIO_FUNC_I2C);
+//   gpio_pull_up(SI470X_COMM_PIN_SDIO);
+//   gpio_pull_up(SI470X_COMM_PIN_SCLK);
+////   puts("Default I2C pins were not defined");
+//#else
    gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
    gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
    gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
    gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
-#endif
+//#endif
+
 }
 
 bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr) 
@@ -102,6 +106,8 @@ bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr)
             indexBuf++;
             wrongOrderRegisters[indexReg] = tempReg;
          }
+
+         // SOmewhere here
 
          /* Restructure retrieved register array if we had to wrap around */
          if(regNbr < SI470x_REG_STATUSRSSI)

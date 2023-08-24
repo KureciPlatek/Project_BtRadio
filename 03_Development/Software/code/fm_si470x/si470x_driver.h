@@ -251,7 +251,7 @@ void si470x_tuneFrequency(float frequency);
  * @param direction 
  * @param blocking 
  */
-void si470x_startSeek(uint8_t direction);
+bool si470x_startSeek(uint8_t direction);
 
 #ifdef __cplusplus
 }

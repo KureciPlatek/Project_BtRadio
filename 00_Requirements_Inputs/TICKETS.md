@@ -77,7 +77,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | WIP |
 |SFW_14 |*FM_module* Add behavioral in application | WIP - half commented out |
 |SFW_7 |*Architecture* Describe code as a waiting state machine to recieve "internal interrupts", which are tokens | WIP - partially implemented, they way inputs from modules are processed should be checked |
 |SFW_3 |*Architecture* Cleanup git repo, create clean architecture of project | WIP - cleanup code for useless and commented lines |
@@ -104,6 +103,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SFW_17 | *BT mode* Add processing function to analyse retrieved data from RN52's UART comm | DONE - RN52's comm had to be hugely cleaned up |
 |SFW_27 |*EP_module* Check why is epaper having this cathodic tube like effect (imageBuffer not all 0?) | DONE - had to clean heap where image buffer was saved |
 |SFW_26 |*EP_module* Add screenClear() procedure before shuting down. Otherwise, pixels will stay active and may damage epaper | DONE - Use of ep_deactivate() when no HW mode is selected |
+|SFW_2 |*FM_module* Strange freeze after first seek up/down. Debug with PicoProbe | DONE - A too small array was given and it was overwriting out of bonds on the stack |
 
 
 **Rejected issues**
@@ -122,6 +122,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
+|HDW_41| *Routing* BT, EP and FM modules have been wrongly routed. Correct PCB and Software | NEW |
 
 
 **Work In Progress issues:**  

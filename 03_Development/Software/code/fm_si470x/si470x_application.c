@@ -45,9 +45,11 @@ uint8_t tokenIRQ_GPIO2 = 0x00;
 
 void fm_si470xGpio2_callback(void)
 {
-   if((FM_STATE_INIT != fmState) || (FM_STATE_PWRUP != fmState))
+   if((FM_STATE_INIT  != fmState) 
+   && (FM_STATE_PWRUP != fmState))
    {
-      fm_stateMachine();
+      tokenIRQ_GPIO2 = 0x01;
+//      fm_stateMachine();
    }
 }
 
@@ -76,7 +78,7 @@ void fm_stateMachine(void)
          break;
       case FM_STATE_IDLE:
          /* Wait for Seek or tune event from human */
-         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Radio - FM demodulator", true);
+//         ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "Radio - FM demodulator", true);
 
          break;
       case FM_STATE_SEEKING:
@@ -113,6 +115,7 @@ void fm_init(void)
 
    /* Init Si470x module */
    si470x_init();
+
    si470x_powerUp();
 
    /* Declare callback of GPIO2 done in hal_gpio */
@@ -120,7 +123,7 @@ void fm_init(void)
    /* Init RDS decoder, less quality for more verbose */
    rdsDecoder_init(RT_STATE_QUALITY_BAD, false);
 
-   fmState = FM_STATE_INIT;
+   fmState = FM_STATE_IDLE;
 }
 
 void fm_deactivate(void)
@@ -187,9 +190,11 @@ bool fm_startSeekChannel(uint8_t upDown)
 
    if (si470x_getSTCbit())
    {
-      si470x_startSeek(upDown);
-      fmState = FM_STATE_SEEKING;
-      retVal = true;
+      if(true == si470x_startSeek(upDown))
+      {
+         fmState = FM_STATE_SEEKING;
+         retVal  = true;
+      }
    }
 
    return retVal;

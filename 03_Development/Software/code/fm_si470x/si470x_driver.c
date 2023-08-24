@@ -188,6 +188,7 @@ bool si470x_powerUp(void)
    }
    else
    {
+      printf("---------- 1 Register red: 0x%2x\n", readReg[0]);
       /* Save all registers into shadow register on RP2040 */
       for(index = 0; index < SI470x_REG_BOOTCONFIG; index++)
       {
@@ -295,6 +296,7 @@ void si470x_configureModule(void)
    else
    {
       printf("[FM][API] INIT - Radio configure finished\n");
+      printf("---------- 2 Register red: 0x%2x\n", readReg[0]);
       for(index = 0; index < SI470x_REG_BOOTCONFIG; index++)
       {
          _radioHandle._regs[index] = readReg[index];
@@ -366,19 +368,21 @@ void si470x_tuneFrequency(float frequency)
    printf("Tune on going...\n");
 }
 
-void si470x_startSeek(uint8_t direction)
+bool si470x_startSeek(uint8_t direction)
 {
    printf("[FM][API] Seek start\n");
-   uint16_t tempRegs[0x02];   /* We read registers STATUSRSSI and READCHANNEL */
+   uint16_t readReg[SI470x_REG_BOOTCONFIG]; /* We read registers STATUSRSSI and READCHANNEL */
+//   uint16_t tempRegs[0x02];   
    uint8_t bitSTC = 0x01;
+   bool retVal = false;
 
    /* Fool proof */
    if((0x00 == direction) || (0x01 == direction)) 
    {
       /* @todo STC bit already checked before? */
       /* Check STC cleared before new seek */
-      si470x_comm_readRegisters(&tempRegs[0], SI470x_REG_READCHAN);
-      bitSTC = (tempRegs[0] & SI470X_MASK_STC) >> SI470X_POS_STC;
+      si470x_comm_readRegisters(&readReg[0], SI470x_REG_READCHAN);
+      bitSTC = (readReg[0] & SI470X_MASK_STC) >> SI470X_POS_STC;
 
       if(0x00 == bitSTC)
       {
@@ -392,6 +396,7 @@ void si470x_startSeek(uint8_t direction)
          if(si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
          {
             printf("Send seek cmd ok\n");
+            retVal = true;
          }
       }
       else
@@ -399,6 +404,8 @@ void si470x_startSeek(uint8_t direction)
          printf("[FM][API] - STC bit not yet cleared\n");
       }
    }
+
+   return retVal;
 }
 
 uint8_t si470x_seekTune_finished(bool seekTune)

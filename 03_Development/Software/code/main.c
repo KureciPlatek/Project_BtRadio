@@ -219,10 +219,10 @@ void radio_init(void)
    fm_init();
 
    /* Bluetooth module init */
-   bt_init();
+//   bt_init();
 
    /* e-Paper module init */
-   ep_init();
+//   ep_init();
 
    /* Set Pico Board LED ON */
    gpio_init(LED_PIN);
@@ -277,7 +277,7 @@ static void radio_getMode(void)
          ep_write(EPAPER_PLACE_ACTIVEMODE, 0, "FM demodulation", true);
 
          fm_activate();
-         bt_deactivate();
+//         bt_deactivate();
 
          radioState = RADIO_STATE_FM;
          gpio_put(GPIO_MODE_HW, 0);

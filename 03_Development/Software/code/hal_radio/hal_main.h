@@ -31,7 +31,7 @@
 #define RE2_GPIOB    21  // GPIO 21 of RP2040
 
 /* ------------ FM module ------------ */
-#define SI470X_COMM_PIN_GPIO2 14
+#define SI470X_COMM_PIN_GPIO2 6
 
 /* ------------ BT module ------------ */
 #define RN52_GPIO2   28 /* GPIO 28 for rn52's gpio2 notification pin */
@@ -39,7 +39,6 @@
 
 /**
  * @brief Init all GPIOs
- * 
  */
 void hal_initGPIOs(void);
 
@@ -47,8 +46,8 @@ void hal_initGPIOs(void);
  * @brief Callback to call if ANY GPIO IRQ was triggered. It will call 
  *        corresponding module callback depending on which GPIO was triggered
  * 
- * @param gpio uint  which GPIO was triggered
- * @param events what kind of event happened
+ * @param gpio    [in] uint  which GPIO was triggered
+ * @param events  [in] uint32_t what kind of event happened
  */
 void hal_gpioCallback(uint gpio, uint32_t events);
 
