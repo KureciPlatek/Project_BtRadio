@@ -147,7 +147,7 @@ bool si470x_powerUp(void);
  * elements like region presets and so on.
  * Values are written on Si470x registers.
  */
-void si470x_configureModule(void);
+bool si470x_configureModule(void);
 
 /**
  * @brief Power down the radio chip.

@@ -107,22 +107,17 @@ bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr)
             wrongOrderRegisters[indexReg] = tempReg;
          }
 
-         // SOmewhere here
-
          /* Restructure retrieved register array if we had to wrap around */
          if(regNbr < SI470x_REG_STATUSRSSI)
          {
-//            printf("___ reorder with < RSSI ___\n");
             for(indexReg = 0; indexReg < regNbr; indexReg++)
             {
                /* Shift of 6 case because 0x0A to 0x0F are first in wrongOrderRegisters*/
                regData[indexReg] = wrongOrderRegisters[indexReg + 0x06];
-//               printf("readed: %04x - %04x\n", regData[indexReg], wrongOrderRegisters[indexReg+ 0x06]);
             }
          }
          else
          {
-//            printf("___ reorder with > RSSI ___\n");
             /* Then, add registers 0x0A to max wanted. Fill lower ones with 0x00 */
             for(indexReg = 0x00; indexReg < SI470x_REG_STATUSRSSI; indexReg++)
             {
@@ -146,8 +141,6 @@ bool si470x_comm_readRegisters(uint16_t *regData, uint8_t regNbr)
 bool si470x_comm_writeRegisters(uint16_t *regData, uint8_t upperReg)
 {
    bool retVal = false;
-//   printf("Write regs called for reg: %d\n", upperReg);
-   
    /* @WARNING checkt that I2C of Raspberry Pico RP2040 do send 8 bits of empty data before starting */
 
    /* Are register address write delimitations (see AN230) */
@@ -166,7 +159,6 @@ bool si470x_comm_writeRegisters(uint16_t *regData, uint8_t upperReg)
          buf[index++] = (uint8_t)(*pointerToData & 0x00FF); // low register
          pointerToData++;
       }
-//      printf("Write to: %d\n", upperReg);
       
       /* Send to I2C - nonstop set to false, otherwise, error in Si470x internal register addr counter */
       writeRes = i2c_write_blocking(i2c_default, SI4703_ADDR, buf, data_size, false);
@@ -179,8 +171,6 @@ bool si470x_comm_writeRegisters(uint16_t *regData, uint8_t upperReg)
          printf("[ERROR] I2C - Write regs\n");
       }
    }
-   printf("Write done %d\n", upperReg);
-
    return retVal;
 }
 

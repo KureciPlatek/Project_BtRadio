@@ -104,14 +104,14 @@ void fm_stateMachine(void)
          break;
       case FM_STATE_MAX:
       default:
-         printf("ERROR - unknown state of FM module: 0x%02x\n", fmState);
+         printf("[FM][APP] ERROR - unknown state of FM module: 0x%02x\n", fmState);
          break;
    }
 }
 
 void fm_init(void)
 {
-   printf("init application\n");
+   printf("[FM][APP] Init application\n");
 
    /* Init Si470x module */
    si470x_init();
@@ -175,7 +175,7 @@ void fm_printStationPresets(void)
    uint8_t index = 0;
    for(; index < MAX_PRESETS ;index++)
    {
-      printf("Station %d: %s - FM: %f\n", (index+1), stationsPresets[index].preset_PSname, stationsPresets[index].preset_freq);
+      printf("[FM][APP] Station %d: %s - FM: %f\n", (index+1), stationsPresets[index].preset_PSname, stationsPresets[index].preset_freq);
    }
 }
 
@@ -207,7 +207,7 @@ static void processSTCEvent(bool seekTune)
 
    if(0 < data_RSSI)
    {
-      printf("SeekTune finished, RSSI: %d, Freq: %f", data_RSSI, si470x_getFrequency());
+      printf("[FM][APP] SeekTune finished, RSSI: %d, Freq: %f\n", data_RSSI, si470x_getFrequency());
       fmState = FM_STATE_RDS; /* Finished with SeekTune, go to RDS decoding */
    }
    else
@@ -215,7 +215,7 @@ static void processSTCEvent(bool seekTune)
       /* Error while SeekTune, return to IDLE state */
       /* @TODO If state was SEEKING. maybe try some other seek sensibility */
       fmState = FM_STATE_IDLE;
-      printf("Seek or Tune error\n");
+      printf("[FM][APP] Seek or Tune error\n");
    }
 }
 
@@ -231,6 +231,7 @@ static void processRDSEvent(void)
    sizeOfRTmsg = rdsDecoder_processNewGroup(&rtMsg[0], &tempGroup);
    if(0 < sizeOfRTmsg)
    {
+      printf("[FM][APP] RDS event - %d\n", sizeOfRTmsg);
       index = 0;
       for(;index < sizeOfRTmsg; index++)
       {

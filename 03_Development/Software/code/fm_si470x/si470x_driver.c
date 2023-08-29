@@ -89,34 +89,11 @@ static const float spacingRegions[] =
 /* Handle to Si470x module, gathers all needed info and registers */
 si470x_t _radioHandle;
 
-void readRegss2(void)
-{
-   uint8_t tempRegs[SI4703_BYTES_FOR_STD_READ];
-   uint8_t index = 0;
-   int writeRes = 0;
-
-   /* Send to I2C - nonstop set to false, otherwise, error in Si470x internal register addr counter */
-   writeRes = i2c_read_blocking(i2c_default, SI4703_ADDR, tempRegs, SI4703_BYTES_FOR_STD_READ, false);
-   if(writeRes == SI4703_BYTES_FOR_STD_READ)
-   {
-      for(;index <SI4703_BYTES_FOR_STD_READ; index++)
-      {
-         if(0 == (index % 2)) {printf("\nh%02x", ((index/2+0xA)%0x10));}
-         printf("[0x%02X]", tempRegs[index]);
-      }
-      printf("\n");
-   }
-   else
-   {
-      printf("[ERROR] I2C - read regs\n");
-   }
-}
-
 ///////////////////// PUBLIC FUNCTIONS DEFINITIONS /////////////////////////////
 /* _______________ START AND CONFIG _______________ */
 void si470x_init(void) 
 {
-   printf("[FM][API] init fm module\n");
+   printf("[FM][DRV] init fm module\n");
    uint8_t index = 0x00;
    uint16_t regVal = 0x0000;
    
@@ -147,19 +124,19 @@ void si470x_init(void)
    while((index < SI470x_REG_MAX) &&( 0x0000 == regVal))
    {
       regVal = _radioHandle._regs[index];
-      if(0x0000 != regVal) {printf("[FM][API] ERROR - one shadow reg not 0x0000 (Reg%d=0x%04x\n", index, regVal);}
+      if(0x0000 != regVal) {printf("[FM][DRV] ERROR - one shadow reg not 0x0000 (Reg%d=0x%04x\n", index, regVal);}
       index++;
    };
    
    /* Power up FM module, to power it down, call fm_deInit() or si470x_powerDown() */
    _radioHandle._state = SI470X_STATE_INITIALIZED;
 //   si470x_powerUp();  /* No automatic power up. Wait for FM to be activated */
-   printf("[FM][API] INIT - radio init finished\n");
+   printf("[FM][DRV] INIT - radio init finished\n");
 }
 
 bool si470x_powerUp(void) 
 {
-   printf("[FM][API] INIT - radio power up\n");
+   printf("[FM][DRV] INIT - radio power up\n");
    bool retVal = true;
    uint16_t readReg[SI470x_REG_BOOTCONFIG];
    uint8_t  DEV_bits   = 0x00;
@@ -183,17 +160,15 @@ bool si470x_powerUp(void)
    /* Save only config registers. RSSI, READCHAN and RDS regs not needed*/
    if (!si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
    {
-      printf("[FM][API] ERROR - I2C read failure, check wirings\r\n");
+      printf("[FM][DRV] ERROR - I2C read failure, check wirings\r\n");
       retVal = false;
    }
    else
    {
-      printf("---------- 1 Register red: 0x%2x\n", readReg[0]);
       /* Save all registers into shadow register on RP2040 */
       for(index = 0; index < SI470x_REG_BOOTCONFIG; index++)
       {
          _radioHandle._regs[index] = readReg[index];
-//         printf("REG_%d = [0x%04x]\n", index, _radioHandle._regs[index]);
       }
 
       /* __ Configure Si470x hardware __ */
@@ -223,12 +198,12 @@ bool si470x_powerUp(void)
          {
             _radioHandle._state = SI470X_STATE_POWERED_UP;
             /* Next sequence, configure radio */
-            printf("[FM][API] INIT - Radio power up OK (0x%02x)\n", DEV_bits);
-            si470x_configureModule();
+            printf("[FM][DRV] INIT - Radio power up OK (0x%02x)\n", DEV_bits);
+            retVal = si470x_configureModule();
          }
          else
          {
-            printf("[FM][API] ERROR - with power up: %d\n", DEV_bits);
+            printf("[FM][DRV] ERROR - with power up: %d\n", DEV_bits);
             retVal = false;
          }
       }
@@ -237,13 +212,14 @@ bool si470x_powerUp(void)
    return retVal;
 }
 
-void si470x_configureModule(void)
+bool si470x_configureModule(void)
 {
-   printf("[FM][API] INIT - radio configure\n");
+   printf("[FM][DRV] INIT - radio configure\n");
 
    uint16_t readReg[SI470x_REG_BOOTCONFIG];
    uint8_t index = 0;
    uint16_t test1TempReg = 0x0000;
+   bool retVal = false;
 
    for(index = 0; index < SI470x_REG_BOOTCONFIG; index++)
    {
@@ -254,11 +230,10 @@ void si470x_configureModule(void)
    if(si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG))
    {
       test1TempReg = readReg[SI470x_REG_TEST1];
-//      printf("Saved TEST1: 0x%04x\n", test1TempReg);
    }
    else
    {
-      printf("Could not save TEST1 register\n");
+      printf("[FM][DRV] Could not save TEST1 register\n");
    }
 
    /* Start radio output and listening */
@@ -269,14 +244,16 @@ void si470x_configureModule(void)
    _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_RDSIEN   & (1 << SI470X_POS_RDSIEN);
    _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_STCIEN   & (1 << SI470X_POS_STCIEN);
    _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_GPIO2    & (0x01 << SI470X_POS_GPIO2); 
-
    _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_RDS      & (1 << SI470X_POS_RDS);
    _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_DE	      & ( _radioHandle._config.deemphasis << SI470X_POS_DE);   
+//   _radioHandle._regs[SI470x_REG_SYSCONFIG1] |= SI470X_MASK_DE	      & (1 << 11);   
+
    _radioHandle._regs[SI470x_REG_SYSCONFIG2] |= SI470X_MASK_BAND     & ( _radioHandle._config.band << SI470X_POS_BAND);
    _radioHandle._regs[SI470x_REG_SYSCONFIG2] |= SI470X_MASK_SPACE	   & ( _radioHandle._config.channel_spacing << SI470X_POS_SPACE);
    _radioHandle._regs[SI470x_REG_SYSCONFIG2] |= SI470X_MASK_VOLUME   & ( 0x6 << SI470X_POS_VOLUME);
    _radioHandle._regs[SI470x_REG_SYSCONFIG2] |= SI470X_MASK_SEEKTH   & (seekSensPresets[_radioHandle._config.seek_sensitivity].seekth << SI470X_POS_SEEKTH);
    _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SKCNT    & (seekSensPresets[_radioHandle._config.seek_sensitivity].skcnt << SI470X_POS_SKCNT);
+
    _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SKSNR    & (seekSensPresets[_radioHandle._config.seek_sensitivity].sksnr << SI470X_POS_SKSNR);      
    _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTER   & ( _radioHandle._config.softmute_rate << SI470X_POS_SMUTER);
    _radioHandle._regs[SI470x_REG_SYSCONFIG3] |= SI470X_MASK_SMUTEA   & ( _radioHandle._config.softmute_attenuation << SI470X_POS_SMUTEA);
@@ -291,26 +268,28 @@ void si470x_configureModule(void)
    /* Check all registers correctly written */
    if (!si470x_comm_readRegisters(&readReg[0], SI470x_REG_BOOTCONFIG)) 
    {
-      printf("[FM][API] ERROR - I2C read failure, check wirings\r\n");
+      printf("[FM][DRV] ERROR - I2C read failure, check wirings\r\n");
    }
    else
    {
-      printf("[FM][API] INIT - Radio configure finished\n");
-      printf("---------- 2 Register red: 0x%2x\n", readReg[0]);
+      printf("[FM][DRV] INIT - Radio configure finished\n");
       for(index = 0; index < SI470x_REG_BOOTCONFIG; index++)
       {
          _radioHandle._regs[index] = readReg[index];
-//         printf("Reg_%d - [0x%04x]\n", index, readReg[index]);
       }
+
       if(0x3C04 != (readReg[SI470x_REG_TEST1] & 0x3FFF))
       {
-         printf("TEST1 reg wrong value: 0x%04x - 0x%04x\n", readReg[SI470x_REG_TEST1], test1TempReg);
+         printf("[FM][DRV] TEST1 reg wrong value: 0x%04x - 0x%04x\n", readReg[SI470x_REG_TEST1], test1TempReg);
       }
       else
       {
          _radioHandle._state = SI470X_STATE_CONFIGURED;
+         retVal = true;
       }
    }
+
+   return retVal;
 }
 
 void si470x_powerDown(void) 
@@ -328,14 +307,14 @@ void si470x_powerDown(void)
    
       si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
       _radioHandle._state = SI470X_STATE_POWERED_DOWN;
-      printf("[FM][API] Si470x powered down\n");
+      printf("[FM][DRV] Si470x powered down\n");
    }
 }
 
 /* _______________ ACTIONS _______________ */
 void si470x_tuneFrequency(float frequency)
 {
-   printf("[FM][API] Tune freq %f - start\n", frequency);
+   printf("[FM][DRV] Tune freq %f - start\n", frequency);
    uint16_t tempReg;   /* We read STATUSRSSI only */
    uint8_t bitSTC = 0x01;
 
@@ -358,27 +337,26 @@ void si470x_tuneFrequency(float frequency)
       }
       else
       {
-         printf("[FM][API] Tune failed. STC: %d, Freq: %f | %f\n", bitSTC, frequency, _radioHandle._freq);
+         printf("[FM][DRV] Tune failed. STC: %d, Freq: %f | %f\n", bitSTC, frequency, _radioHandle._freq);
       }
    }
    else
    {
-      printf("[FM][API] ERROR - No tune possible, Si470x powered down: %d\n", _radioHandle._state);
+      printf("[FM][DRV] ERROR - No tune possible, Si470x powered down: %d\n", _radioHandle._state);
    }
-   printf("Tune on going...\n");
+   printf("[FM][DRV] Tune on going...\n");
 }
 
 bool si470x_startSeek(uint8_t direction)
 {
-   printf("[FM][API] Seek start\n");
    uint16_t readReg[SI470x_REG_BOOTCONFIG]; /* We read registers STATUSRSSI and READCHANNEL */
-//   uint16_t tempRegs[0x02];   
    uint8_t bitSTC = 0x01;
    bool retVal = false;
 
    /* Fool proof */
    if((0x00 == direction) || (0x01 == direction)) 
    {
+      printf("[FM][DRV] Seek start\n");
       /* @todo STC bit already checked before? */
       /* Check STC cleared before new seek */
       si470x_comm_readRegisters(&readReg[0], SI470x_REG_READCHAN);
@@ -392,16 +370,14 @@ bool si470x_startSeek(uint8_t direction)
          _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_SEEKUP & (direction << SI470X_POS_SEEKUP);
          _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_SEEK   & (1 << SI470X_POS_SEEK);
          /* Write registers and start seek */
-         printf(" --- Start seek\n");
          if(si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
          {
-            printf("Send seek cmd ok\n");
             retVal = true;
          }
       }
       else
       {
-         printf("[FM][API] - STC bit not yet cleared\n");
+         printf("[FM][DRV] STC bit not yet cleared\n");
       }
    }
 
@@ -410,18 +386,18 @@ bool si470x_startSeek(uint8_t direction)
 
 uint8_t si470x_seekTune_finished(bool seekTune)
 {
-   printf("[FM][API] Seek tune finished\n");
+   printf("[FM][DRV] Seek tune finished\n");
    uint16_t tempRegs[SI470x_REG_READCHAN+1];   
 
    uint8_t SFBL_bit  = 0x00;
-//   uint8_t ST_bit    = 0x00;
+   uint8_t ST_bit    = 0x00;
    uint8_t RSSI_bits = 0x00;
    uint16_t channel  = 0x0000;
 
    /* Seek Tune finished, save CHANNEL and return RSSI */
    if(si470x_comm_readRegisters(&tempRegs[0], SI470x_REG_READCHAN))
    {
-//      ST_bit    = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_ST)   >> SI470X_POS_ST;
+      ST_bit    = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_ST)   >> SI470X_POS_ST;
       RSSI_bits = (tempRegs[SI470x_REG_STATUSRSSI] & SI470X_MASK_RSSI) >> SI470X_POS_RSSI;
       channel   = (tempRegs[SI470x_REG_READCHAN]   & SI470X_MASK_READCHAN) >> SI470X_POS_READCHAN;
 
@@ -433,7 +409,7 @@ uint8_t si470x_seekTune_finished(bool seekTune)
          _radioHandle._regs[SI470x_REG_POWERCFG] |= SI470X_MASK_SEEK   & (0 << SI470X_POS_SEEK);
          if(!si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG))
          {
-            printf("Error while clearing bit SEEK\n");
+            printf("[FM][DRV] Error while clearing bit SEEK\n");
          }
 
          if(0x01 != SFBL_bit)
@@ -457,13 +433,13 @@ uint8_t si470x_seekTune_finished(bool seekTune)
          _radioHandle._regs[SI470x_REG_CHANNEL] |= SI470X_MASK_TUNE   & (0 << SI470X_POS_TUNE);
          if(!si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_CHANNEL))
          {
-            printf("Error while clearing bit TUNE\n");
+            printf("[FM][DRV] Error while clearing bit TUNE\n");
          }
       }
    }
    else
    {
-      printf("SEEK/TUNE finished - error while reading registers\n");
+      printf("[FM][DRV] SEEK/TUNE finished - error while reading registers\n");
    }
    return RSSI_bits;
 }
@@ -483,7 +459,7 @@ void si470x_toggleMute(void)
          _radioHandle._mute = true;
       }
 
-      printf("[FM][API] Mute unmute\n");
+      printf("[FM][DRV] Mute unmute\n");
       si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_POWERCFG);
    }
 }
@@ -591,10 +567,9 @@ void si470x_setVolume(uint8_t volume, bool volext)
       _radioHandle._volume = volume;
       _radioHandle._volext = volext;
  
-      printf("set volume to %d\n", volume);
+      printf("[FM][DRV] set volume to %d\n", volume);
       si470x_comm_writeRegisters(&_radioHandle._regs[0], SI470x_REG_SYSCONFIG3);
    }
-   printf("PROUT\n");
 }
 
 /* _______________ GETTERS _______________ */
@@ -615,7 +590,7 @@ void si470x_getBlocks(rds_groupBlocks* ptrToBlocks)
       }
       else
       {
-         printf("RDSR not ready: %d", ((upperRegs[0] & SI470X_MASK_RDSR) >> SI470X_POS_RDSR));
+         printf("[FM][DRV] RDSR not ready: %d", ((upperRegs[0] & SI470X_MASK_RDSR) >> SI470X_POS_RDSR));
       }
    }
 }
@@ -637,7 +612,7 @@ bool si470x_getSTCbit(void)
    }
    else
    {
-      printf("ERROR while getting STC bit\n");
+      printf("[FM][DRV] ERROR while getting STC bit\n");
    }
    return retVal;
 }

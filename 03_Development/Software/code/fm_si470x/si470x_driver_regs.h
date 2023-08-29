@@ -147,7 +147,7 @@ typedef enum {
 #define SI470X_POS_BLNDADJ    7U
 #define SI470X_MASK_AGCD      0x0200
 #define SI470X_POS_AGCD       10U
-#define SI470X_MASK_DE        0x0400
+#define SI470X_MASK_DE        0x0800
 #define SI470X_POS_DE         11U
 #define SI470X_MASK_RDS       0x0800
 #define SI470X_POS_RDS        12U
