@@ -28,7 +28,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
-|SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project |NEW|
 |SYS_13| *Architecture* Add clean doxygen API documentation of drivers to architecture documentation |NEW|
 |SYS_15| *Architecture* Add add link to requirements/constraints, everywhere in project description |NEW|
 
@@ -63,6 +62,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_8| *HMI* Add RealTime clock and Date for more infos on screen | REJECTED - will take too much time |
 |SYS_9| *Memory* Add external flash like a W25Q16JV (SPI, 133 MHz) or an M25P16 (SPI, 75 MHz) | REJECTED - Should be fine without. Otherwise, our system is too complex |
 |SYS_5| *Architecture* Create block diagram of main element with their interfaces | REJECTED - Carry on with project and get it done |
+|SYS_10| *Proj_DVA* Add AD8248 circuit and PCB to project | REJECTED - one system at a time |
+
 
 ***
 ## SOFTWARE ISSUES
@@ -122,7 +123,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_41| *Routing* BT, EP and FM modules have been wrongly routed. Correct PCB and Software | NEW |
 
 
 **Work In Progress issues:**  
@@ -167,6 +167,7 @@ is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP
 |HDW_36| *PCB* Add boarder lines for cut | DONE - Had to remove fully drawn circle from edge.cut layer |
 |HDW_25| *PCB* Install holes for screwing/monting on old radio | DONE - add mounting holes for PAM8302 too |
 |HDW_38| *All* Fix UART communication wires. BT_Rx is actually on GPIO4 and BT_Tx on GPIO5 | DONE - modify schematic and PCB |
+|HDW_41| *Routing* BT, EP and FM modules have been wrongly routed. Correct PCB and Software | DONE - changed communication lines of UART and I2C for BT, FM and EP modules |
 
 
 **Rejected issues**

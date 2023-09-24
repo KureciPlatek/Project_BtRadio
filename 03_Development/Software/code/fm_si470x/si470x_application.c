@@ -115,10 +115,10 @@ void fm_init(void)
 
    /* Init Si470x module */
    si470x_init();
-
    si470x_powerUp();
 
    /* Declare callback of GPIO2 done in hal_gpio */
+   tokenIRQ_GPIO2 = 0x00;
 
    /* Init RDS decoder, less quality for more verbose */
    rdsDecoder_init(RT_STATE_QUALITY_BAD, false);
