@@ -123,6 +123,13 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
+|HDW_42| *PCB* Move mechanical place of push buttons, they are biased of few millimeters | NEW |
+|HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | NEW |
+|HDW_44| *PCB* Check that push buttons are good, only on dry contact way, but check that a pushed button is either high or low active, without any perturbations | NEW |
+|HDW_46| *Powersupply* Add SparkFun Battery Babysitter based on BQ24075 and BQ27441-G1A | NEW |
+|HDW_47| *Powersupply* Check if SparkfunBattery Babysitter is enough for 3.3V power supply | NEW |
+|HDW_48| *Powersupply* Add LiPo battery 1250 mAh | NEW |
+|HDW_49| *PCB* Check that mechanical place for eval-boards fits | NEW |
 
 
 **Work In Progress issues:**  
@@ -168,6 +175,7 @@ is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP
 |HDW_25| *PCB* Install holes for screwing/monting on old radio | DONE - add mounting holes for PAM8302 too |
 |HDW_38| *All* Fix UART communication wires. BT_Rx is actually on GPIO4 and BT_Tx on GPIO5 | DONE - modify schematic and PCB |
 |HDW_41| *Routing* BT, EP and FM modules have been wrongly routed. Correct PCB and Software | DONE - changed communication lines of UART and I2C for BT, FM and EP modules |
+|HDW_45| *Powersupply* Remove 12V transformer, go only on 5V | DONE - removed in schematic and PCB |
 
 
 **Rejected issues**
