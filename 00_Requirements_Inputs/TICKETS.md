@@ -123,8 +123,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_42| *PCB* Move mechanical place of push buttons, they are biased of few millimeters | NEW |
-|HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | NEW |
+|HDW_42| *PCB* Move mechanical place of push buttons, they are biased of few millimeters, add a system to fix/set vertical place of mechanical buttons at production (set/adapt it at mounting) | NEW |
 |HDW_44| *PCB* Check that push buttons are good, only on dry contact way, but check that a pushed button is either high or low active, without any perturbations | NEW |
 |HDW_46| *Powersupply* Add SparkFun Battery Babysitter based on BQ24075 and BQ27441-G1A | NEW |
 |HDW_47| *Powersupply* Check if SparkfunBattery Babysitter is enough for 3.3V power supply | NEW |
@@ -142,8 +141,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
 |HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | WIP |
-|HDW_39| *Schematic*  RP2040 actually has very low internal pull-up/down. 100k is way too high and signal at RP2040 pin 
-is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP |
+|HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | WIP - to be reviewed |
 
 
 **Resolved issues:**
@@ -176,6 +174,7 @@ is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | WIP
 |HDW_38| *All* Fix UART communication wires. BT_Rx is actually on GPIO4 and BT_Tx on GPIO5 | DONE - modify schematic and PCB |
 |HDW_41| *Routing* BT, EP and FM modules have been wrongly routed. Correct PCB and Software | DONE - changed communication lines of UART and I2C for BT, FM and EP modules |
 |HDW_45| *Powersupply* Remove 12V transformer, go only on 5V | DONE - removed in schematic and PCB |
+|HDW_39| *Schematic*  RP2040 actually has very low internal pull-up/down. 100k is way too high and signal at RP2040 pin is too small. Check pull-up and pull down resistance of 10k or 4,7k are ok | DONE - in commit 45d533c HDW_41 |
 
 
 **Rejected issues**
