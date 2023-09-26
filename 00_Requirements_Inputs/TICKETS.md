@@ -123,7 +123,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_51| *Schematic* Change on/off button to connector II or more as I is not push/hold but just push | NEW |
 
 
 **Work In Progress issues:**  
@@ -174,6 +173,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_42| *PCB* Move mechanical place of push buttons, they are biased of few millimeters, add a system to fix/set vertical place of mechanical buttons at production (set/adapt it at mounting) | DONE dimensions were measured on final target for mounting |
 |HDW_50| *PCB* Check mechanical place of mounting screws if they fit to the right place | DONE mouhting screw are now in the right place mut may be small |
 |HDW_49| *PCB* Check that mechanical place for eval-boards fits | DONE - all good |
+|HDW_51| *Schematic* Change on/off button to connector II or more as I is not push/hold but just push | DONE - moved to push button II and update of PCB |
+
 
 **Rejected issues**
 
