@@ -123,10 +123,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_46| *Powersupply* Add SparkFun Battery Babysitter based on BQ24075 and BQ27441-G1A | NEW |
-|HDW_47| *Powersupply* Check if SparkfunBattery Babysitter is enough for 3.3V power supply | NEW |
-|HDW_48| *Powersupply* Add LiPo battery 1250 mAh | NEW |
-|HDW_49| *PCB* Check that mechanical place for eval-boards fits | NEW |
 |HDW_51| *Schematic* Change on/off button to connector II or more as I is not push/hold but just push | NEW |
 
 
@@ -177,7 +173,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_44| *PCB* Check that push buttons are good, only on dry contact way, but check that a pushed button is either high or low active, without any perturbations | DONE - push buttons are gnd in normal position and to Vcc when pushed |
 |HDW_42| *PCB* Move mechanical place of push buttons, they are biased of few millimeters, add a system to fix/set vertical place of mechanical buttons at production (set/adapt it at mounting) | DONE dimensions were measured on final target for mounting |
 |HDW_50| *PCB* Check mechanical place of mounting screws if they fit to the right place | DONE mouhting screw are now in the right place mut may be small |
-
+|HDW_49| *PCB* Check that mechanical place for eval-boards fits | DONE - all good |
 
 **Rejected issues**
 
@@ -192,4 +188,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_29| *PCB* Add testpoint on many lines as it will help modify lines if needed | REJECTED, will find solutions without |
 |HDW_27| *Schematic* - *Proj_DVA* Add schematics of AD8428 evaluation board. Design different topologies to select best one | REJECTED - one project at a time |
 |HDW_40| *Powersupply* DC-DC converter 12 to 5 volts from MURATA is not always available and Wuerth Elektronik provides wome acceptable solutions. Add branch or schematic to manage both configurations | REJECTED - Do it in a second version |
+|HDW_46| *Powersupply* Add SparkFun Battery Babysitter based on BQ24075 and BQ27441-G1A | REJECTED - finish the project |
+|HDW_47| *Powersupply* Check if SparkfunBattery Babysitter is enough for 3.3V power supply | REJECTED - finish the project |
+|HDW_48| *Powersupply* Add LiPo battery 1250 mAh | REJECTED - finish the project |
 
