@@ -6,8 +6,8 @@
 
   (title_block
     (title "Project Bluetooth radio")
-    (date "2023-01-13")
-    (rev "1.0")
+    (date "2023-09-27")
+    (rev "1.1")
     (company "DjenaDev")
   )
 
@@ -5229,6 +5229,15 @@
     (path "/9a72db91-3169-4279-bd9c-771c4813b8d7"
       (reference "#PWR0124") (unit 1) (value "GND") (footprint "")
     )
+    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/f4336b9f-7927-4d47-9509-dd3fd3c54804"
+      (reference "#PWR0125") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/557cc4f9-b02c-474b-91ea-cad4e36f9b5a"
+      (reference "#PWR0126") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/4cee3fe2-7a49-4ea3-8dc4-0f7703510c06"
+      (reference "#PWR0127") (unit 1) (value "GND") (footprint "")
+    )
     (path "/6da354be-d137-4a7e-8182-d63db3cf0660"
       (reference "#PWR0128") (unit 1) (value "GND") (footprint "")
     )
@@ -5327,15 +5336,6 @@
     )
     (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/dfc77739-b7fd-439a-b741-417c405f23ad"
       (reference "#PWR0166") (unit 1) (value "+3V3") (footprint "")
-    )
-    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/4cee3fe2-7a49-4ea3-8dc4-0f7703510c06"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/557cc4f9-b02c-474b-91ea-cad4e36f9b5a"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/f502a33a-d5e4-4b91-95a6-ac6a3abcb73b/f4336b9f-7927-4d47-9509-dd3fd3c54804"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
     )
     (path "/5a833556-9b2d-4a89-ade5-f769671d3e3c"
       (reference "C1") (unit 1) (value "100u") (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
