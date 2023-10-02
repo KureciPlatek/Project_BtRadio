@@ -6,8 +6,8 @@
 
   (title_block
     (title "Audio amplifier")
-    (date "2023-01-13")
-    (rev "0.1")
+    (date "2023-09-27")
+    (rev "1.1")
     (company "DjenaDev")
   )
 
@@ -1195,7 +1195,7 @@
     (uuid 0e9fe051-c363-48be-bae0-391e6f19977f)
     (property "Reference" "C17" (id 0) (at 92.075 93.98 90))
     (property "Value" "68u" (id 1) (at 99.695 93.98 90))
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (id 2) (at 99.695 95.5548 0)
+    (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 99.695 95.5548 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 95.885 96.52 0)
@@ -1534,7 +1534,7 @@
     (uuid a3d8cf81-c6b3-4f8e-b65a-e1eefdcacc44)
     (property "Reference" "C16" (id 0) (at 92.075 81.28 90))
     (property "Value" "68u" (id 1) (at 99.695 81.28 90))
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (id 2) (at 99.695 82.8548 0)
+    (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 99.695 82.8548 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 95.885 83.82 0)

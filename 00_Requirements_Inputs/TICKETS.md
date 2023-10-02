@@ -27,7 +27,6 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|SYS_9| *HMI* Check that buttons of Phillips radio are good: mayb button on far right is just push and not push/hold | NEW |
 |SYS_13| *Architecture* Add clean doxygen API documentation of drivers to architecture documentation |NEW|
 |SYS_15| *Architecture* Add add link to requirements/constraints, everywhere in project description |NEW|
 
@@ -52,6 +51,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |SYS_5| *HMI* Test and assignate available push button and rotary button of Phillips to interface of RN52 | DONE - Look at document  Architecture->Behavioral->hmi_description.md    |
 |SYS_8| *Project versioning* Add a github repository | DONE - but lose of old git repo history |
 |SYS_14| *Architecture* Add application main usecases and link them to runtime view of software architecture |DONE - Add of Usecase diagram and its corresponding behavioral diagrams|
+|SYS_9| *HMI* Check that buttons of Phillips radio are good: maybe button on far right is just push and not push/hold | DONE - Button on far right is only push but not hold. Start of radio is now on main button II |
 
 
 **Rejected issues**
@@ -73,6 +73,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |SFW_24 |*Doc* Cleanup and generate Doxygen API | NEW |
+|SFW_29 |*FM_module* FM demodulator has a strange reaction to seek or tune and can't find any channel/station | NEW |
 
 **Work In Progress issues:**  
 
@@ -123,6 +124,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
+|HDW_52| *test* Check that soldered components on Bluetooth and RP2040 are good. Solder all and verify | NEW |
+|HDW_53| *PCB* Modify layout of preamplifier and switch to improve gnd path | NEW |
 
 
 **Work In Progress issues:**  
@@ -174,6 +177,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_50| *PCB* Check mechanical place of mounting screws if they fit to the right place | DONE mouhting screw are now in the right place mut may be small |
 |HDW_49| *PCB* Check that mechanical place for eval-boards fits | DONE - all good |
 |HDW_51| *Schematic* Change on/off button to connector II or more as I is not push/hold but just push | DONE - moved to push button II and update of PCB |
+|HDW_54| *All* Update BOM and buy parts | DONE - had to change C15 and C16 from 0805 to 1210 footprints |
 
 
 **Rejected issues**
