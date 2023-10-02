@@ -125,7 +125,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |HDW_52| *test* Check that soldered components on Bluetooth and RP2040 are good. Solder all and verify | NEW |
-|HDW_53| *PCB* Modify layout of preamplifier and switch to improve gnd path | NEW |
+|HDW_55| *PCB* Improve grounding of F and B copper ground panes by connecting push buttons jumper unused vias to ground | NEW |
 
 
 **Work In Progress issues:**  
@@ -178,6 +178,7 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_49| *PCB* Check that mechanical place for eval-boards fits | DONE - all good |
 |HDW_51| *Schematic* Change on/off button to connector II or more as I is not push/hold but just push | DONE - moved to push button II and update of PCB |
 |HDW_54| *All* Update BOM and buy parts | DONE - had to change C15 and C16 from 0805 to 1210 footprints |
+|HDW_53| *PCB* Modify layout of preamplifier and switch to improve gnd path | DONE - improved gnd panel and placement |
 
 
 **Rejected issues**
