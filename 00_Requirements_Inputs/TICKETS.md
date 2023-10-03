@@ -132,11 +132,9 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |Issue| Description | state |
 |-|-|-|
 |HDW_19| *RP2040* Check for powering if all good | WIP - test a 3V3 on Vsys on power supply (no microUSB load) | WIP |
-|HDW_7 | *Audio ampl* Order and test the TS5A2234 analog audio switch | WIP |
 |HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | WIP |
-|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 |HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
-|HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | WIP |
+|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
 |HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | WIP - to be reviewed |
 
 
@@ -179,7 +177,8 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_54| *All* Update BOM and buy parts | DONE - had to change C15 and C16 from 0805 to 1210 footprints |
 |HDW_53| *PCB* Modify layout of preamplifier and switch to improve gnd path | DONE - improved gnd panel and placement |
 |HDW_55| *PCB* Improve grounding of F and B copper ground panes by connecting push buttons jumper unused vias to ground | DONE |
-
+|HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | DONE - go to V1.1, V1.0 is not good |
+|HDW_7 | *Audio ampl* Order and test the TS5A2234 analog audio switch | DONE - works fine |
 
 **Rejected issues**
 
