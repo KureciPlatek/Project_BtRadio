@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/home/jeremiegallee/Documents/0_PROJECTS/Project_BtRadio/03_Development/Hardware/Proto_Bluetooth/Board_Bluetooth_radio_platform.kicad_sch</source>
-    <date>Mi 27 Sep 2023 19:02:39 CEST</date>
+    <date>Mi 04 Okt 2023 22:08:36 CEST</date>
     <tool>Eeschema 6.0.8-f2edbf62ab~116~ubuntu20.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -26,8 +26,8 @@
       <title_block>
         <title>Audio amplifier</title>
         <company>DjenaDev</company>
-        <rev>0.1</rev>
-        <date>2023-01-13</date>
+        <rev>1.1</rev>
+        <date>2023-09-27</date>
         <source>BtRadio_audioAmplifier.kicad_sch</source>
         <comment number="1" value=""/>
         <comment number="2" value=""/>
@@ -44,8 +44,8 @@
       <title_block>
         <title>Phillips Hurricane push button connectors</title>
         <company>DjenaDev</company>
-        <rev>0.1</rev>
-        <date>2023-01-13</date>
+        <rev>1.1</rev>
+        <date>2023-09-27</date>
         <source>BtRadio_phillipsConnectors.kicad_sch</source>
         <comment number="1" value=""/>
         <comment number="2" value=""/>
@@ -466,6 +466,60 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamps>32249781-87b5-49b9-8969-69b42e645cd9</tstamps>
     </comp>
+    <comp ref="REF1">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5775b7d3-efb6-41cd-a49a-c22ec5aad8c0</tstamps>
+    </comp>
+    <comp ref="REF2">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>43d2825b-9d2e-4e56-a993-ded348020519</tstamps>
+    </comp>
+    <comp ref="REF3">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d2b544a7-d8e8-47e8-9a86-d54ee2b8f07b</tstamps>
+    </comp>
+    <comp ref="REF4">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_2.5mm</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e513f91e-cc26-43f9-93b9-f9058ea1464a</tstamps>
+    </comp>
+    <comp ref="REF5">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_2.5mm</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c45c05f7-025a-43be-aa8e-12e89e62a5cf</tstamps>
+    </comp>
+    <comp ref="REF6">
+      <value>MountingHole</value>
+      <footprint>MountingHole:MountingHole_3.2mm_M3_DIN965</footprint>
+      <libsource lib="Mechanical" part="MountingHole" description="Mounting Hole without connection"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="File: Board_Bluetooth_radio_platform.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>182165fa-3fdc-49ff-8161-498f546837d9</tstamps>
+    </comp>
     <comp ref="RV1">
       <value>R_Potentiometer_Trim</value>
       <footprint>Potentiometer_THT:Potentiometer_Bourns_3299W_Vertical</footprint>
@@ -554,7 +608,7 @@
     </comp>
     <comp ref="C16">
       <value>68u</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value="audio_amp_stage"/>
       <property name="Sheetfile" value="File: BtRadio_audioAmplifier.kicad_sch"/>
@@ -563,7 +617,7 @@
     </comp>
     <comp ref="C17">
       <value>68u</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value="audio_amp_stage"/>
       <property name="Sheetfile" value="File: BtRadio_audioAmplifier.kicad_sch"/>
@@ -1338,6 +1392,18 @@
         <pin num="2" name="A" type="passive"/>
       </pins>
     </libpart>
+    <libpart lib="Mechanical" part="MountingHole">
+      <description>Mounting Hole without connection</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>MountingHole*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">H</field>
+        <field name="Value">MountingHole</field>
+        <field name="Datasheet">~</field>
+      </fields>
+    </libpart>
     <libpart lib="Regulator_Linear" part="LM317_TO-220">
       <description>1.5A 35V Adjustable Linear Regulator, TO-220</description>
       <docs>http://www.ti.com/lit/ds/symlink/lm317.pdf</docs>
@@ -1421,6 +1487,9 @@
     </library>
     <library logical="Diode">
       <uri>/usr/share/kicad/symbols//Diode.kicad_sym</uri>
+    </library>
+    <library logical="Mechanical">
+      <uri>/usr/share/kicad/symbols//Mechanical.kicad_sym</uri>
     </library>
     <library logical="Regulator_Linear">
       <uri>/usr/share/kicad/symbols//Regulator_Linear.kicad_sym</uri>
@@ -1679,6 +1748,17 @@
       <node ref="J_I1" pin="2" pinfunction="Pin_2" pintype="passive"/>
       <node ref="J_II1" pin="2" pinfunction="Pin_2" pintype="passive"/>
       <node ref="J_III1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J_IV1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J_IX1" pin="17" pinfunction="Pin_17" pintype="passive"/>
+      <node ref="J_IX1" pin="18" pinfunction="Pin_18" pintype="passive"/>
+      <node ref="J_IX1" pin="8" pinfunction="Pin_8" pintype="passive"/>
+      <node ref="J_V1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+      <node ref="J_VIII1" pin="23" pinfunction="Pin_23" pintype="passive"/>
+      <node ref="J_VIII1" pin="24" pinfunction="Pin_24" pintype="passive"/>
+      <node ref="J_VIII1" pin="8" pinfunction="Pin_8" pintype="passive"/>
+      <node ref="J_X1" pin="17" pinfunction="Pin_17" pintype="passive"/>
+      <node ref="J_X1" pin="18" pinfunction="Pin_18" pintype="passive"/>
+      <node ref="J_X1" pin="8" pinfunction="Pin_8" pintype="passive"/>
       <node ref="J_pwrLed1" pin="1" pinfunction="Pin_1" pintype="passive"/>
       <node ref="R11" pin="1" pintype="passive"/>
       <node ref="R12" pin="1" pintype="passive"/>
@@ -2070,200 +2150,167 @@
     <net code="139" name="unconnected-(J_III1-Pad6)">
       <node ref="J_III1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="140" name="unconnected-(J_IV1-Pad2)">
-      <node ref="J_IV1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
-    </net>
-    <net code="141" name="unconnected-(J_IV1-Pad3)">
+    <net code="140" name="unconnected-(J_IV1-Pad3)">
       <node ref="J_IV1" pin="3" pinfunction="Pin_3" pintype="passive+no_connect"/>
     </net>
-    <net code="142" name="unconnected-(J_IV1-Pad4)">
+    <net code="141" name="unconnected-(J_IV1-Pad4)">
       <node ref="J_IV1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="143" name="unconnected-(J_IV1-Pad6)">
+    <net code="142" name="unconnected-(J_IV1-Pad6)">
       <node ref="J_IV1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="144" name="unconnected-(J_IX1-Pad2)">
+    <net code="143" name="unconnected-(J_IX1-Pad2)">
       <node ref="J_IX1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
     </net>
-    <net code="145" name="unconnected-(J_IX1-Pad4)">
+    <net code="144" name="unconnected-(J_IX1-Pad4)">
       <node ref="J_IX1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="146" name="unconnected-(J_IX1-Pad6)">
+    <net code="145" name="unconnected-(J_IX1-Pad6)">
       <node ref="J_IX1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="147" name="unconnected-(J_IX1-Pad7)">
+    <net code="146" name="unconnected-(J_IX1-Pad7)">
       <node ref="J_IX1" pin="7" pinfunction="Pin_7" pintype="passive+no_connect"/>
     </net>
-    <net code="148" name="unconnected-(J_IX1-Pad8)">
-      <node ref="J_IX1" pin="8" pinfunction="Pin_8" pintype="passive+no_connect"/>
-    </net>
-    <net code="149" name="unconnected-(J_IX1-Pad9)">
+    <net code="147" name="unconnected-(J_IX1-Pad9)">
       <node ref="J_IX1" pin="9" pinfunction="Pin_9" pintype="passive+no_connect"/>
     </net>
-    <net code="150" name="unconnected-(J_IX1-Pad10)">
+    <net code="148" name="unconnected-(J_IX1-Pad10)">
       <node ref="J_IX1" pin="10" pinfunction="Pin_10" pintype="passive+no_connect"/>
     </net>
-    <net code="151" name="unconnected-(J_IX1-Pad11)">
+    <net code="149" name="unconnected-(J_IX1-Pad11)">
       <node ref="J_IX1" pin="11" pinfunction="Pin_11" pintype="passive+no_connect"/>
     </net>
-    <net code="152" name="unconnected-(J_IX1-Pad12)">
+    <net code="150" name="unconnected-(J_IX1-Pad12)">
       <node ref="J_IX1" pin="12" pinfunction="Pin_12" pintype="passive+no_connect"/>
     </net>
-    <net code="153" name="unconnected-(J_IX1-Pad13)">
+    <net code="151" name="unconnected-(J_IX1-Pad13)">
       <node ref="J_IX1" pin="13" pinfunction="Pin_13" pintype="passive+no_connect"/>
     </net>
-    <net code="154" name="unconnected-(J_IX1-Pad14)">
+    <net code="152" name="unconnected-(J_IX1-Pad14)">
       <node ref="J_IX1" pin="14" pinfunction="Pin_14" pintype="passive+no_connect"/>
     </net>
-    <net code="155" name="unconnected-(J_IX1-Pad15)">
+    <net code="153" name="unconnected-(J_IX1-Pad15)">
       <node ref="J_IX1" pin="15" pinfunction="Pin_15" pintype="passive+no_connect"/>
     </net>
-    <net code="156" name="unconnected-(J_IX1-Pad16)">
+    <net code="154" name="unconnected-(J_IX1-Pad16)">
       <node ref="J_IX1" pin="16" pinfunction="Pin_16" pintype="passive+no_connect"/>
     </net>
-    <net code="157" name="unconnected-(J_IX1-Pad17)">
-      <node ref="J_IX1" pin="17" pinfunction="Pin_17" pintype="passive+no_connect"/>
-    </net>
-    <net code="158" name="unconnected-(J_IX1-Pad18)">
-      <node ref="J_IX1" pin="18" pinfunction="Pin_18" pintype="passive+no_connect"/>
-    </net>
-    <net code="159" name="unconnected-(J_V1-Pad2)">
-      <node ref="J_V1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
-    </net>
-    <net code="160" name="unconnected-(J_V1-Pad3)">
+    <net code="155" name="unconnected-(J_V1-Pad3)">
       <node ref="J_V1" pin="3" pinfunction="Pin_3" pintype="passive+no_connect"/>
     </net>
-    <net code="161" name="unconnected-(J_V1-Pad4)">
+    <net code="156" name="unconnected-(J_V1-Pad4)">
       <node ref="J_V1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="162" name="unconnected-(J_V1-Pad6)">
+    <net code="157" name="unconnected-(J_V1-Pad6)">
       <node ref="J_V1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="163" name="unconnected-(J_VI1-Pad2)">
+    <net code="158" name="unconnected-(J_VI1-Pad2)">
       <node ref="J_VI1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
     </net>
-    <net code="164" name="unconnected-(J_VI1-Pad4)">
+    <net code="159" name="unconnected-(J_VI1-Pad4)">
       <node ref="J_VI1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="165" name="unconnected-(J_VI1-Pad6)">
+    <net code="160" name="unconnected-(J_VI1-Pad6)">
       <node ref="J_VI1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="166" name="unconnected-(J_VII1-Pad2)">
+    <net code="161" name="unconnected-(J_VII1-Pad2)">
       <node ref="J_VII1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
     </net>
-    <net code="167" name="unconnected-(J_VII1-Pad4)">
+    <net code="162" name="unconnected-(J_VII1-Pad4)">
       <node ref="J_VII1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="168" name="unconnected-(J_VII1-Pad6)">
+    <net code="163" name="unconnected-(J_VII1-Pad6)">
       <node ref="J_VII1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="169" name="unconnected-(J_VIII1-Pad2)">
+    <net code="164" name="unconnected-(J_VIII1-Pad2)">
       <node ref="J_VIII1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
     </net>
-    <net code="170" name="unconnected-(J_VIII1-Pad4)">
+    <net code="165" name="unconnected-(J_VIII1-Pad4)">
       <node ref="J_VIII1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="171" name="unconnected-(J_VIII1-Pad6)">
+    <net code="166" name="unconnected-(J_VIII1-Pad6)">
       <node ref="J_VIII1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="172" name="unconnected-(J_VIII1-Pad7)">
+    <net code="167" name="unconnected-(J_VIII1-Pad7)">
       <node ref="J_VIII1" pin="7" pinfunction="Pin_7" pintype="passive+no_connect"/>
     </net>
-    <net code="173" name="unconnected-(J_VIII1-Pad8)">
-      <node ref="J_VIII1" pin="8" pinfunction="Pin_8" pintype="passive+no_connect"/>
-    </net>
-    <net code="174" name="unconnected-(J_VIII1-Pad9)">
+    <net code="168" name="unconnected-(J_VIII1-Pad9)">
       <node ref="J_VIII1" pin="9" pinfunction="Pin_9" pintype="passive+no_connect"/>
     </net>
-    <net code="175" name="unconnected-(J_VIII1-Pad10)">
+    <net code="169" name="unconnected-(J_VIII1-Pad10)">
       <node ref="J_VIII1" pin="10" pinfunction="Pin_10" pintype="passive+no_connect"/>
     </net>
-    <net code="176" name="unconnected-(J_VIII1-Pad11)">
+    <net code="170" name="unconnected-(J_VIII1-Pad11)">
       <node ref="J_VIII1" pin="11" pinfunction="Pin_11" pintype="passive+no_connect"/>
     </net>
-    <net code="177" name="unconnected-(J_VIII1-Pad12)">
+    <net code="171" name="unconnected-(J_VIII1-Pad12)">
       <node ref="J_VIII1" pin="12" pinfunction="Pin_12" pintype="passive+no_connect"/>
     </net>
-    <net code="178" name="unconnected-(J_VIII1-Pad13)">
+    <net code="172" name="unconnected-(J_VIII1-Pad13)">
       <node ref="J_VIII1" pin="13" pinfunction="Pin_13" pintype="passive+no_connect"/>
     </net>
-    <net code="179" name="unconnected-(J_VIII1-Pad14)">
+    <net code="173" name="unconnected-(J_VIII1-Pad14)">
       <node ref="J_VIII1" pin="14" pinfunction="Pin_14" pintype="passive+no_connect"/>
     </net>
-    <net code="180" name="unconnected-(J_VIII1-Pad15)">
+    <net code="174" name="unconnected-(J_VIII1-Pad15)">
       <node ref="J_VIII1" pin="15" pinfunction="Pin_15" pintype="passive+no_connect"/>
     </net>
-    <net code="181" name="unconnected-(J_VIII1-Pad16)">
+    <net code="175" name="unconnected-(J_VIII1-Pad16)">
       <node ref="J_VIII1" pin="16" pinfunction="Pin_16" pintype="passive+no_connect"/>
     </net>
-    <net code="182" name="unconnected-(J_VIII1-Pad17)">
+    <net code="176" name="unconnected-(J_VIII1-Pad17)">
       <node ref="J_VIII1" pin="17" pinfunction="Pin_17" pintype="passive+no_connect"/>
     </net>
-    <net code="183" name="unconnected-(J_VIII1-Pad18)">
+    <net code="177" name="unconnected-(J_VIII1-Pad18)">
       <node ref="J_VIII1" pin="18" pinfunction="Pin_18" pintype="passive+no_connect"/>
     </net>
-    <net code="184" name="unconnected-(J_VIII1-Pad19)">
+    <net code="178" name="unconnected-(J_VIII1-Pad19)">
       <node ref="J_VIII1" pin="19" pinfunction="Pin_19" pintype="passive+no_connect"/>
     </net>
-    <net code="185" name="unconnected-(J_VIII1-Pad20)">
+    <net code="179" name="unconnected-(J_VIII1-Pad20)">
       <node ref="J_VIII1" pin="20" pinfunction="Pin_20" pintype="passive+no_connect"/>
     </net>
-    <net code="186" name="unconnected-(J_VIII1-Pad21)">
+    <net code="180" name="unconnected-(J_VIII1-Pad21)">
       <node ref="J_VIII1" pin="21" pinfunction="Pin_21" pintype="passive+no_connect"/>
     </net>
-    <net code="187" name="unconnected-(J_VIII1-Pad22)">
+    <net code="181" name="unconnected-(J_VIII1-Pad22)">
       <node ref="J_VIII1" pin="22" pinfunction="Pin_22" pintype="passive+no_connect"/>
     </net>
-    <net code="188" name="unconnected-(J_VIII1-Pad23)">
-      <node ref="J_VIII1" pin="23" pinfunction="Pin_23" pintype="passive+no_connect"/>
-    </net>
-    <net code="189" name="unconnected-(J_VIII1-Pad24)">
-      <node ref="J_VIII1" pin="24" pinfunction="Pin_24" pintype="passive+no_connect"/>
-    </net>
-    <net code="190" name="unconnected-(J_X1-Pad2)">
+    <net code="182" name="unconnected-(J_X1-Pad2)">
       <node ref="J_X1" pin="2" pinfunction="Pin_2" pintype="passive+no_connect"/>
     </net>
-    <net code="191" name="unconnected-(J_X1-Pad4)">
+    <net code="183" name="unconnected-(J_X1-Pad4)">
       <node ref="J_X1" pin="4" pinfunction="Pin_4" pintype="passive+no_connect"/>
     </net>
-    <net code="192" name="unconnected-(J_X1-Pad6)">
+    <net code="184" name="unconnected-(J_X1-Pad6)">
       <node ref="J_X1" pin="6" pinfunction="Pin_6" pintype="passive+no_connect"/>
     </net>
-    <net code="193" name="unconnected-(J_X1-Pad7)">
+    <net code="185" name="unconnected-(J_X1-Pad7)">
       <node ref="J_X1" pin="7" pinfunction="Pin_7" pintype="passive+no_connect"/>
     </net>
-    <net code="194" name="unconnected-(J_X1-Pad8)">
-      <node ref="J_X1" pin="8" pinfunction="Pin_8" pintype="passive+no_connect"/>
-    </net>
-    <net code="195" name="unconnected-(J_X1-Pad9)">
+    <net code="186" name="unconnected-(J_X1-Pad9)">
       <node ref="J_X1" pin="9" pinfunction="Pin_9" pintype="passive+no_connect"/>
     </net>
-    <net code="196" name="unconnected-(J_X1-Pad10)">
+    <net code="187" name="unconnected-(J_X1-Pad10)">
       <node ref="J_X1" pin="10" pinfunction="Pin_10" pintype="passive+no_connect"/>
     </net>
-    <net code="197" name="unconnected-(J_X1-Pad11)">
+    <net code="188" name="unconnected-(J_X1-Pad11)">
       <node ref="J_X1" pin="11" pinfunction="Pin_11" pintype="passive+no_connect"/>
     </net>
-    <net code="198" name="unconnected-(J_X1-Pad12)">
+    <net code="189" name="unconnected-(J_X1-Pad12)">
       <node ref="J_X1" pin="12" pinfunction="Pin_12" pintype="passive+no_connect"/>
     </net>
-    <net code="199" name="unconnected-(J_X1-Pad13)">
+    <net code="190" name="unconnected-(J_X1-Pad13)">
       <node ref="J_X1" pin="13" pinfunction="Pin_13" pintype="passive+no_connect"/>
     </net>
-    <net code="200" name="unconnected-(J_X1-Pad14)">
+    <net code="191" name="unconnected-(J_X1-Pad14)">
       <node ref="J_X1" pin="14" pinfunction="Pin_14" pintype="passive+no_connect"/>
     </net>
-    <net code="201" name="unconnected-(J_X1-Pad15)">
+    <net code="192" name="unconnected-(J_X1-Pad15)">
       <node ref="J_X1" pin="15" pinfunction="Pin_15" pintype="passive+no_connect"/>
     </net>
-    <net code="202" name="unconnected-(J_X1-Pad16)">
+    <net code="193" name="unconnected-(J_X1-Pad16)">
       <node ref="J_X1" pin="16" pinfunction="Pin_16" pintype="passive+no_connect"/>
-    </net>
-    <net code="203" name="unconnected-(J_X1-Pad17)">
-      <node ref="J_X1" pin="17" pinfunction="Pin_17" pintype="passive+no_connect"/>
-    </net>
-    <net code="204" name="unconnected-(J_X1-Pad18)">
-      <node ref="J_X1" pin="18" pinfunction="Pin_18" pintype="passive+no_connect"/>
     </net>
   </nets>
 </export>

@@ -124,18 +124,12 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_52| *test* Check that soldered components on Bluetooth and RP2040 are good. Solder all and verify | NEW |
 
 
 **Work In Progress issues:**  
 
 |Issue| Description | state |
 |-|-|-|
-|HDW_19| *RP2040* Check for powering if all good | WIP - test a 3V3 on Vsys on power supply (no microUSB load) | WIP |
-|HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | WIP |
-|HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | WIP |
-|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | WIP - Power Supply |
-|HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | WIP - to be reviewed |
 
 
 **Resolved issues:**
@@ -179,6 +173,13 @@ When closing an issue (rejected or resolved), please add the SHA-1 number from g
 |HDW_55| *PCB* Improve grounding of F and B copper ground panes by connecting push buttons jumper unused vias to ground | DONE |
 |HDW_37| *PCB* Send PCB to production, gather last required components, sold everything together | DONE - go to V1.1, V1.0 is not good |
 |HDW_7 | *Audio ampl* Order and test the TS5A2234 analog audio switch | DONE - works fine |
+|HDW_19| *RP2040* Check for powering if all good | WIP - test a 3V3 on Vsys on power supply (no microUSB load) | DONE - seems to work |
+|HDW_22| *Schematic* Check that with the actual schematic connection, RP2040 can control epaper | DONE - routing is good |
+|HDW_28| *Powersupply* Test that LM317 do bring enough power to supply board at full need | DONE - Real men test only in production |
+|HDW_30| *All* Create clean mock-up with breadbord and elements check that all HW works | DONE - Real men test only in production |
+|HDW_52| *test* Check that soldered components on Bluetooth and RP2040 are good. Solder all and verify | DONE - Real men test only in production |
+|HDW_43| *PCB* Re-write mechanical edges of PCB as the actual do not fit in radio | DONE - printed on paper and V1.1 is ready for production |
+
 
 **Rejected issues**
 
