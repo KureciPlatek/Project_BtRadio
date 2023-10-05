@@ -119,13 +119,13 @@ This section provides a detailled view of circuit schematic and PCB design. Ther
 Schematic is divided into thre sheets: a main sheet with modules. An audio amplifiying stage sheet and a connectors to legacy push buttons sheet.
 
 #### Main schematic
-![Main schematic](../06_Doc/pictures/schematic_main_V1.png)
+![Main schematic](../06_Doc/pictures/Board_Bluetooth_radio_platform.svg)
 
 #### Audio amplification stage schematic
-![Audio stage](../06_Doc/pictures/schematic_audioAmplifier.png)
+![Audio stage](../06_Doc/pictures/Board_Bluetooth_radio_platform-audio_amp_stage.svg)
 
 #### Legacy push buttons connectors schematic
-![Legacy push buttons](../06_Doc/pictures/schematic_connectors.png)
+![Legacy push buttons](../06_Doc/pictures/Board_Bluetooth_radio_platform-BtRadio_phillipsConnectors.svg)
 
 
 ### PCB
